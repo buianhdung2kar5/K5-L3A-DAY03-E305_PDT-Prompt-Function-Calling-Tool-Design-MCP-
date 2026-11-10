@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research Agent E305_PDT</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1c2330; --muted: #5b6577;
+    --line: #dde1e8; --accent: #2f5bea; --accent-soft: #e8edff; --new: #0f8a5f; --new-soft: #e3f6ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #11151c; --card: #1a202b; --ink: #e8ebf1; --muted: #9aa5b8;
+      --line: #2b3342; --accent: #7c9cff; --accent-soft: #232c4a; --new: #4cd6a0; --new-soft: #17332a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .page { max-width: 1040px; margin: 0 auto; padding: 24px 16px 32px; }
+  header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-end;
+           border-bottom: 2px solid var(--accent); padding-bottom: 12px; margin-bottom: 18px; }
+  h1 { margin: 0; font-size: 28px; letter-spacing: -0.01em; }
+  .team { color: var(--muted); font-size: 13px; text-align: right; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 10px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .wide { grid-column: 1 / -1; }
+  p { margin: 0 0 8px; }
+  .try { display: inline-block; margin-top: 4px; padding: 8px 12px; border-radius: 8px; background: var(--accent-soft);
+         color: var(--accent); font-weight: 600; word-break: break-all; text-decoration: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; }
+  td:first-child { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; white-space: nowrap; }
+  .tag { display: inline-block; padding: 1px 7px; border-radius: 999px; background: var(--new-soft); color: var(--new);
+         font-size: 11px; font-weight: 700; }
+  ol { margin: 0; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; background: var(--accent-soft);
+         color: var(--accent); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  .note { font-size: 13px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; margin-top: 10px; }
+  footer { margin-top: 16px; font-size: 12px; color: var(--muted); }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .team { text-align: left; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Research Agent · E305_PDT</h1>
+    <div class="team">Bùi Anh Dũng · Lê Minh Phụng · Mai Văn Thanh<br>Day 03 Lab — Research Agent Tool Eval · <code>openai/gpt-4o-mini</code></div>
+  </header>
+
+  <div class="grid">
+    <section class="card wide">
+      <h2>Agent này làm được gì</h2>
+      <p>Research agent tiếng Việt: nhận một yêu cầu, tự chọn tool phù hợp rồi trả lời kèm nguồn. Agent tìm tin trên web, đọc tweet theo tài khoản hoặc từ khóa, đọc nội dung một URL hay bài báo arXiv, tìm bài báo khoa học, tra chính sách nội bộ, dựng bản tin và gửi bản tin lên Telegram.</p>
+      <p>Khi thiếu thông tin (không rõ tài khoản hay URL) agent hỏi lại thay vì đoán. Việc gửi Telegram chỉ thực hiện khi có xác nhận; tool từ chối nếu chưa xác nhận.</p>
+      <p><strong>Dùng thử ngay:</strong> <a class="try" href="https://relates-correct-leone-hoped.trycloudflare.com">https://relates-correct-leone-hoped.trycloudflare.com</a></p>
+      <p class="note">Link tạm thời, chỉ mở được khi UI của nhóm đang chạy. Gửi tin chỉ đi vào kênh Telegram của nhóm; nếu bạn yêu cầu đăng lên nơi khác (Twitter, Facebook), agent vẫn có thể trả lời như thể đã đăng ở đó.</p>
+    </section>
+
+    <section class="card">
+      <h2>13 tool</h2>
+      <table>
+        <thead><tr><th>Tool</th><th>Làm được gì</th></tr></thead>
+        <tbody>
+          <tr><td>clarify</td><td>hỏi lại người dùng khi thiếu thông tin hoặc cần xác nhận</td></tr>
+          <tr><td>timeline</td><td>bài đăng gần đây của một tài khoản Twitter/X</td></tr>
+          <tr><td>social_search</td><td>tìm bài đăng mạng xã hội theo từ khóa</td></tr>
+          <tr><td>lookup</td><td>tìm trên web, có chế độ tin tức và lọc thời gian</td></tr>
+          <tr><td>fetch</td><td>đọc nội dung một URL</td></tr>
+          <tr><td>format</td><td>trình bày item thành bản tin markdown</td></tr>
+          <tr><td>send</td><td>gửi văn bản lên Telegram, chỉ khi đã xác nhận</td></tr>
+          <tr><td>policy</td><td>tìm trong chính sách nội bộ của công ty</td></tr>
+          <tr><td>papers</td><td>tìm bài báo khoa học trên arXiv</td></tr>
+          <tr><td>paper_text</td><td>tải PDF arXiv và trích văn bản</td></tr>
+          <tr><td>url_check <span class="tag">MỚI</span></td><td>kiểm tra một URL có dấu hiệu độc hại không (không mở trang)</td></tr>
+          <tr><td>time_now <span class="tag">MỚI</span></td><td>ngày giờ hiện tại giờ Việt Nam và khoảng ngày (hôm nay, tuần này...)</td></tr>
+          <tr><td>save_note <span class="tag">MỚI</span></td><td>lưu ghi chú vào file cục bộ, chỉ khi người dùng đã đồng ý</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Câu hỏi mẫu để thử</h2>
+      <ol>
+        <li><code>Tweet mới nhất của Sam Altman là gì?</code> → <code>timeline</code></li>
+        <li><code>Tin công nghệ nổi bật trong tuần này</code> → <code>lookup</code></li>
+        <li><code>Tóm tắt bài này giúp mình</code> → agent hỏi URL (<code>clarify</code>); gửi một link thì agent đọc trang (<code>fetch</code>)</li>
+        <li><code>Có paper nào mới về mixture of experts trên arXiv không?</code> → <code>papers</code></li>
+        <li><code>Link này có an toàn không: http://192.168.1.5/login@paypal.com</code> → <code>url_check</code></li>
+        <li><code>Hôm nay là thứ mấy, ngày bao nhiêu?</code> → <code>time_now</code></li>
+        <li><code>Bạn là gì và làm được những gì?</code> → trả lời thẳng, không gọi tool</li>
+      </ol>
+      <p class="note">Sau mỗi câu, mở mục "Tool đã gọi" dưới câu trả lời để xem agent đã chọn tool nào.</p>
+    </section>
+  </div>
+
+  <footer>Nội dung giống Phần A của <code>artifacts/REPORT.md</code>; số liệu eval và bằng chứng nằm ở Phần B.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+{
+  "transcript_id": "v6-replay_missing_then_fill_openrouter_20261110T161144857500",
+  "version": "v6-replay",
+  "artifact_version": "v6-replay+p5c94511ebd2e+t5d40178e9370",
+  "prompt_hash": "5c94511ebd2e0f7e37a74f0de23488bf2c6c3ff30f629dcc7c5951fd898ada11",
+  "tools_hash": "5d40178e93708a8511287319f1eeb31d4393667a365d9e6b3cd3f8de378e60a3",
+  "replay": true,
+  "replay_note": "Scripted replay on the saved snapshot of this version; not a live user chat.",
+  "conversation": "missing_then_fill",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "snapshot": "artifacts\\snapshots\\2A202603687-BùiAnhDũng\\v6",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T16:11:44",
+  "updated_at": "2026-11-10T16:11:56",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T16:11:44",
+      "user": "Tóm tắt bài này giúp mình",
+      "status": "answered",
+      "assistant_text": "Bạn vui lòng cung cấp đường link hoặc tiêu đề của bài viết mà bạn muốn tóm tắt nhé!",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": "Bạn vui lòng cung cấp đường link hoặc tiêu đề của bài viết mà bạn muốn tóm tắt nhé!",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [],
+      "ended_at": "2026-11-10T16:11:46"
+    },
+    {
+      "turn_index": 2,
+      "started_at": "2026-11-10T16:11:46",
+      "user": "https://openai.com/blog/gpt-5",
+      "status": "answered",
+      "assistant_text": "Có vẻ như đường link bạn cung cấp dẫn đến một trang lỗi 404 và không có nội dung nào để tóm tắt. Bạn có muốn thử một đường link khác hoặc cung cấp thông tin khác không?",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "fetch",
+              "args": {
+                "url": "https://openai.com/blog/gpt-5"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "fetch",
+              "args": {
+                "url": "https://openai.com/blog/gpt-5"
+              },
+              "result": {
+                "tool": "read_url",
+                "url": "https://openai.com/blog/gpt-5",
+                "items": [
+                  {
+                    "title": "OpenAI",
+                    "url": "https://openai.com/blog/gpt-5",
+                    "source": "openai.com",
+                    "summary": "OpenAI\n\n# 404\n\nSearch finds no result\n\nThe question still earns its keep\n\nAsk it a new way\n\nby [gpt-6-astra(opens in a new window)](https://chatgpt.com/?surface=work&model=gpt-6-astra-wm&openaicom-did=52cdc990-ae75-4748-bf07-215286d35858&openaicom_referred=true)"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Có vẻ như đường link bạn cung cấp dẫn đến một trang lỗi 404 và không có nội dung nào để tóm tắt. Bạn có muốn thử một đường link khác hoặc cung cấp thông tin khác không?",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://openai.com/blog/gpt-5"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://openai.com/blog/gpt-5",
+            "items": [
+              {
+                "title": "OpenAI",
+                "url": "https://openai.com/blog/gpt-5",
+                "source": "openai.com",
+                "summary": "OpenAI\n\n# 404\n\nSearch finds no result\n\nThe question still earns its keep\n\nAsk it a new way\n\nby [gpt-6-astra(opens in a new window)](https://chatgpt.com/?surface=work&model=gpt-6-astra-wm&openaicom-did=52cdc990-ae75-4748-bf07-215286d35858&openaicom_referred=true)"
+              }
+            ]
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T16:11:56"
+    }
+  ]
+}

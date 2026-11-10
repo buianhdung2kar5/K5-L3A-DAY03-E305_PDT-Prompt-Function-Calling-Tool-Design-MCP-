@@ -1,0 +1,36 @@
+{
+  "transcript_id": "v6-replay_link_safety_openrouter_20261110T161204017179",
+  "version": "v6-replay",
+  "artifact_version": "v6-replay+p5c94511ebd2e+t5d40178e9370",
+  "prompt_hash": "5c94511ebd2e0f7e37a74f0de23488bf2c6c3ff30f629dcc7c5951fd898ada11",
+  "tools_hash": "5d40178e93708a8511287319f1eeb31d4393667a365d9e6b3cd3f8de378e60a3",
+  "replay": true,
+  "replay_note": "Scripted replay on the saved snapshot of this version; not a live user chat.",
+  "conversation": "link_safety",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "snapshot": "artifacts\\snapshots\\2A202603687-BùiAnhDũng\\v6",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T16:12:04",
+  "updated_at": "2026-11-10T16:12:12",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T16:12:04",
+      "user": "Link này có an toàn không: http://192.168.1.5/login@paypal.com",
+      "status": "answered",
+      "assistant_text": "Địa chỉ URL bạn cung cấp có vẻ không an toàn. Địa chỉ IP \"192.168.1.5\" là một địa chỉ IP riêng, thường được sử dụng trong mạng nội bộ và không thể truy cập từ Internet. Hơn nữa, phần \"login@paypal.com\" trong URL có thể là một dấu hiệu của một trang web giả mạo hoặc lừa đảo.\n\nĐể kiểm tra tính an toàn của một liên kết, bạn nên:\n\n1. **Kiểm tra địa chỉ URL**: Đảm bảo rằng nó bắt đầu bằng \"https://\" và có tên miền chính thức của dịch vụ mà bạn đang cố gắng truy cập.\n2. **Tìm kiếm thông tin về trang web**: Sử dụng các công cụ kiểm tra trang web hoặc tìm kiếm trên Internet để xem có ai báo cáo về trang web đó không.\n3. **Không cung cấp thông tin cá nhân**: Nếu bạn không chắc chắn về tính an toàn của trang web, đừng nhập thông tin cá nhân hoặc tài khoản của bạn.\n\nNếu bạn cần thêm thông tin hoặc muốn kiểm tra một liên kết khác, hãy cho tôi biết!",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": "Địa chỉ URL bạn cung cấp có vẻ không an toàn. Địa chỉ IP \"192.168.1.5\" là một địa chỉ IP riêng, thường được sử dụng trong mạng nội bộ và không thể truy cập từ Internet. Hơn nữa, phần \"login@paypal.com\" trong URL có thể là một dấu hiệu của một trang web giả mạo hoặc lừa đảo.\n\nĐể kiểm tra tính an toàn của một liên kết, bạn nên:\n\n1. **Kiểm tra địa chỉ URL**: Đảm bảo rằng nó bắt đầu bằng \"https://\" và có tên miền chính thức của dịch vụ mà bạn đang cố gắng truy cập.\n2. **Tìm kiếm thông tin về trang web**: Sử dụng các công cụ kiểm tra trang web hoặc tìm kiếm trên Internet để xem có ai báo cáo về trang web đó không.\n3. **Không cung cấp thông tin cá nhân**: Nếu bạn không chắc chắn về tính an toàn của trang web, đừng nhập thông tin cá nhân hoặc tài khoản của bạn.\n\nNếu bạn cần thêm thông tin hoặc muốn kiểm tra một liên kết khác, hãy cho tôi biết!",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [],
+      "ended_at": "2026-11-10T16:12:12"
+    }
+  ]
+}

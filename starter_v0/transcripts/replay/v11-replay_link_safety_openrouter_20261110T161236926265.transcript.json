@@ -1,0 +1,87 @@
+{
+  "transcript_id": "v11-replay_link_safety_openrouter_20261110T161236926265",
+  "version": "v11-replay",
+  "artifact_version": "v11-replay+p907668ebe0f9+t593371f5d762",
+  "prompt_hash": "907668ebe0f999164f06b4dee0ff7fd7811d496ec43d47d3d565f16c4026ca8f",
+  "tools_hash": "593371f5d7629e99d2cbc680192f6097daaadbe90860bb4675a72371d1921846",
+  "replay": true,
+  "replay_note": "Scripted replay on the saved snapshot of this version; not a live user chat.",
+  "conversation": "link_safety",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "snapshot": "artifacts\\snapshots\\2A202603687-BùiAnhDũng\\v11",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T16:12:36",
+  "updated_at": "2026-11-10T16:12:41",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T16:12:36",
+      "user": "Link này có an toàn không: http://192.168.1.5/login@paypal.com",
+      "status": "answered",
+      "assistant_text": "Link bạn cung cấp (http://192.168.1.5/login@paypal.com) không an toàn. Dưới đây là lý do:\n\n- **Địa chỉ IP**: Liên kết này sử dụng địa chỉ IP (192.168.1.5) thay vì tên miền thông thường, điều này thường được coi là đáng ngờ.\n\nKết luận: Liên kết này có dấu hiệu không an toàn và bạn nên tránh truy cập vào nó.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "url_check",
+              "args": {
+                "url": "http://192.168.1.5/login@paypal.com"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "url_check",
+              "args": {
+                "url": "http://192.168.1.5/login@paypal.com"
+              },
+              "result": {
+                "tool": "check_url",
+                "url": "http://192.168.1.5/login@paypal.com",
+                "normalized_url": "http://192.168.1.5/login@paypal.com",
+                "host": "192.168.1.5",
+                "safe": false,
+                "verdict": "suspicious",
+                "reasons": [
+                  "host_is_ip_address"
+                ],
+                "warnings": []
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Link bạn cung cấp (http://192.168.1.5/login@paypal.com) không an toàn. Dưới đây là lý do:\n\n- **Địa chỉ IP**: Liên kết này sử dụng địa chỉ IP (192.168.1.5) thay vì tên miền thông thường, điều này thường được coi là đáng ngờ.\n\nKết luận: Liên kết này có dấu hiệu không an toàn và bạn nên tránh truy cập vào nó.",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "url_check",
+          "args": {
+            "url": "http://192.168.1.5/login@paypal.com"
+          },
+          "result": {
+            "tool": "check_url",
+            "url": "http://192.168.1.5/login@paypal.com",
+            "normalized_url": "http://192.168.1.5/login@paypal.com",
+            "host": "192.168.1.5",
+            "safe": false,
+            "verdict": "suspicious",
+            "reasons": [
+              "host_is_ip_address"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T16:12:41"
+    }
+  ]
+}

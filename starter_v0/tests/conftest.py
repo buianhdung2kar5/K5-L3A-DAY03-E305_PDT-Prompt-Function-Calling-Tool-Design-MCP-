@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+# pyrefly: ignore[missing-import]
 import pytest
 import requests
 

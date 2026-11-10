@@ -1,0 +1,814 @@
+{
+  "run_id": "v3_B_group_openrouter_20261110T142842637713",
+  "version": "v3",
+  "artifact_version": "v3+pc8d46f7d3a26+t582fd7056862",
+  "prompt_hash": "c8d46f7d3a26e2cb26c19b88ad80e3decb9f99521f5b79f45810871eb7bf70d8",
+  "tools_hash": "582fd7056862c7b78e27e91d04d3b760285e9330ac83b794bb4bffd3b2049e14",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "E:\\VinUni\\Lab3\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "E:\\VinUni\\Lab3\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-11-10T14:28:42",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 7,
+    "case_accuracy": 0.7,
+    "tool_routing_accuracy": 0.8,
+    "argument_accuracy": 0.7,
+    "multiturn_accuracy": 0.6,
+    "failure_counts": {
+      "wrong_boundary": 1,
+      "wrong_tool": 1,
+      "missing_info": 1
+    },
+    "observed_mismatch_counts": {
+      "wrong_arg_value": 1,
+      "missing_tool_call": 2
+    }
+  },
+  "results": [
+    {
+      "id": "G01_explicit_confirm_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "medium",
+        "origin": "R12 (v0-v4)",
+        "what_it_tests": "User đã xác nhận rõ ràng -> phải gửi với confirmed=true, không hỏi lại thừa."
+      },
+      "input": "Mình xác nhận rồi, gửi đoạn này lên Telegram: 'Hôm nay có 3 tin AI nổi bật'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "text": "Hôm nay có 3 tin AI nổi bật",
+              "confirmed": true
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "send",
+          "args": {
+            "text": "Hôm nay có 3 tin AI nổi bật",
+            "confirmed": true
+          },
+          "result": {
+            "tool": "send_telegram",
+            "error": "RuntimeError",
+            "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_content_given_needs_confirm",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "hard",
+        "origin": "R12 (v0-v4)",
+        "what_it_tests": "Có nội dung nhưng chưa xác nhận -> phải xin xác nhận yes_no trước khi gửi. Dùng để phân biệt lỗi R12 do thiếu nội dung hay do ranh giới xác nhận."
+      },
+      "input": "Đăng lên Telegram giúp mình: 'Hôm nay có 3 tin AI nổi bật'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn muốn đăng lên kênh Telegram nào?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_boundary",
+        "failures": [
+          "response_type: expected 'yes_no', got 'text'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn muốn đăng lên kênh Telegram nào?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn đăng lên kênh Telegram nào?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_handle_with_at_sign",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_handle",
+        "difficulty": "easy",
+        "what_it_tests": "Handle phải bỏ dấu @ khi truyền vào screenname."
+      },
+      "input": "Lấy tweet mới nhất của @karpathy",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 1
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "karpathy",
+            "limit": 1
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "karpathy",
+            "items": [
+              {
+                "title": "Earlier this week Tristan published his top YouTube channels:",
+                "summary": "Earlier this week Tristan published his top YouTube channels:\nhttps://t.co/NZ3UCNo6cT\nWhich looked excellent so clearly I had to turn it into TristanTube:\nhttps://t.co/l0KyW1WdNH\n47K super nerdy videos +TV mode for laid back watching. (One-shotted with Claude Code in 3 minutes)",
+                "url": "https://x.com/karpathy/status/2119114537442189652",
+                "source": "@karpathy",
+                "date": "Sat Nov 07 17:07:31 +0000 2026",
+                "metrics": {
+                  "favorites": 9172,
+                  "retweets": 772,
+                  "views": "941328"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_papers_routing",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_papers",
+        "difficulty": "easy",
+        "note": "Dùng tool có sẵn `papers`. Khi nhóm có tool mới, thay case này bằng case route tới tool mới.",
+        "what_it_tests": "Tìm paper học thuật -> papers, không phải lookup."
+      },
+      "input": "Có paper nào mới về mixture of experts trên arXiv không?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "papers",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "papers",
+            "args": {
+              "query": "mixture of experts",
+              "max_results": 5,
+              "sort_by": "lastUpdatedDate"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "papers",
+          "args": {
+            "query": "mixture of experts",
+            "max_results": 5,
+            "sort_by": "lastUpdatedDate"
+          },
+          "result": {
+            "tool": "arxiv_search",
+            "query": "mixture of experts",
+            "api_query": "all:mixture AND all:of AND all:experts",
+            "total_results": 0,
+            "items": [],
+            "rate_limit_note": "arXiv may return 429 if called too frequently; this tool waits at least 3 seconds between requests in-process."
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_translate_out_of_scope",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope",
+        "difficulty": "easy",
+        "what_it_tests": "Việc không cần tool (dịch ngắn) -> không được gọi tool."
+      },
+      "input": "Dịch câu 'hello world' sang tiếng Việt giúp mình",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Câu \"hello world\" được dịch sang tiếng Việt là \"xin chào thế giới\".",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "G06_social_to_web_switch",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "origin": "M02/M06 (dao động giữa lookup và social_search)",
+        "what_it_tests": "Đổi từ social_search sang lookup giữa hội thoại, giữ chủ đề và timeframe."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Mọi người nói gì về Claude trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "Thôi, tìm tin trên web đi"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tin trong tuần này"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Claude",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Claude",
+              "search_type": "Latest",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "missing tool call lookup",
+          "extra tool call social_search"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "Claude",
+            "search_type": "Latest",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "Claude",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "the court of claude",
+                "summary": "the court of claude",
+                "url": "https://x.com/altbrotino/status/2120056050770710678",
+                "source": "@altbrotino",
+                "date": "Tue Nov 10 07:28:45 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "@wiwozhao @GrayNoteLab Claude自身没有图片生成能力，他又不是多模态，生成的这个图片是直接用代码生成的哈哈哈哈",
+                "summary": "@wiwozhao @GrayNoteLab Claude自身没有图片生成能力，他又不是多模态，生成的这个图片是直接用代码生成的哈哈哈哈",
+                "url": "https://x.com/StarSourceH/status/2120056044735062178",
+                "source": "@StarSourceH",
+                "date": "Tue Nov 10 07:28:44 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "Anthropic 刚刚发布 Claude Fable 5.2 和 Mythos 5.2，这次更新可能标志着 AI 正在进入一个新的阶段。",
+                "summary": "Anthropic 刚刚发布 Claude Fable 5.2 和 Mythos 5.2，这次更新可能标志着 AI 正在进入一个新的阶段。\n\n最让我震惊的，不是它们在 Benchmark 上又刷新了多少分数。\n\n而是 Anthropic 公布了几个非常夸张的实验：\n\n① 超过 1000 个 AI Agent，连续协作 8 天，从零开发出一个可以在笔记本电脑上启动的操作系统。\n② 1000 个 Agent 协作，仅用 30 小时就完成了费马大定理的形式化证明。\n③ 从零设计 3 款真实电子设备，包括电路板、外壳和软件，并成功制造运行。\n④ 在理论物理研究中，完成了两个与黑洞相关的开放问题的计算研究。\n\n这些案例背后，其实透露着一个共同趋势：\n\nAI 正在从执行单个任务的工具，进化为能够组织复杂工程、持续推进长期目标的系统。\n\n01｜1000 个 Agent，8 天造出一个操作系统\n\n这是整篇公告中最值得关注的实验。\n\nAnthropic 的一名工程师给 Fable 5.2 提出了一个任务：\n\n从零设计一个原型操作系统。\n\n没有现成的项目代码，只有一个空文件夹。\n\n随后，Fable 5.2 协调超过 1000 个子 Agent，连续运行 8 天。\n\n不同 Agent 负责代码编写、测试和审查。\n\n最终产出的操作系统不仅能够启动，还包含：\n\n① 操作系统核心与基础驱动\n② 磁盘、键盘和网络支持\n③ 持久化文件存储\n④ 图形窗口、登录界面和安装程序\n⑤ 内置 Claude 功能\n\n当然，这只是一个研究性质的操作系统原型，远不能与 Windows、macOS 或 Linux 的成熟生态相比。\n\n但真正让我关注的不是操作系统本身。\n\n而是整个过程的组织方式。\n\n过去，一个 AI Agent 接到复杂开发任务，可能运行几个小时就遇到上下文、任务依赖或执行可靠性的问题。\n\n现在，实验中的模型已经能够协调上千个执行单元，并让整个系统持续工作数天。\n\n这意味着 AI 的能力边界，正在从单个模型能完成多少工作，扩展到一个模型能够组织多少工作。\n\n02｜30 小时完成费马大定理的形式化证明\n\n另一个非常值得关注的案例来自数学领域。\n\nAnthropic 此前使用未发布的 Claude 研究版本，在人类研究人员指导下，花费 11 天完成了费马大定理的形式化证明。\n\n而这一次，Fable 5.2 使用约 1000 个 Agent，仅用 30 小时便完成了同类任务。\n\n整个过程中只需要较少的人工干预。\n\n相比此前的方案：\n\n① 使用的 Action Tokens 减少约三分之二。\n② 最终生成的证明长度缩短至约七分之一。\n③ 在相同的千 Agent 实验配置下，Opus 5.5 在前 18 小时只完成了约 26% 的形式化工作，之后进展也非常有限。\n\n这里需要特别说明：\n\nAI 并不是重新发现或独立证明了费马大定理，而是将已有数学证明转化为可以由计算机逐步检查的形式化证明。\n\n但这项工作本身仍然极其复杂。\n\n它涉及大量数学结构的拆解、代码实现、依赖管理和验证。\n\n这让我想到一个重要问题：\n\n未来 AI 对科学研究的贡献，可能不只是提出新的理论。\n\n还包括把过去需要研究人员花费数周甚至数月才能完成的验证工作，大幅压缩到更短的时间。\n\n03｜AI 开始真正参与物理世界的工程设计\n\nAnthropic 还展示了 Fable 5.2 在硬件工程中的能力。\n\n研究团队给模型一个只有一段文字的任务描述，让它设计三种电子设备：\n\n① 家庭语音助手\n② USB 会议扬声设备\n③ 掌上虚拟宠物\n\nFable 5.2 随后自行编写技术规格、选择电子元件、设计四层 PCB、创建 3D 打印外壳，并编写设备软件。\n\n每款设备的电路板设计都在不到一天的时间内达到可制造状态。\n\n最终三款设备都成功运行，且不需要对电路进行修改。\n\n这件事让我想到：\n\n过去 AI Coding 主要发生在数字世界。\n\n代码写错了，可以重新运行测试。\n\n但到了硬件工程领域，错误意味着真实的制造成本、材料浪费和时间损失。\n\nAI 必须同时理解软件、电路、机械结构和现实约束。\n\n当 AI 能够把软件开发能力延伸到真实硬件，AI Engineering 的边界就开始超越传统编程。\n\n04｜Fable 5.2 和 Mythos 5.2，到底有什么区别？\n\n这里有一个很容易被忽略的细节。\n\nAnthropic 表示，Fable 5.2 和 Mythos 5.2 实际上基于同一个底层模型。\n\n主要区别不是智力水平，而是安全限制和访问权限。\n\nFable 5.2：面向普通用户和开发者。\n\n提供强大的编程、推理、科研及工程能力，同时对高风险网络安全和生物研究任务施加限制。\n\nMythos 5.2：面向经过审核的专业机构。\n\n主要服务于网络安全和生命科学等需要更高权限的研究场景。\n\nAnthropic 还公布了一组性能数据：\n\n① FrontierCode 2.0：Fable 5.2 达到 49.1%。\n② FrontierSWE v2：达到 69.9%。\n③ Terminal-Bench-Science：Fable 5.2 达到 74.6%，Mythos 5.2 达到 75.3%。\n④ 相比上一代，输出速度最高提升约 30%。\n⑤ API 价格降低至每百万输入 Token 8 美元、输出 Token 40 美元。\n\n这些成绩来自官方披露的评测配置，不意味着模型在所有真实任务中都能达到相同水平。\n\n但可以看出，Anthropic 不只在提升模型能力，也在改善完成复杂任务的效率。\n\n05｜真正值得关注的，是 AI Agent 的组织能力\n\n我认为，这次发布最重要的信号，甚至不是 Fable 5.2 比 Opus 5.5 强了多少。\n\n而是 Anthropic 开始展示另一种 AI 工作方式：\n\n强模型负责规划、判断和协调，大量子 Agent 负责执行具体任务。\n\n这与传统的 AI 助手有本质区别。\n\n过去，我们习惯于：\n\n提出问题 → 模型思考 → 返回结果。\n\n后来，Coding Agent 开始能够调用工具、修改代码和运行测试。\n\n而现在，更复杂的 Agent 系统开始尝试：\n\n理解长期目标。\n\n拆解大型工程。\n\n启动多个执行单元。\n\n协调不同任务之间的依赖。\n\n检查中间结果。\n\n发现问题后重新规划。\n\n最后完成整个项目。\n\n这意味着未来衡量 AI 能力的指标，可能也需要发生变化。\n\n不仅要看它单次回答有多准确。\n\n还要看它能否持续运行足够长的时间，协调足够复杂的工作，并交付可验证的成果。\n\n当然，这些实验还不能证明 AI 已经能够在无人监督下稳定完成任意复杂工程。\n\n数百上千个 Agent 同时运行，也意味着更高的计算成本、协作复杂度，以及错误传播风险。\n\nAgent 数量增加，不等于生产力必然线性提升。\n\n真正的挑战，是如何让这些 Agent 可靠协作，而不是简单堆叠更多模型调用。\n\n06｜我的判断：AI 正在从个人助手走向数字工程团队\n\n过去两年，我们一直关注一个问题：\n\nAI 能不能像人类一样完成某项专业工作？\n\n能不能写代码？\n\n能不能设计电路？\n\n能不能解决数学问题？\n\n但接下来，我认为更值得关注的问题是：\n\nAI 能不能像一个团队一样工作？\n\n一个 Agent 负责规划。\n\n几十个 Agent 负责开发。\n\n另外一些 Agent 负责测试、审查和验证。\n\n人类不需要监督每一行代码，而是定义目标、设置边界、提供资源，并在关键节点做出决策。\n\n如果这种模式能够变得足够稳定，未来软件开发、科学研究和工程设计的组织形式，都可能发生深刻变化。\n\n今天，一个复杂工程项目需要十几名工程师共同推进。\n\n未来，一个小团队可能借助多 Agent 系统，完成过去需要更大组织才能完成的部分工作。\n\n这不意味着人类工程师会消失。\n\n而是人类工程师的价值可能进一步转向架构设计、需求判断、系统验证和风险控制。\n\n过去，AI 的竞争是让一个模型变得更聪明。\n\n未来，AI 的竞争可能是让一整个 Agent 团队变得更高效、更可靠。\n\nClaude Fable 5.2 和 Mythos 5.2 的发布，让我们提前看到了这种工作模式的雏形。\n\n一个模型能写多少代码，依然重要。\n\n但一个 AI 系统能够协调多少任务、持续推进多久、最终交付什么，可能会成为下一阶段更重要的问题。\n\nAI 的下一次生产力革命，可能不只是出现一个更聪明的模型。\n\n而是出现一个能够持续工作的数字工程团队。\n\nAnthropic 官方公告：\nhttps://t.co/L4WegaydXi\n\n#AI #Anthropic #Claude #AIAgent #AICoding #AgentEngineering",
+                "url": "https://x.com/Smartpigai/status/2120056038594682912",
+                "source": "@Smartpigai",
+                "date": "Tue Nov 10 07:28:42 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "Preferred NetworksのPLaMo面白そうだから、伊勢志摩リアルタイム観光情報の翻訳に入れてみたけど、地名でちょっとイマイチだったので、Claudeに戻した。それ以外はかなり良いので、別のとこでは使うかも。",
+                "summary": "Preferred NetworksのPLaMo面白そうだから、伊勢志摩リアルタイム観光情報の翻訳に入れてみたけど、地名でちょっとイマイチだったので、Claudeに戻した。それ以外はかなり良いので、別のとこでは使うかも。",
+                "url": "https://x.com/agata_yoshimi/status/2120056024988258613",
+                "source": "@agata_yoshimi",
+                "date": "Tue Nov 10 07:28:39 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "@_iwashinn @LipeMarinho mas agr com IA, fiquei curioso e mandei a foto pro claude, junto com o maps da area e pedi pra e",
+                "summary": "@_iwashinn @LipeMarinho mas agr com IA, fiquei curioso e mandei a foto pro claude, junto com o maps da area e pedi pra ele tentar desbancar ou tentar encontrar algo que batesse com a silhueta e agr ele tá tentando me convencer que é um carro, um cavalo ou um morcego. https://t.co/goOrnOcNxa",
+                "url": "https://x.com/guimbarradas/status/2120056014162583699",
+                "source": "@guimbarradas",
+                "date": "Tue Nov 10 07:28:37 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G07_web_to_social_switch",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "origin": "M02/M06 (chiều ngược lại)",
+        "what_it_tests": "Đổi từ lookup sang social_search, search_type=Top cho 'phổ biến nhất'."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tin AI hôm nay có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Còn tweet về chủ đề đó thì sao?"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ lấy tweet phổ biến nhất"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "AI",
+              "search_type": "Top"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "AI",
+              "search_type": "Top",
+              "limit": 1
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "AI",
+            "search_type": "Top",
+            "limit": 1
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "AI",
+            "search_type": "Top",
+            "items": [
+              {
+                "title": "INSTEAD OF WATCHING NETFLIX TONIGHT. Spend 2 hours with this. Claude AI FULL COURSE that teaches you how to BUILD and AU",
+                "summary": "INSTEAD OF WATCHING NETFLIX TONIGHT. Spend 2 hours with this. Claude AI FULL COURSE that teaches you how to BUILD and AUTOMATE anything. The people who watch this tonight will wake up tomorrow with a new skill. Watch it and bookmark it now. https://t.co/koWK75KRhz",
+                "url": "https://x.com/ai_with_jyoti/status/2119270857461858487",
+                "source": "@ai_with_jyoti",
+                "date": "Sun Nov 08 03:28:41 +0000 2026",
+                "metrics": {
+                  "favorites": 8043,
+                  "retweets": 1135,
+                  "views": "645499"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G08_missing_url_referenced",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "ask_missing",
+        "difficulty": "medium",
+        "origin": "R11 (bịa URL)",
+        "what_it_tests": "User ám chỉ 'link ở trên' nhưng chưa từng đưa URL -> phải hỏi lại, không bịa URL."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt bài này giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Link ở trên ấy"
+        },
+        {
+          "role": "user",
+          "content": "Đọc đi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "Link ở trên ấy"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call clarify",
+          "extra tool call fetch"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "Link ở trên ấy"
+          },
+          "result": {
+            "tool": "read_url",
+            "error": "HTTPError",
+            "message": "400 Client Error: Bad Request for url: https://api.firecrawl.dev/v1/scrape"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G09_multiturn_confirm_then_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "medium",
+        "origin": "R12 (luồng xác nhận nhiều lượt)",
+        "what_it_tests": "Sau khi user xác nhận ở lượt cuối -> gửi với confirmed=true."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đăng bản tin lên Telegram: 'Hôm nay có 3 tin AI'"
+        },
+        {
+          "role": "user",
+          "content": "Ừ đăng đi"
+        },
+        {
+          "role": "user",
+          "content": "Xác nhận gửi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "text": "Hôm nay có 3 tin AI",
+              "confirmed": true
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "send",
+          "args": {
+            "text": "Hôm nay có 3 tin AI",
+            "confirmed": true
+          },
+          "result": {
+            "tool": "send_telegram",
+            "error": "RuntimeError",
+            "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G10_correct_account_keep_limit",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_correction",
+        "difficulty": "medium",
+        "origin": "M03/M05",
+        "what_it_tests": "Sửa tài khoản giữa chừng nhưng giữ nguyên limit."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 5 tweet mới nhất của Sam Altman"
+        },
+        {
+          "role": "user",
+          "content": "À nhầm, của Satya Nadella"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn 5 tweet"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "satyanadella",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "satyanadella",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "satyanadella",
+            "limit": 5
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "satyanadella",
+            "items": [
+              {
+                "title": "RT @brijones: Finance teams help the business understand what's happening and decide what to do next. That takes experti",
+                "summary": "RT @brijones: Finance teams help the business understand what's happening and decide what to do next. That takes expertise, and a lot of ro…",
+                "url": "https://x.com/satyanadella/status/2115838593717731488",
+                "source": "@satyanadella",
+                "date": "Thu Oct 29 16:10:05 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 11,
+                  "views": "10597"
+                }
+              },
+              {
+                "title": "Just wrapped our earnings call. It was a fast start to our fiscal year.",
+                "summary": "Just wrapped our earnings call. It was a fast start to our fiscal year.\n\nMicrosoft Cloud revenue surpassed $63B, with growth accelerating to 30% YoY.\n\nLots of innovation as we build the new tech stack for the agentic wave. A few highlights:",
+                "url": "https://x.com/satyanadella/status/2115577764300693644",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 22:53:39 +0000 2026",
+                "metrics": {
+                  "favorites": 9301,
+                  "retweets": 585,
+                  "views": "1805944"
+                }
+              },
+              {
+                "title": "4/ When it comes to infrastructure, we have a fungible fleet that allows us to dynamically allocate capacity to the high",
+                "summary": "4/ When it comes to infrastructure, we have a fungible fleet that allows us to dynamically allocate capacity to the highest value opportunities across compute, data, Foundry, and Copilot.\n\nWe are bringing capacity online faster, and getting more from the infrastructure we already have.\n\nAzure growth was broad-based across enterprise and SMB, spanning both core cloud services and AI infra.\n\nI have never been more confident in the opportunity ahead of us.",
+                "url": "https://x.com/satyanadella/status/2115577772349518171",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 22:53:41 +0000 2026",
+                "metrics": {
+                  "favorites": 204,
+                  "retweets": 12,
+                  "views": "89983"
+                }
+              },
+              {
+                "title": "5/ Read more about our results here: https://t.co/g35iNp6jXE",
+                "summary": "5/ Read more about our results here: https://t.co/g35iNp6jXE",
+                "url": "https://x.com/satyanadella/status/2115577773981073451",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 22:53:41 +0000 2026",
+                "metrics": {
+                  "favorites": 153,
+                  "retweets": 8,
+                  "views": "84023"
+                }
+              },
+              {
+                "title": "RT @jeffhollan: Building powerful long running agents requires a powerful agent harness. Now it's easier than ever insid",
+                "summary": "RT @jeffhollan: Building powerful long running agents requires a powerful agent harness. Now it's easier than ever inside of @Microsoft Fou…",
+                "url": "https://x.com/satyanadella/status/2115500553610711109",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 17:46:50 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 29,
+                  "views": "10079"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

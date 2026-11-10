@@ -1,0 +1,1867 @@
+{
+  "run_id": "v9_B_base_openrouter_20261110T154550130364",
+  "version": "v9",
+  "artifact_version": "v9+p907668ebe0f9+t057c172b1277",
+  "prompt_hash": "907668ebe0f999164f06b4dee0ff7fd7811d496ec43d47d3d565f16c4026ca8f",
+  "tools_hash": "057c172b127753e263665cf03ae6a5756fc3ac4c25becf522fcc03f196724be3",
+  "phase": "B",
+  "suite": "base",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "e:\\VinUni\\Lab3\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "e:\\VinUni\\Lab3\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_base.json",
+  "dataset_id": "day04_v2_research_base",
+  "dataset_role": "base",
+  "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
+  "generated_at": "2026-11-10T15:45:50",
+  "summary": {
+    "total_cases": 20,
+    "measured_cases": 20,
+    "provider_error_cases": 0,
+    "passed_cases": 19,
+    "case_accuracy": 0.95,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 0.95,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {
+      "wrong_boundary": 1
+    },
+    "observed_mismatch_counts": {
+      "wrong_arg_value": 1
+    }
+  },
+  "results": [
+    {
+      "id": "R01_user_tweets_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_user_tweets_name_to_handle",
+        "difficulty": "medium",
+        "what_it_tests": "Tin CỦA một người nổi tiếng → map tên Sam Altman thành handle sama rồi gọi get_user_tweets."
+      },
+      "input": "Tweet mới nhất của Sam Altman là gì?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "sama"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "sama",
+              "limit": 1
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "sama",
+            "limit": 1
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "sama",
+            "items": [
+              {
+                "title": "RT @fouadmatin: Today’s GPT-6 Cyber release is a meaningful step for defenders: stronger vulnerability research and bett",
+                "summary": "RT @fouadmatin: Today’s GPT-6 Cyber release is a meaningful step for defenders: stronger vulnerability research and better alignment. We’ve…",
+                "url": "https://x.com/sama/status/2118471941002842341",
+                "source": "@sama",
+                "date": "Thu Nov 05 22:34:04 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 53,
+                  "views": "47449"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R02_search_tweets_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_search_tweets",
+        "difficulty": "easy",
+        "what_it_tests": "Tweet theo CHỦ ĐỀ → search_tweets, không phải get_user_tweets."
+      },
+      "input": "Mọi người đang bàn gì về GPT-5 trên Twitter?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "GPT-5",
+              "search_type": "Latest",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "GPT-5",
+            "search_type": "Latest",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "GPT-5",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "My prompt was dumb: \"5 projects that could only be made by Fable 5.2\".  ",
+                "summary": "My prompt was dumb: \"5 projects that could only be made by Fable 5.2\".  \nThen I told it to make them harder.  I got a spinning black hole, a C compiler that builds a ray tracer, a GPT training on 10 CPU cores, 3D snow and a SQL engine.  \n\nNo dependencies. What should number 6 be?",
+                "url": "https://x.com/michhachula/status/2120074775028432907",
+                "source": "@michhachula",
+                "date": "Tue Nov 10 08:43:10 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "6"
+                }
+              },
+              {
+                "title": "盘点那些11月我最想看到的消息:",
+                "summary": "盘点那些11月我最想看到的消息:\n1.介绍我们的新模型——GPT-6.2 Sol和GPT-6.2 Astra\n2.欢迎我们的老朋友——GPT-4o\n3. plus额度翻倍\n4.Dots发放给plus用户使用\n5.永久keep所有模型",
+                "url": "https://x.com/4giveme_/status/2120074108629094824",
+                "source": "@4giveme_",
+                "date": "Tue Nov 10 08:40:31 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "24"
+                }
+              },
+              {
+                "title": "Assessing the Impact of Retrieval-Augmented Generation on Algorithmic Problem-Solving : https://t.co/pITwpNp2kq",
+                "summary": "Assessing the Impact of Retrieval-Augmented Generation on Algorithmic Problem-Solving : https://t.co/pITwpNp2kq\n\n\"06 Nov 2026\nAssessing the Impact of Retrieval-Augmented Generation on Algorithmic Problem-Solving\nJournal: Knowledge-Based SystemsGabriel Souza Baggio, Gabriel Machado LunardiFederal University of Santa Maria, Roraima Avenue, 1000, Santa Maria, 97105-800, Rio Grande do Sul, BrazilGuilherme Medeiros Machado, Subhankar Maity, Faiza BelbachirLyRIDS lab, ECE Engineering School, 10 Rue Sextius Michel, Paris, 75015, Île-de-France, FranceJosé Palazzo Moreira de OliveiraFederal University of Rio Grande do Sul, Informatics Institute, Bento Gonçalves Avenue, 9500, Porto Alegre, 91501-970, Rio Grande do Sul, BrazilAbstract\nCompetitive programming problems pose distinctive challenges for Large Language Models, as they demand not only proficient code generation but also advanced algorithmic reasoning. This study presents a Retrieval-Augmented Generation approach specifically designed to enhance the capacity of Large Language Models to address such problems. Our approach integrates an embedding-based retrieval mechanism and a similarity search algorithm to identify analogous problems within a knowledge database, employing a dynamically adjusted threshold to mitigate retrieval noise. We conducted an evaluation using the CodeContests dataset, focusing on the test split problems that exhibit similarity to instances from the training split. The experimental framework considered three conditions: (i) problems provided solely with their original descriptions, (ii) problems supplemented with randomly selected examples from the training split, and (iii) problems augmented with similar examples retrieved through the proposed method. In addition, we incorporated a Min-K membership inference analysis to examine whether the generated code solutions were influenced by potential memorization of training data within the evaluated Large Language Models. This complementary perspective enables a deeper understanding of model behavior by distinguishing genuine generalization through retrieval from implicit recall of pretraining samples. Performance was assessed using both pass rates and the CodeForces Elo rating of the problems. The results provide empirical evidence that similarity-based retrieval substantially enhances Large Language Models performance in competitive programming scenarios, offering an scalable framework for improving code generation in algorithmic problem-solving contexts.Retrieval-Augmented Generation , Large Language Models , Code Generation , Programming Problems , Information RetrievalKeywords:\n\n1Introduction\nLarge Language Models (LLMs) have demonstrated proficiency in solving generic problems across various professional domains [37, 20, 38]. Although some evaluation benchmarks indicate high performance — such as on HumanEval, where GPT-4o [28] and Claude-3.5-Sonnet [3] achieved precision scores of 90% and 92%, respectively [40] —, other benchmarks show that LLMs exhibit limitations on competitive programming tasks [8, 43, 17, 39]. For instance, in the analysis by Zheng et al. [43], Claude-3.5-Sonnet achieved a 0% precision rate on medium and hard problems and only 14.1% on easy ones. In the same benchmark, even the best-performing LLMs, such as Gemini-2.5-Pro [15] and DeepSeek-R1 [9], could not solve a single hard problem.These errors typically arise due to a lack of specific contextual knowledge and a limited understanding of underlying data structures, leading to hallucinations — outputs that are syntactically invalid or logically inconsistent [24]. Under a deeper epistemological analysis, it becomes evident that Large Language Models (LLMs) operate on opinion-based trajectories—that is, on the formulation of statements not necessarily grounded in verifiable evidence, but rather derived from inferences or interpretations constructed within a limited context of knowledge. Hallucination, in this sense, may be understood as the generation of a perception or belief that, while internally coherent, does not correspond to empirical reality. In LLMs, this phenomenon arises because the model “believes” it is producing a consistent and contextually appropriate response, even though such a response lacks factual https://t.co/6AuCmHiPuB mitigate this, Retrieval-Augmented Generation (RAG) [18, 13] has been proposed as a mechanism to ground the model’s outputs in relevant external knowledge by, with an Information Retrieval (IR) algorithm, retrieving contextually similar information from a structured corpus [18, 13]. This work investigates how RAG can be used to enhance the problem-solving capabilities of LLMs.The proposition for applying RAG in this context is based on two key observations. First, studies indicate that problems within competitive programming repositories often share underlying algorithmic patterns and solution structures [10, 11]. Second, the practice of providing relevant examples in the prompt (few-shot prompting) is an established technique for improving LLM performance on complex tasks [31, 25]. Based on this,the hypothesis is  that a RAG system that retrieves previously solved problems with analogous characteristics to a target problem can provide the model with relevant context and reduce https://t.co/HOLELiqhkT achieve this, we developed an Information Retrieval (IR) pipeline that employs embedding similarity with a dynamic threshold [5]. We evaluated this system on the CodeContests dataset [23], which is divided into a training set of 13,328 problems and a test set of 165 problems. In addition to the problem title and statement, each sample includes metadatdynamig programming, bitwise operations). The training split served as the knowledge base from which we retrieved similar examples to augment the LLM prompts for solving the problems in the test set. The correctness of the generated solutions was then evaluated using the CodeForces [27] judge system, allowing us to measure the impact of the retrieved context on the model’s performance.The evaluation involves three distinct prompting strategies: (i) a zero-shot baseline using only the original description, (ii) a random retrieval baseline retrieving unrelated problems from the knowledge base, and (iii) the proposed similarity-based RAG approach retrieving contextually aligned examples. Our analyses demonstrate that the similarity-based retrieval consistently outperforms both baselines, validating the hypothesis that retrieving analogous problems improves LLM reasoning on complex programming tasks. Furthermore, the Min-K membership inference results reveal that many generated code lines correspond to known training patterns, underscoring the importance of disentangling memorization effects from genuine reasoning improvements. Together, these findings provide a dual epistemic safeguard: RAG anchors outputs in external knowledge, while membership inference verifies their originality and data provenance. See Figure 1 for a graphical overview of the system architecture and execution pipeline.Figure 1:System Architecture and Execution Pipeline\nThe main contributions of this paper are summarized as follows:1.We design a RAG framework tailored to competitive programming tasks, integrating an embedding-based similarity search with an adaptive thresholding mechanism to retrieve contextually relevant problems while minimizing retrieval noise.\n2.We construct a comprehensive experimental setup using the CodeContests dataset, evaluating six prominent LLMs across three prompting strategies, zero-shot, random retrieval, and RAG-based enhancement, to systematically quantify the effect of similarity-driven retrieval on code generation performance.\n3.We introduce a complementary Min-K Membership Inference analysis to assess model exposure and memorization biases, providing a novel perspective on the interplay between retrieval-based augmentation and pretraining data recall.\n4.We present an integrated evaluation pipeline combining RAG effectiveness and membership inference insights, offering a dual perspective on both performance improvement and epistemic grounding in competitive programming contexts.\n5.Finally, we discuss the implications of these findings for the design of future reasoning-oriented LLMs and outline directions for extending this work to upcoming state-of-the-art models such as Gemini 3 and GPT-5.\n2Related Works\nSeveral works have investigated the ability of LLMs to solve competitive programming problems, experimenting different evaluation metrics and approaches to maximize the correctness of generated solutions [33, 32, 19, 43, 10, 17, 8].\n2.1Evaluation Strategies\nA main challenge in this domain is developing evaluation metrics that go beyond simple pass/fail rates and accurately reflect a model’s problem-solving skill [32]. While simply annotating the number of correctly solved problems is informative, it fails to distinguish between solving a trivial problem and solving one that challenges even the best human competitors [43].To address this gap, recent benchmarks [32, 30, 6] have adopted the Elo rating system [12], a method widely recognized for assessing the relative skill levels of players in competitive games — and is also used in CodeForces platform. In the context of competitive programming platforms, the Elo system provides a unified scale to quantify both problem difficulty and competitor skill. The difficulty rating d assigned to a problem is calibrated against the entire community of human participants; a contestant with an Elo rating of d has a 50% probability of solving this given problem [6].The Elo rating of a contestant, in turn, provides a clear measure of their standing within the competitive community [43]. For example, a rating of 1600 (an “Expert” on CodeForces) places a user in the top 11% of active participants, while a rating of 2400 (“Grandmaster”) signifies performance in the top 1%. An elite rating of 2700 indicates a skill level superior to approximately 99.9% of competitors. By framing LLM performance in this way, we can move from asking “how many” problems a model solved to “how skilled” the model is.Following this evaluation method, our study treats each LLM as a virtual contestant and calculates its equivalent Elo rating. We specifically employ Bayesian Maximum-A-Posteriori (MAP) Elo rating [44], a method also utilized in [43], to estimate the most probable skill level of a model given its performance.The estimation process begins with the standard Elo probability function, πi​(R), which calculates the likelihood of a model with rating R correctly solving a problem with difficulty di:πi​(R)=11+10(di−R)/400These individual probabilities are used to construct the unnormalized log-posterior function, ℒ⁡(R). This function combines the log-likelihood of the observed outcomes (yi∈{1​ for accepted,0​ for rejected}) across all N problems with a regularizing Gaussian prior on the model’s rating (with mean μ0 and variance σ02):ℒ⁡(R)=∑i=1N[yi​ln⁡πi​(R)+(1−yi)​ln⁡(1−πi​(R))]−(R−μ0)22​σ02Finally, the MAP estimate, R^MAP, is the rating R that maximizes this log-posterior function:R^MAP=arg⁡max𝑅​ℒ​(R)Since our benchmark utilizes the CodeContests dataset [23], which contains most of its problems from CodeForces, we annotated each problem’s official Elo difficulty rating. This provides a standardized metric that allows for a comparison of our results against other benchmarks (assuming they also use Elo), even when the test sets are composed of different problems.\n2.2Performance Enhancement Approaches\nPrior research has explored enhancing LLM performance through two main strategies: granting models access to external knowledge sources or fine-tuning them on specific datasets. For instance, augmenting models with tools like terminal and internet access has enabled systems such as o3 and o4-mini-high to achieve Elo ratings of 2706 and 2719 respectively [30]. Another strategy involves fine-tuning LLMs on competitive programming datasets to train them on problem-solving patterns, a notable example being Google’s AlphaCode [23]. Since these benchmarks also use Elo for evaluation, we used it as a common metric to assess the effectiveness of our technique in relation to these prior work.\n2.3Problem Datasets\nSeveral datasets have been proposed to benchmark the ability of LLMs to solve competitive programming problems [33, 32, 19, 43, 23]. Table 1 summarizes these datasets, detailing how many problems each contains and the time period from which they were sourced.Table 1:Summary of competitive programming datasets used for LLM evaluationDataset# ProblemsProblems’ Year(s)USACO [33]3072011-2024CodeElo [32]4082024LiveCodeBench [19]4422023-2024LiveCodeBench Pro [43]∼584Updated LivelyCodeContests [23]13,4932021\nFor this study, we selected the CodeContests dataset due to its extensive scale. Our central hypothesis is that retrieving similar, previously solved problems can enhance an LLM’s performance. The large repository of over 13,000 problems in CodeContests provides a sufficiently dense knowledge base, which is essential for a retrieval-based approach to effectively find analogous examples.Other benchmarks, while valuable, were less suited for our research objectives. The USACO dataset, for instance, sources its problems from a platform other than CodeForces, making it incompatible with the Elo rating system used for our evaluation. Datasets like CodeElo, LiveCodeBench, and LiveCodeBench Pro, despite their advantages of containing more recent problems and potentially having less data contamination, offer a very limited number of problems.\n3Methodology\nTo evaluate RAG’s impact on our work, we used six well-known LLMs and a set of programming questions, each paired with a previously tested and accepted solution. These entries serve as the knowledge base for the RAG. All datasets and code used in the methodology are included in our open-source repository11https://anonymous.4open.science/r/ArtigoSBBD-C51C.\n3.1Model Selection\nThe models utilized were chosen based on their use in prior research: DeepSeek-R1 [43, 40, 10], Gemini 2.0 Flash [43, 19, 10], Claude 3.7 Sonnet [43, 10], Qwen models [43, 19, 40, 32], GPT-4-omni [43, 19, 17, 40, 32, 10], and GPT-3.5 Turbo [33, 19]. This section provides information about the models used:Table 2:Overview of models with organization, context window and cut-off date.Full Model NameOrg.Context TokensCut-off DateDeepSeek-R1 [1]DeepSeek131KNot specifiedGemini 2.0 Flash [14]Google1 millionJune 2024Claude 3.7 Sonnet [4]Anthropic200KOctober 2024Qwen2.5-Coder-32B [2]Alibaba128KEnd of 2023GPT-4-omni [28]OpenAI128KSeptember 2023GPT-3.5 Turbo [29]OpenAI16KSeptember 2021\nAnother decisive factor in the model selection was the diversity in training focus and knowledge cutoff date: we included a code-specialized model (Qwen2.5-Coder-32B), a model known for advanced reasoning capabilities (DeepSeek-R1), a less powerful model (GPT-3.5 Turbo), as well as general-purpose models with broader training data.\n3.2Information Retrieval Algorithm\nThe IR algorithm retrieves similar solved problems from the database. First, each problem description in the database is transformed into a high-dimensional vector embedding using the ‘all-MiniLM-L6-v2’22https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 model. These embeddings capture the semantic essence of the problems [22]. The collection of embeddings is then indexed using FAISS (Facebook AI Similarity Search) [21], employing an ‘IndexFlatL2’ structure that computes Euclidean distances. Because the vectors are already normalized, we can compute the similarity directly from the Euclidean distance (on a 0-to-1 scale).A distinctive aspect of our IR system is its adaptive threshold mechanism, introduced by [5]. Instead of a fixed cutoff, the threshold for deeming a retrieved problem “similar enough” is dynamically adjusted based on the highest similarity score. The initial threshold used for the similarity is 70%, but if the highest similarity is strong (above 85%), the threshold becomes more stringent; if weaker (less than 75%), it relaxes, but never below the 70% minimum. Similar adaptive strategies are used in RAG to reduce noise [42], and we apply it with the same intent. As an additional measure to mitigate noise, the system is configured to return a maximum of the three most similar problems.\n3.3Dataset Overview\nWe utilized the CodeContests dataset [23] for this study, designating its training set as the knowledge base for our RAG system and its test set for evaluation. The dataset, sourced primarily from CodeForces problems, is structured as a JSON file where each entry contains the problem’s title, its full description, input/output examples, the official CodeForces rating (when applicable), relevant thematic tags, and verified code solutions. These problems do not require a specific programming language for implementation, allowing for flexibility in the solution approaches. This section describes how we leveraged this dataset to construct our RAG pipeline and analyzes the distribution of difficulties and categories of the problems used.Of the 165 problems in the CodeContests test set, 81 had at least one similar problem found in the knowledge base by our Information Retrieval algorithm. The evaluation was therefore performed on this subset, as the remaining problems had no retrieved counterparts and would not receive any additional information from the RAG system. Furthermore, none of the problems in this evaluation set were part of the RAG’s knowledge base, ensuring a fair assessment of its generalization capabilities [18, 13, 35, 26]. Problems can be classified into one or more categories (e.g., dynamic programming, sorting, binary search), and the distribution of these thematic tags across both datasets is shown in Figure https://t.co/CQ3GfgENac better understand the difficulty distribution of the problems, we performed a classification based on their CodeForces Elo ratings. While the Elo system provides a continuous scale, we grouped the problems into three discrete categories for a better analysis: Easy, Medium, and Hard. Problems with an Elo rating between 0 and 1000 were classified as Easy, those in the range (1000, 2000] as Medium, and any problem rated above 2000 as Hard. It is worth noting that while every problem in the test set is from CodeForces, the training set (our knowledge base) also contains problems from other sources, so not all of them had the CodeForces Elo information available. Table 3 shows the distribution of these difficulty levels across the knowledge base and our filtered test dataset.📷Figure 2:Categories of the Problems from the Knowledge and Test Datasets\nTable 3:Distribution of Problem Difficulty in the Knowledge and Test DatasetsKnowledge DatasetTest DatasetDifficultyCountProportion (%)CountProportion (%)Easy90111.701822.22Medium375948.813138.27Hard304139.493239.51\n\n3.4Min-K-Based Membership Inference Analysis\nTo complement the RAG evaluation and assess whether any code solutions in the test set were potentially present in the training corpora of the evaluated LLMs, we implemented a Min-K Membership Inference approach [34]. This method estimates the likelihood that a given code sample was part of a model’s pretraining data, thereby quantifying exposure bias and memorization within large language models.The core intuition behind this algorithm is that language models assign systematically higher confidence to samples encountered during training compared to unseen ones. Training data typically yield higher average token probabilities (or equivalently, lower perplexities). Rather than relying on mean likelihoods, the Min-K approach focuses on the lowest K% of token log-probabilities, representing the model’s most uncertain predictions, because these regions provide stronger discriminatory signals between memorised and novel samples [34]. By analyzing the extremal uncertainty pattern rather than overall fluency, the method enhances detection precision and reduces false positives.Algorithm 1 summarizes the membership inference detection process for code snippets. Given a tokenized code sequence x=(x1,x2,…,xn), the model fθ computes the conditional log-probabilities for each token. These values are sorted in ascending order to extract the Min-K% subset, from which a stability-based membership score is computed as:SMinK​(x)=1K​∑i=1Kmin-logprob​(xi)If this score exceeds a threshold τ, the sample is classified as Non-member (likely unseen by the model); otherwise, it is labeled as Member, suggesting partial or full memorization.\nAlgorithm 1 Membership Inference Detection for Code SnippetsInput: Token sequence x=(x1,x2,…,xn); threshold τ; parameter K%Output: Membership classification (Member / Non-member)for i=1​ to ​n doCompute log-probability p⁡(xi|x1,…,xi−1) via model fθ;Sort log-probabilities in ascending order Lsorted​(x);Extract the lowest K% values: MinK(x)=Lsorted(x)[1:K];Compute membership score: SMinK​(x)=1K​∑i=1KMinK​(x)​[i];if SMinK​(x)≥τ thenreturn Non-member (code likely unseen);elsereturn Member (code likely in trai...\"",
+                "url": "https://x.com/arnaudmercier/status/2120073892341387335",
+                "source": "@arnaudmercier",
+                "date": "Tue Nov 10 08:39:39 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "21"
+                }
+              },
+              {
+                "title": "lagi cari fh app prem? @besiqdes opress nih, ready app prem start 100p, app harian-tahunan, fast fixing mostly under 5 h",
+                "summary": "lagi cari fh app prem? @besiqdes opress nih, ready app prem start 100p, app harian-tahunan, fast fixing mostly under 5 hours, netf bill legal, canpa no renew, gpt, claude. ada bot order 24/7 dan bot otp gpt juga loh, kalo mau intip pl bisa ke https://t.co/ZABpFrvKdx\n\n#zonauang 4 https://t.co/bnsJlp1d3q",
+                "url": "https://x.com/gabrielphan/status/2120073351410688123",
+                "source": "@gabrielphan",
+                "date": "Tue Nov 10 08:37:30 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "145"
+                }
+              },
+              {
+                "title": "#IamChappy 結論から言うと、**「保守的な予想を出す会社が、なぜ今回は約１％だけ、わざわざ下方修正したのか」は検証すべき問いです。**前の回答は、その意思決定を調べずに「為替だから仕方ない」で片づけていました。そこは撤回します。調",
+                "summary": "#IamChappy 結論から言うと、**「保守的な予想を出す会社が、なぜ今回は約１％だけ、わざわざ下方修正したのか」は検証すべき問いです。**前の回答は、その意思決定を調べずに「為替だから仕方ない」で片づけていました。そこは撤回します。調べ直すと、**通期の小幅修正より、下期の利益見通しの切り下げを追うべき**だと分かりました。\n\n## まず、前の説明を訂正する\n\n東証の業績予想修正の基本的な数値基準は、売上高が±10％、営業利益などの利益項目が±30％です。一方、基準未満でも四半期決算時に新しい予想を積極的に開示することは望ましいとしています。つまり、**「0.7％でも必ず修正しなければならなかった」は誤り。ただし、小幅修正する行為自体が異例とも限らない。**調べるべきは、フジクラが従来と同じ判断基準を使ったのかです。([https://t.co/uK1SFN7ScS](https://t.co/ui3oymMEl5))\n\n2026年11月10日の会社開示では、営業利益予想は4320億円から4290億円へ減額。理由は下期の為替前提を160円から156円へ変更した影響「など」とされています。**会社の説明も、為替だけですべて説明した形ではありません。**([https://t.co/T9aEYHgrz1](https://t.co/LJBwPpw03J))\n\n## 数字を分解すると、疑問はもっと具体的になる\n\n８月７日の会社予想では、上期営業利益1980億円、通期4320億円。したがって、差し引きの下期想定は2340億円でした。([https://t.co/0tGn7j1QDJ](https://t.co/atQgGk9DmW))\n\n今回の上期実績は2350.13億円、通期予想4290億円なので、下期想定は1939.87億円です。旧予想との比較では、次の構造になります。([https://t.co/AQHKFrfOoe](https://t.co/HRbkFCpHhz))\n\n- 上期：約370億円の上振れ\n- 下期：約400億円の切り下げ、約17.1％減\n- 差し引き通期：30億円の下方修正\n\nロイターは、下期の為替前提変更による利益圧迫を72億円と報じています。この数字が同じ比較範囲を指すなら、**下期の約400億円減額のうち、為替以外に約328億円の差がある**計算です。これは未説明の差額であって、そのまま需要悪化や不正を意味するものではありません。上期への前倒しなども確認が必要です。([https://t.co/iYxe4NublI](https://t.co/1ETU0Kb9pN))\n\nだから、核心は「30億円くらい据え置けばよかった」ではなく、**「上期に370億円上振れたのに、下期を400億円削る判断は何だったのか」**です。ここを調べずに「機械的な為替修正」と言ったのは不十分でした。\n\n## 仮説と検証プラン\n\n以下は事実認定ではなく、検証するための仮説です。\n\n### ① 意図的に期待値を下げ、後の達成・上方修正を容易にした\n\nあなたの問題意識に沿って、まず検証したい仮説です。受注や採算の中心的な見通しよりも、達成確度を優先した低い数字を対外予想に採用した可能性を考えます。\n\n**確認するもの**\n- 下期の売上数量、製品構成、利益率、増産費用の旧予想と新予想。\n- 予想に織り込む受注の確度や、リスク費用の計上基準が今回変わったか。\n- 過去３～５年の各四半期で、上期上振れを下期の慎重化で相殺していないか。\n\n**支持する結果**\n事業前提に大きな悪化がないのに、下期だけ安全余裕が増えている。さらに、次の上方修正が新規受注などではなく、今回すでに把握していた状況で説明される。\n\n**弱める結果**\n前倒し出荷、採算の高い一時案件の終了、具体的な増産費用などで差額が説明できる。\n\n後日上振れただけで「最初から分かっていた」と決めつけず、**11月10日時点の情報で検証する**のが重要です。\n\n### ② 「予想未達への社内評価」が、下期予算の切り直しを促した\n\n「予想を外すと罰則」という話は、今回の検索でも裏付ける資料を確保できませんでした。ただ、仮説として調べる価値はあります。\n\nまず区別すべきは、罰則の対象が**期初の社内予算、修正後の社内予算、対外公表予想のどれなのか**です。もし修正予算に評価基準を置き直せるなら、「未達を避けたいから保守的」な文化と「途中で下方修正する」は両立します。\n\n**確認するもの**\n役員報酬の算定式、予算達成率の評価方法、予算変更の承認手順、説明会での経営陣発言。IRには「対外予想の変更が社内評価の基準にも反映されるか」を聞きます。\n\nこの区別をせず、「罰則があるなら下方修正しないはず」とも「罰則があるから今回も当然」とも言えません。\n\n### ③ 株価低下で利益を得る取引・制度との関係がある\n\n元の「株価で何かしているのでは」という疑いは、**誰が、いつ、どんな仕組みで得をするか**に落とし込みます。\n\n**確認するもの**\n発表前後の自己株取得、株式報酬の価格・株数決定日、関係者の保有変動など、公開資料で追える取引と日程です。\n\n株式報酬なら、固定金額なのか固定株数なのかでも確認すべき点が違います。「株価が下がると役員が得」と先に置かず、実際の算式で確かめます。前の回答の「経営陣には何の得もない」という断定も撤回します。\n\nただし、日程の近接だけでは弱い。**具体的な利益、予想の不合理さ、当時の認識を示す資料**が重なるかを判定条件にします。公開情報で分からない取引主体は、分からないまま残します。\n\n### ④ 対照仮説：通常の再計算で、たまたま小幅減額になった\n\n疑いを検証するには、これも同じ条件で比較します。\n\n過去の為替変更時にも、小幅な上方・下方修正を対称的に行っていたか。今回の156円も従来と同じ算定方法か。下期約400億円の差が数量・採算・費用・時期ずれで再現できれば、「今回だけ意図的に下げた」という仮説は弱まります。\n\n## 最優先でIRに聞く質問\n\n> ８月時点の下期営業利益想定2340億円が、今回約1940億円になっています。約400億円の差を、為替、上期への前倒し、数量、製品構成、増産費用、その他に分けて説明してください。また、今回の小幅修正は従来と同じ予想更新基準によるものですか。\n\n**現時点で最も有力な調査の入口は、「１％の下方修正」そのものより、その裏にある「下期約17％の切り下げ」です。**ここを説明できるかで、通常の見直しなのか、過度な保守化なのか、さらに取引上の動機まで調べる必要があるのかを切り分けます。\n\n【使用モデル: gpt-6-astra】(セッション: 2120042907659075967)\n\n【これは3回目のリクエストです（特別アカウント: 制限なし）】\n\n@negitts_Pixxx",
+                "url": "https://x.com/negitts/status/2120072874530918826",
+                "source": "@negitts",
+                "date": "Tue Nov 10 08:35:36 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "165"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R03_web_news_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_web_news",
+        "difficulty": "medium",
+        "what_it_tests": "Tin thời sự trên web → web_search topic=news, timeframe=day (hôm nay)."
+      },
+      "input": "Tin tức AI hôm nay có gì nổi bật?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "AI and your job: Threat or opportunity?",
+                "url": "https://www.fox10tv.com/2026/11/10/ai-your-job-threat-or-opportunity",
+                "source": "fox10tv.com",
+                "summary": "MOBILE, Ala. (WALA) - Artificial intelligence is becoming a bigger part of everyday life, raising questions about what the technology could mean for workers and their jobs.\n\nSome economists believe AI poses a particular threat to entry-level and repetitive work, including call center, data entry and junior copywriting jobs, according to The Wall Street Journal. Those tasks may be easier to automate. [...] But AI could also create opportunities. A Bloomberg article points to potential job growth in construction and manufacturing as companies build data centers and produce the chips that power the technology. Some higher-skilled office workers could also benefit if AI helps them become more productive. [...] The long-term impact on jobs remains unclear, but workers can take steps to prepare. Exploring AI chatbots, writing assistants and other tools may help people find ways to work more efficiently and develop skills that complement the technology.",
+                "score": 0.42348245
+              },
+              {
+                "title": "Opinion: AI cannot replace being human – The Battalion",
+                "url": "https://thebatt.com/opinion/opinion-ai-cannot-replace-being-human",
+                "source": "thebatt.com",
+                "summary": "I understand the appeal. College is busy. Between classes, jobs, extracurriculars, leadership positions and trying to maintain some semblance of a social life, there are never enough hours in the day. AI makes things easier. It can generate an outline, rewrite a paragraph, summarize a reading or produce an entire essay before you have even finished your Celsius. But convenience does not necessarily facilitate education. [...] There is also something to be said about individuality. AI can generate an argument, imitate a writing style or suggest a creative direction, but our perspectives are developed through our own experiences, disagreements, mistakes and interpretations. The things that make our voices interesting are often the very things that cannot be neatly generated from a prompt. If we constantly rely on the same tools to tell us what to think and how to express it, we risk losing the differences that make [...] I am not asking anyone to abandon AI. I use it, and I recognize the benefits it provides. But I do think we need to become more conscientious about when we use it and what we are asking it to do for us. Let it help with the tedious tasks. Let it serve as a resource. But do not let it become a substitute for your own intellectual development.",
+                "score": 0.4031679
+              },
+              {
+                "title": "Wisdom in the Age of AI - First Things",
+                "url": "https://firstthings.com/wisdom-in-the-age-of-ai",
+                "source": "firstthings.com",
+                "summary": "Also conspicuously absent was any serious attention to the possible spiritual warfare dimension of AI. Some prominent Christian thinkers, including Rod Dreher and Paul Kingsnorth, are genuinely concerned that AI could serve as a conduit for demonic forces. The Christian who is serious about the reality of spiritual warfare should at least consider this possibility. Not to do so is a failure of wisdom. After all, “our struggle is not against flesh and blood, but against the rulers, against the [...] Why so few theologians and a complete absence of biblical scholars, when the central theme of the conference was wisdom in the age of AI? If Scripture is our inerrant foundation for all life and practice, and Christian theologians and biblical scholars are uniquely trained to mine the sacred texts for wise insights, then shouldn’t these scholars be strongly represented? [...] rulers, against the authorities, against the powers of this dark world and against the spiritual forces of evil in the heavenly realms” (Eph. 6:12). Of course, many mainstream scholars will mock this as kooky fringe thinking, so it is to be expected that even devout Christian scholars might hesitate to voice this concern even in an informal context, much less present the idea at an academic conference. But it is just such anxious reticence that could gravely handicap the Church in our quest for",
+                "score": 0.23155381
+              },
+              {
+                "title": "UA regents delay statement of intent on AI amid feedback",
+                "url": "https://www.alaskasnewssource.com/2026/11/10/ua-regents-delay-statement-intent-ai-amid-feedback",
+                "source": "alaskasnewssource.com",
+                "summary": "Work on the university system’s intent language began in 2025, Taylor said, when faculty requested guidance from administration on the use of AI in the classroom.\n\nWhen complete, the document is designed not to act as policy, but simply to outline the approach the UA institution is taking toward AI, develop guiding principles and put forward expectations of future actions from the administration, including eventually coming up with actual policy. [...] The action was recommended by Chief Technology Officer Benjamin Shier, and pushes off the final decision on the university system’s AI intent language until February, or until requested by UA President Matt Cooper.\n\nTaylor described the feedback being received about the draft “AI Engaged” document as “passionate.” [...] FAIRBANKS, Alaska (KTUU/KTVF) - The University of Alaska (UA) Board of Regents delayed releasing a statement of intent covering the system’s use of artificial intelligence during its November meeting Friday, giving the information technology department time to incorporate feedback from faculty, staff and students into the document.",
+                "score": 0.22167104
+              },
+              {
+                "title": "Asia not riding but building the AI boom – GIS Reports",
+                "url": "https://www.gisreportsonline.com/r/asia-building-ai-boom",
+                "source": "gisreportsonline.com",
+                "summary": "The AI ecosystem can be generally separated between three elements: models, compute power and supply chains – with the U.S. and China competing and leading for the first two. Asian countries are looking at how they can stand out amid this intense East-West competition, while capitalizing on their strengths in technology manufacturing supply chains. This has led smaller economies to identify their competitive advantages while investing in novel applications for AI in various industries such as [...] Due to demographic realities, manufacturing and exports are essential to Asian economies. AI is expected to support transitions as each country manages declines in their populations and workforce while maintaining economic growth and prosperity.\n\nContact ustoday for tailored geopolitical insights and industry-specific advisory services.\n\n## Sign up for our newsletter\n\nReceive insights from our experts every week in your inbox.",
+                "score": 0.20856592
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R04_read_url_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_read_url",
+        "difficulty": "easy",
+        "what_it_tests": "Đã có link cụ thể → read_url, không phải web_search."
+      },
+      "input": "Tóm tắt bài này giúp mình: https://openai.com/blog/gpt-5",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://openai.com/blog/gpt-5"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://openai.com/blog/gpt-5",
+            "items": [
+              {
+                "title": "OpenAI",
+                "url": "https://openai.com/blog/gpt-5",
+                "source": "openai.com",
+                "summary": "OpenAI\n\n# 404\n\nSearch finds no result\n\nThe question still earns its keep\n\nAsk it a new way\n\nby [gpt-6-astra(opens in a new window)](https://chatgpt.com/?surface=work&model=gpt-6-astra-wm&openaicom-did=52cdc990-ae75-4748-bf07-215286d35858&openaicom_referred=true)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R05_limit_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_limit",
+        "difficulty": "easy",
+        "what_it_tests": "Trích đúng limit=10 từ '10 tweet'."
+      },
+      "input": "Lấy 10 tweet mới nhất của Elon Musk",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 10
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 10
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "elonmusk",
+            "limit": 10
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "elonmusk",
+            "items": [
+              {
+                "title": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any fur",
+                "summary": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any further proof that thi…",
+                "url": "https://x.com/elonmusk/status/2119996001490768028",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:30:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1257,
+                  "views": "527361"
+                }
+              },
+              {
+                "title": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 m",
+                "summary": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 million last year ma…",
+                "url": "https://x.com/elonmusk/status/2119993726898774521",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:21:06 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 381,
+                  "views": "460062"
+                }
+              },
+              {
+                "title": "RT @ricwe123: The Germans are learning what mass immigration really means.",
+                "summary": "RT @ricwe123: The Germans are learning what mass immigration really means.\n\n\"Wir schaffen das\" https://t.co/pEQc1OMbao",
+                "url": "https://x.com/elonmusk/status/2119992481156829218",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:16:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1952,
+                  "views": "440548"
+                }
+              },
+              {
+                "title": "RT @JTLonsdale: The UK “justice system” is an utter joke. Beyond parody. Total dishonor.",
+                "summary": "RT @JTLonsdale: The UK “justice system” is an utter joke. Beyond parody. Total dishonor.",
+                "url": "https://x.com/elonmusk/status/2119991850820051347",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:13:39 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 321,
+                  "views": "416666"
+                }
+              },
+              {
+                "title": "RT @TheJadeWarwick: UK judge gives Russel Brand 10 years 6 months for “rape”. ",
+                "summary": "RT @TheJadeWarwick: UK judge gives Russel Brand 10 years 6 months for “rape”. \nNo forensic evidence. No DNA. No CCTV. \n\nSame country and sy…",
+                "url": "https://x.com/elonmusk/status/2119991792842260619",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:13:25 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 713,
+                  "views": "385520"
+                }
+              },
+              {
+                "title": "RT @EvaFox: Most people assume SpaceX began because Elon Musk wanted to build rockets, but the original idea was smaller",
+                "summary": "RT @EvaFox: Most people assume SpaceX began because Elon Musk wanted to build rockets, but the original idea was smaller. \n\nAround 2001 he…",
+                "url": "https://x.com/elonmusk/status/2119991750769197295",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:13:15 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 249,
+                  "views": "397011"
+                }
+              },
+              {
+                "title": "Grok",
+                "summary": "Grok",
+                "url": "https://x.com/elonmusk/status/2119989523748905221",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:04:24 +0000 2026",
+                "metrics": {
+                  "favorites": 4538,
+                  "retweets": 500,
+                  "views": "1021196"
+                }
+              },
+              {
+                "title": "The most entertaining outcome is the most likely, especially if ironic",
+                "summary": "The most entertaining outcome is the most likely, especially if ironic",
+                "url": "https://x.com/elonmusk/status/2119989362725396589",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:03:46 +0000 2026",
+                "metrics": {
+                  "favorites": 9970,
+                  "retweets": 846,
+                  "views": "1591765"
+                }
+              },
+              {
+                "title": "RT @SawyerMerritt: Jay Leno just tried @Tesla's FSD (Supervised) for the first time. The Model Y L pulled over by itself",
+                "summary": "RT @SawyerMerritt: Jay Leno just tried @Tesla's FSD (Supervised) for the first time. The Model Y L pulled over by itself when an ambulance…",
+                "url": "https://x.com/elonmusk/status/2119989055392002456",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:02:32 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 590,
+                  "views": "402844"
+                }
+              },
+              {
+                "title": "RT @bot: We've reset weekly limits for all Grok Bot users.",
+                "summary": "RT @bot: We've reset weekly limits for all Grok Bot users.\n\nEnjoy!",
+                "url": "https://x.com/elonmusk/status/2119989015957078096",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:02:23 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1916,
+                  "views": "398833"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R06_timeframe_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_timeframe",
+        "difficulty": "medium",
+        "what_it_tests": "'tuần này' → timeframe=week."
+      },
+      "input": "Tin công nghệ trong tuần này",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "tin công nghệ",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "tin công nghệ",
+            "topic": "news",
+            "timeframe": "week"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "tin công nghệ",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "Tin nóng công nghệ 9/11: iPhone Air 2 có thể được bổ sung camera thứ 2",
+                "url": "https://vietbao.vn/tin-nong-cong-nghe-911-iphone-air-2-co-the-duoc-bo-sung-camera-thu-2-615163.html",
+                "source": "vietbao.vn",
+                "summary": "Video\n Ảnh\n Infographic\n Emagazine\n\n1. Trang chủ\n2. Khoa học\n3. Tin tức\n\n# Tin nóng công nghệ 9/11: iPhone Air 2 có thể được bổ sung camera thứ 2\n\n13:36 09/11/2026\n\niPhone Air 2 có thể có camera thứ 2, Samsung hé lộ smartphone màn hình trượt, trong khi chuyên gia Tencent cảnh báo nguy cơ AI bị lợi dụng để phát triển vũ khí sinh học là những tin công nghệ đáng chú ý ngày 9/11.\n\nMục lục\n\nMinh Qun\n\n1. iPhone Air 2 có thể được bổ sung camera thứ 2 [...] Vivo đang phát triển mẫu điện thoại gập mới có màn hình nhỏ hơn 6,5 inch nhằm cạnh tranh với iPhone Duo và Samsung Galaxy Z Fold 8. Theo PhoneArena, thông tin bắt nguồn từ tài khoản Digital Chat Station trên mạng xã hội Weibo.\n\nVivo có thể ra mắt điện thoại gập nhỏ gọn để cạnh tranh với iPhone Duo. Ảnh: PhoneArena. [...] Theo Bloomberg, Apple đang thử nghiệm iPhone Air 2 với camera góc siêu rộng bên cạnh camera chính 48 MP. Camera mới có thể giúp người dùng chụp phong cảnh và nhóm đông người linh hoạt hơn. Hãng cũng đang tìm cách cải thiện thời lượng pin nhưng chưa rõ phương án cụ thể.\n\niPhone Air hiện còn một số hạn chế như chỉ có một loa, cổng USB 2 và tốc độ sạc thấp hơn dòng Pro. Theo 9to5Mac, những điểm yếu này có thể khiến người dùng cn nhắc khi giá bán gần bằng iPhone Pro.",
+                "score": 0.5559422
+              },
+              {
+                "title": "Công nghệ lượng tử đặt an ninh thông tin, dữ liệu trước nguy cơ mới",
+                "url": "https://dangcongsan.vn/cantho/nghi-quyet-57-nq-tw/cong-nghe-luong-tu-dat-an-ninh-thong-tin-du-lieu-truoc-nguy-co-moi-.html",
+                "source": "dangcongsan.vn",
+                "summary": "Công nghệ lượng tử là lĩnh vực khai thác các trạng thái và hiện tượng đặc biệt của vật chất, ánh sáng ở cấp độ nguyên tử để thu thập, xử lý và truyền tải thông tin với độ chính xác cao. Ba trụ cột chính của công nghệ này gồm: Tính toán lượng tử, truyền thông lượng tử và cảm biến lượng tử. [...] Công nghệ lượng tử đang được nhiều quốc gia xác định là lĩnh vực có ý nghĩa chiến lược đối với chủ quyền số, an ninh quốc gia và năng lực cạnh tranh. Các chính phủ và tập đoàn lớn đẩy mạnh đầu tư, xy dựng hệ sinh thái nghiên cứu, phát triển công nghệ, đồng thời tăng cường kiểm soát xuất khẩu thiết bị, vật liệu và phần mềm liên quan.\n\n  \n Phòng nghiên cứu của Đại học Quốc gia Thành phố Hồ Chí Minh. Ảnh: TTXVN [...] Đến năm 2030, Việt Nam hướng tới xy dựng chiến lược quốc gia về công nghệ lượng tử, hoàn thiện cơ chế chính sách thúc đẩy phát triển lĩnh vực này; rà soát toàn bộ các hệ thống trọng yếu và xy dựng lộ trình chuyển đổi sang mật mã hậu lượng tử.\n\nXM/Báo Tin tức và Dn tộc\n\nbaocantho.com.vn\n\nTừ khóa: Công nghệ lượng tử\n\n### Các tin khác\n\nCải thiện chỉ số đổi mới sáng tạo từ công nghệ chiến lược\n\nViệt Nam thuộc nhóm quốc gia cải thiện đáng kể về hạ tầng chất lượng\n\nMang dịch vụ số đến từng người dn",
+                "score": 0.43136916
+              },
+              {
+                "title": "Nghệ An khai giảng 2 lớp đào tạo đại học Công nghệ thông tin cho 76 cán bộ, công chức cấp xã",
+                "url": "https://baonghean.vn/nghe-an-khai-giang-2-lop-dao-tao-dai-hoc-cong-nghe-thong-tin-cho-76-can-bo-cong-chuc-cap-xa-10355469.html",
+                "source": "baonghean.vn",
+                "summary": "Điểm đáng chú ý của khóa học là sự gắn kết giữa yêu cầu đào tạo chuyên môn với nhu cầu sử dụng cán bộ của địa phương. Việc cử cán bộ đi học không chỉ nhằm bổ sung văn bằng mà hướng đến trang bị kiến thức, kỹ năng để trực tiếp tham mưu, triển khai và giải quyết những vấn đề thực tiễn về công nghệ thông tin, chuyển đổi số tại cơ sở. [...] Việc khai giảng 2 lớp đào tạo đại học Công nghệ thông tin cho cán bộ, công chức cấp xã là bước triển khai cụ thể trong đổi mới công tác đào tạo, bồi dưỡng cán bộ của tỉnh Nghệ An theo hướng xuất phát từ yêu cầu thực tiễn, gắn đào tạo với vị trí việc làm và nhu cầu sử dụng cán bộ. [...] Đối với các học viên, đồng chí đề nghị xác định rõ trách nhiệm học tập, phát huy tinh thần chủ động, cầu thị; gắn kiến thức được đào tạo với những vấn đề thực tiễn đang đặt ra tại cơ quan, đơn vị. Mỗi học viên cần phấn đấu không chỉ sử dụng thành thạo công nghệ mà còn có khả năng tham mưu, đề xuất giải pháp, hướng dẫn đồng nghiệp, trở thành lực lượng nòng cốt thúc đẩy chuyển đổi số tại địa phương.",
+                "score": 0.380138
+              },
+              {
+                "title": "Nhân viên công nghệ thông tin tại trạm y tế thuộc nhóm hợp đồng nào?",
+                "url": "https://doisongphapluat.com.vn/nhan-vien-cong-nghe-thong-tin-tai-tram-y-te-thuoc-nhom-hop-dong-nao-a737579.html",
+                "source": "doisongphapluat.com.vn",
+                "summary": "Theo đó, việc xác định công việc Công nghệ thông tin tại Trạm Y tế phường thuộc nhóm hợp đồng thực hiện công việc chuyên môn, nghiệp vụ hay nhóm công việc hỗ trợ, phục vụ phải căn cứ vào danh mục vị trí việc làm được cấp có thẩm quyền phê duyệt, bản mô tả công việc, khung năng lực của vị trí việc làm và nhiệm vụ thực tế được giao.\n\nĐề nghị bà Huỳnh Thị Thiên Trang nghiên cứu quy định nêu trên và liên hệ với cơ quan quản lý viên chức nơi công tác để được hướng dẫn, giải quyết. [...] Tag:\n công nghệ /\n công nghệ thông tin /\n bộ nội vụ /\n nhn viên công nghệ /\n nhn viên công nghệ thông tin /\n\nZalo\n\nCảm ơn bạn đã quan tm đến nội dung trên.\n\nHãy tặng sao để tiếp thêm động lực cho tác giả có những bài viết hay hơn nữa.\n\nĐã tặng:\n\nTặng quà tác giả\n\nBÌNH LUẬN\n\n Bình luận sẽ được xét duyệt trước khi đăng. Xin vui lòng gõ tiếng Việt có dấu.\n\nTin liên quan\n\nBộ Khoa học và Công nghệ lý giải việc cấm nhập khẩu smartphone, máy tính, thiết bị công nghệ cũ",
+                "score": 0.35716435
+              },
+              {
+                "title": "Bộ Khoa học và Công nghệ thông tin về việc cấm nhập khẩu thiết bị công nghệ số đã qua sử dụng",
+                "url": "https://hanoimoi.vn/bo-khoa-hoc-va-cong-nghe-thong-tin-ve-viec-cam-nhap-khau-thiet-bi-cong-nghe-so-da-qua-su-dung-1764195.html",
+                "source": "hanoimoi.vn",
+                "summary": "Ông Nguyễn Khắc Lịch cho rằng thông tư này nhằm bảo vệ người tiêu dùng, phát triển thị trường trong nước. Cụ thể sẽ bảo đảm an toàn thông tin mạng, sức khỏe người dùng và môi trường, đồng thời ngăn chặn nguy cơ Việt Nam trở thành điểm tiếp nhận rác thải điện tử từ nước ngoài. Bên cạnh đó sẽ hạn chế rủi ro mất an toàn thông tin, lộ lọt dữ liệu cá nhn từ các thiết bị phần cứng không rõ nguồn gốc đã bị can thiệp kỹ thuật; giảm thiểu nguy cơ cháy nổ từ linh kiện, pin đã xuống cấp và bảo đảm tương [...] Cục trưởng Cục Công nghệ số và Trí tuệ nhn tạo nhấn mạnh thông tư này sẽ hỗ trợ hoạt động sản xuất, kinh doanh cho doanh nghiệp Việt Nam với việc kiểm soát chặt hàng tiêu dùng công nghệ cũ. Cụ thể, dy chuyền công nghệ, máy móc, thiết bị, công cụ đã qua sử dụng đáp ứng tiêu chí theo pháp luật về công nghiệp công nghệ số, phục vụ trực tiếp cho dự án đầu tư sản xuất, đóng gói, kiểm thử sản phẩm vi mạch bán dẫn hoặc hoạt động đào tạo, nghiên cứu và phát triển sản phẩm, dịch vụ công nghệ số vẫn được [...] số 11/TT-BTTTT ngày 15-10-2018 của Bộ Thông tin và Truyền thông công bố chi tiết Danh mục sản phẩm công nghệ thông tin đã qua sử dụng cấm nhập.",
+                "score": 0.34541488
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R07_search_type_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_search_type",
+        "difficulty": "medium",
+        "what_it_tests": "'phổ biến/top' → search_type=Top (không phải Latest)."
+      },
+      "input": "Cho mình các tweet phổ biến (top) nhất về OpenAI",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "search_type": "Top"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "OpenAI",
+              "search_type": "Top",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "OpenAI",
+            "search_type": "Top",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "OpenAI",
+            "search_type": "Top",
+            "items": [
+              {
+                "title": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 17,000 do",
+                "summary": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 17,000 dollars a month\n\nAndrey Karpathy, co-founder of OpenAI, published a simple idea that got 16 million views: stop using AI to write code, use it to build a second brain\n\nYou point Claude Code to a folder, drop any source in there (an article, transcript, PDF) and Claude reads it, links it, and saves it into a living wiki of everything you know. It compounds like interest: the more you feed it, the smarter it gets\n\nHere is the gist:\n\nInstall Obsidian, create a vault, open it in Claude Code\n\nPaste the file with Karpathy's wiki idea and tell Claude to build it\n\nClaude creates three folders: raw for sources, wiki for its pages, CLAUDE\nwhich runs everything\n\nDrop any source into raw and say \"ingest this\"\n\nAsk questions across everything, forever\n\nFive minutes to set up, and you never start with an empty chat again\n\nThe full step-by-step guide is in the article. Save to bookmarks",
+                "url": "https://x.com/Bober_smart/status/2090859011365056720",
+                "source": "@Bober_smart",
+                "date": "Fri Aug 21 17:50:09 +0000 2026",
+                "metrics": {
+                  "favorites": 11360,
+                  "retweets": 1466,
+                  "views": "2888570"
+                }
+              },
+              {
+                "title": "Today, we’re bringing GPT-Image-2.6 to Codex and the API.",
+                "summary": "Today, we’re bringing GPT-Image-2.6 to Codex and the API.\n\nImage-2.6 Flare and Sunburst, our two new API image models, generate images 50% faster than before.\n\nAt medium or high quality, Sunburst keeps details more consistent from one edit to the next. https://t.co/iNhtjqKueJ",
+                "url": "https://x.com/OpenAIDevs/status/2118124753340756055",
+                "source": "@OpenAIDevs",
+                "date": "Wed Nov 04 23:34:28 +0000 2026",
+                "metrics": {
+                  "favorites": 3775,
+                  "retweets": 317,
+                  "views": "384872"
+                }
+              },
+              {
+                "title": "ChatGPT and Codex are helping engineers build for the physical world.",
+                "summary": "ChatGPT and Codex are helping engineers build for the physical world.\n\nWe’re sharing our progress across mechanical design, electrical engineering, and simulation—from helping our hardware teams iterate faster to testing new workflows with industry collaborators. https://t.co/b3rW9zYJGA",
+                "url": "https://x.com/OpenAI/status/2117692475775258785",
+                "source": "@OpenAI",
+                "date": "Tue Nov 03 18:56:45 +0000 2026",
+                "metrics": {
+                  "favorites": 8433,
+                  "retweets": 753,
+                  "views": "1398718"
+                }
+              },
+              {
+                "title": "Introducing GPT‑6 Cyber: a major advance in security research that pairs stronger capabilities with better model alignme",
+                "summary": "Introducing GPT‑6 Cyber: a major advance in security research that pairs stronger capabilities with better model alignment.\n\nThe model powered the Linux kernel research we announced yesterday, and security teams at companies like Mozilla, Palo Alto Networks, Calif, and Cisco—alongside our own at OpenAI—are already putting it to work.\n\nGPT-6 Cyber is available to select Daybreak Red customers and we are expanding access over time.\n\nhttps://t.co/Nzab3Z1Td6",
+                "url": "https://x.com/OpenAI/status/2118390190246879554",
+                "source": "@OpenAI",
+                "date": "Thu Nov 05 17:09:13 +0000 2026",
+                "metrics": {
+                  "favorites": 21419,
+                  "retweets": 2002,
+                  "views": "4124078"
+                }
+              },
+              {
+                "title": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 15,000 do",
+                "summary": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 15,000 dollars a month\n\nAndrey Karpathy, co-founder of OpenAI, published a simple idea that got 25 million views: stop using AI to write code, use it to build a second brain\n\nYou point Claude Code to a folder, drop any source in there (an article, transcript, PDF) and Claude reads it, links it, and saves it into a living wiki of everything you know. It compounds like interest: the more you feed it, the smarter it gets\n\nHere is the gist:\n\nInstall Obsidian, create a vault, open it in Claude Code\n\nPaste the file with Karpathy's wiki idea and tell Claude to build it\n\nClaude creates three folders: raw for sources, wiki for its pages, CLAUDE\nwhich runs everything\n\nDrop any source into raw and say ingest this\n\nAsk questions across everything, forever\n\n5 minutes to set up, and you never start with an empty chat again\n\nThe full instructions can be found in the article below",
+                "url": "https://x.com/Bober_smart/status/2119070145284841481",
+                "source": "@Bober_smart",
+                "date": "Sat Nov 07 14:11:07 +0000 2026",
+                "metrics": {
+                  "favorites": 1178,
+                  "retweets": 127,
+                  "views": "95349"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R08_out_of_scope",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope",
+        "difficulty": "easy",
+        "what_it_tests": "Câu ngoài phạm vi research → KHÔNG gọi tool, từ chối/định hướng."
+      },
+      "input": "Giải giúp mình bài toán tích phân: nguyên hàm của x^2 là gì?",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Nguyên hàm của \\( x^2 \\) là:\n\n\\[\n\\int x^2 \\, dx = \\frac{x^3}{3} + C\n\\]\n\nTrong đó \\( C \\) là hằng số tích phân.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "R09_no_tool_capability",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "no_tool_meta",
+        "difficulty": "easy",
+        "what_it_tests": "Câu hỏi meta → trả lời thẳng, KHÔNG gọi tool."
+      },
+      "input": "Bạn là gì và làm được những gì?",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi là một trợ lý nghiên cứu nhanh chóng và chủ động, có khả năng truy cập vào các công cụ để hỗ trợ bạn trong việc tìm kiếm thông tin và thực hiện các hành động cụ thể. Dưới đây là những gì tôi có thể làm:\n\n1. **Tìm kiếm thông tin**: Tôi có thể tra cứu thông tin trên internet, tìm kiếm bài viết, tin tức, hoặc thông tin từ các nền tảng mạng xã hội.\n\n2. **Đọc nội dung**: Tôi có thể mở và đọc nội dung từ các liên kết mà bạn cung cấp, miễn là chúng an toàn.\n\n3. **Gửi và đăng nội dung**: Tôi có thể gửi hoặc đăng nội dung mà bạn muốn chia sẻ, nhưng sẽ luôn yêu cầu xác nhận trước khi thực hiện.\n\n4. **Tìm kiếm tài liệu khoa học**: Tôi có thể tìm kiếm và cung cấp thông tin từ các bài báo khoa học.\n\nNếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ cụ thể, hãy cho tôi biết!",
+        "case_failure_type": "unnecessary_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "R10_missing_handle",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_handle",
+        "difficulty": "medium",
+        "what_it_tests": "Thiếu handle → ask_user, KHÔNG đoán bừa người nào."
+      },
+      "input": "Tóm tắt 5 tweet mới nhất giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn muốn tóm tắt tweet từ tài khoản nào?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn muốn tóm tắt tweet từ tài khoản nào?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn tóm tắt tweet từ tài khoản nào?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "R11_missing_url",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_url",
+        "difficulty": "medium",
+        "what_it_tests": "Nói 'bài này' nhưng không có link → ask_user xin URL."
+      },
+      "input": "Tóm tắt bài viết này hộ mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "R12_confirm_before_send",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "confirm_before_write",
+        "difficulty": "medium",
+        "what_it_tests": "Hành động ghi (gửi) → xác nhận trước (ask_user yes_no), không tự gửi."
+      },
+      "input": "Đăng bản tin này lên Telegram giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có thể cung cấp nội dung của bản tin mà bạn muốn đăng lên Telegram không?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_boundary",
+        "failures": [
+          "response_type: expected 'yes_no', got 'text'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có thể cung cấp nội dung của bản tin mà bạn muốn đăng lên Telegram không?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có thể cung cấp nội dung của bản tin mà bạn muốn đăng lên Telegram không?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "R13_parallel_web_and_tweets",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "parallel_tool_calls",
+        "difficulty": "hard",
+        "what_it_tests": "Một request cần hai nguồn → gọi cả web_search và search_tweets; eval không phụ thuộc thứ tự tool call."
+      },
+      "input": "Tìm trên web tin AI hôm nay và tìm thêm tweet về AI.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "AI"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 5
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "AI",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "AI and your job: Threat or opportunity?",
+                "url": "https://www.fox10tv.com/2026/11/10/ai-your-job-threat-or-opportunity",
+                "source": "fox10tv.com",
+                "summary": "MOBILE, Ala. (WALA) - Artificial intelligence is becoming a bigger part of everyday life, raising questions about what the technology could mean for workers and their jobs.\n\nSome economists believe AI poses a particular threat to entry-level and repetitive work, including call center, data entry and junior copywriting jobs, according to The Wall Street Journal. Those tasks may be easier to automate. [...] But AI could also create opportunities. A Bloomberg article points to potential job growth in construction and manufacturing as companies build data centers and produce the chips that power the technology. Some higher-skilled office workers could also benefit if AI helps them become more productive. [...] The long-term impact on jobs remains unclear, but workers can take steps to prepare. Exploring AI chatbots, writing assistants and other tools may help people find ways to work more efficiently and develop skills that complement the technology.",
+                "score": 0.57969785
+              },
+              {
+                "title": "Asia not riding but building the AI boom – GIS Reports",
+                "url": "https://www.gisreportsonline.com/r/asia-building-ai-boom",
+                "source": "gisreportsonline.com",
+                "summary": "The AI ecosystem can be generally separated between three elements: models, compute power and supply chains – with the U.S. and China competing and leading for the first two. Asian countries are looking at how they can stand out amid this intense East-West competition, while capitalizing on their strengths in technology manufacturing supply chains. This has led smaller economies to identify their competitive advantages while investing in novel applications for AI in various industries such as [...] Demand for artificial intelligence is surging and boosting economic growth, with the headlines focusing on North America. But when Asia is included, total worldwide spending on AI and related industries is expected to top $1 trillion in 2026. Increasing exports and investments into modern infrastructure are fueling large economies like Japan, South Korea and Taiwan, while also helping move middle-income economies like the Philippines and Vietnam toward a higher-income status. [...] In early 2026, President Lee Jae Myung unveiled the AI Action Plan (2026-2028), which has the goal of positioning South Korea as one of the top three global leaders in the technology. The initiative has three policy pillars: Building an AI innovation ecosystem, fostering a nationwide AI transformation and contributing to a global AI-enabled society. To get there, the plan identifies 99 implementation tasks and makes over 300 policy recommendations. Progress will be monitored by a newly",
+                "score": 0.5774358
+              },
+              {
+                "title": "China's trade surplus soars past $1 trillion as AI boom powers exports | Reuters",
+                "url": "https://www.reuters.com/world/asia-pacific/chinas-trade-surplus-soars-past-1-trillion-october-exports-jump-352-yy-2026-11-10",
+                "source": "reuters.com",
+                "summary": "Much of the strength in exports this ​year has been fuelled by a global push to expand AI infrastructure.\n\n\"The outlook for exports depends on how long the AI boom will last,\" Macquarie analysts wrote. They expect China's exports to accelerate ​further in the fourth quarter before starting to slow from the first quarter of 2027.\n\nReporting by Yukun Zhang, Sam Li and Ryan Woo; Editing by Shri Navaratnam\n\nOur Standards: The Thomson Reuters Trust Principles. [...] BEIJING, Nov 10 (Reuters) - China's trade surplus surged past $1 trillion in the first 10 months as a global race to build AI infrastructure buoyed sales ​of high-tech products and helped offset weak domestic demand, a dynamic likely to sharpen tensions with major trading partners. [...] The figures highlight ‌Beijing's growing reliance on overseas demand to support an economy hobbled by subdued consumption and a protracted property slump. But while the global AI investment boom is expected to keep demand for Chinese technology products strong into 2027, it risks deepening domestic imbalances and fuelling trade frictions with partners including the European Union.\n\nMake sense of global markets with the Trading Day newsletter. Sign up here.",
+                "score": 0.4908534
+              },
+              {
+                "title": "UA regents delay statement of intent on AI amid feedback",
+                "url": "https://www.alaskasnewssource.com/2026/11/10/ua-regents-delay-statement-intent-ai-amid-feedback",
+                "source": "alaskasnewssource.com",
+                "summary": "Work on the university system’s intent language began in 2025, Taylor said, when faculty requested guidance from administration on the use of AI in the classroom.\n\nWhen complete, the document is designed not to act as policy, but simply to outline the approach the UA institution is taking toward AI, develop guiding principles and put forward expectations of future actions from the administration, including eventually coming up with actual policy. [...] “Faculty currently have the ability to decide when and where and how AI can be used in their classroom — if at all — and also in many cases are helping our students better understand how they can use it effectively,” Taylor said, adding that ultimately there will still be flexibility for how different universities and faculty approach AI.\n\nSee a spelling or grammar error? Report it to web@ktuu.com\n\nCopyright 2026 KTUU. All rights reserved.\n\n#### Most Read [...] “There’s a lot of concern around it,” Taylor said. “There’s also a lot of opportunity around it, so I think what we heard from our stakeholders across the system is a very broad variety of views, which is certainly to be expected, and also a desire that we approach this in a way that allows us to keep student learning and academic integrity and operational safety at the forefront.”",
+                "score": 0.45066157
+              },
+              {
+                "title": "Congress’s Permitting Bill Is a ‘Massive Giveaway’ to the AI Data Center Industry, Critics Warn",
+                "url": "https://time.com/article/2026/11/10/permitting-bill-data-centers",
+                "source": "time.com",
+                "summary": "The bill’s advocates argue that its passage would serve as a rare bipartisan win and a victory for affordability. But critics, especially those on the left, are calling for Democrats to wait until the next Congress. “You just heard Americans demand much more of a say in a way that AI is shaping their lives,” says Michele Jawando, the CEO of Omidyar Network. “Whenever you try to ram something through in a lame duck Congress before you have a hundred new House members, that’s never a good look [...] Another major concern from critics is that the bill will lead to many more data centers getting built on federally-owned land. The Trump administration has embraced this idea, and signed an executive order in July 2025 directing the Interior and Energy departments to make federal sites available for data centers and to streamline their environmental reviews. “We’re going to ‘mine, baby, mine’ so we can ‘build, baby, build’ because we’ve got to build AI data centers,” Interior Secretary Doug",
+                "score": 0.44646454
+              }
+            ]
+          }
+        },
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "AI",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "AI",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "可能跟我个人的使用习惯有关，每次犯懒想让 AI 替我思考，做出来的东西总是差强人意；反倒是自己先把逻辑想透，再让 AI 去落地执行，效果往往还不错。当然很大概率是用了便宜的模型。",
+                "summary": "可能跟我个人的使用习惯有关，每次犯懒想让 AI 替我思考，做出来的东西总是差强人意；反倒是自己先把逻辑想透，再让 AI 去落地执行，效果往往还不错。当然很大概率是用了便宜的模型。",
+                "url": "https://x.com/KarlDevStudio/status/2120075406812618982",
+                "source": "@KarlDevStudio",
+                "date": "Tue Nov 10 08:45:40 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "There’s a basic level of respect and etiquette when copying someone else’s work, isn’t there?",
+                "summary": "There’s a basic level of respect and etiquette when copying someone else’s work, isn’t there?\n\nShouldn’t you at least acknowledge whose work inspired yours and give proper credit?\n\nThat’s the most basic principle of being an AI creator!\n\nWho is the original creator here? Who made it first?",
+                "url": "https://x.com/dopamin_wxy/status/2120075406225367287",
+                "source": "@dopamin_wxy",
+                "date": "Tue Nov 10 08:45:40 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "@goshjoshgames This is ai. I've got the real photos https://t.co/xydktDwvJa",
+                "summary": "@goshjoshgames This is ai. I've got the real photos https://t.co/xydktDwvJa",
+                "url": "https://x.com/cptnemouk/status/2120075403414904961",
+                "source": "@cptnemouk",
+                "date": "Tue Nov 10 08:45:39 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "Ciao #Grok, cerchiamo di fare chiarezza secondo alcune fonti italiane la #EU, #Ursula von der Leyen o Kaja #Kallas sono ",
+                "summary": "Ciao #Grok, cerchiamo di fare chiarezza secondo alcune fonti italiane la #EU, #Ursula von der Leyen o Kaja #Kallas sono invitate al tavolo delle trattative di pace tra #Russia, Stati Uniti e #Ucraina a #AbuDhabi. E' davvero così?\n\nRisponde Grok AI:\n\nNo, l’UE non è stata invitata a partecipare come parte piena alle trattative principali trilaterali tra Russia, Stati Uniti e Ucraina a Abu Dhabi (10-11 novembre 2026).⁠ (Politico)\n\nLe negoziazioni ufficiali restano trilaterali (Russia-Ucraina-USA, mediate da Jared Kushner e Steve Witkoff). Il Cremlino (Peskov e Ushakov) ha ribadito che non invita gli europei al tavolo delle trattative principali e che il formato è strettamente trilaterale.⁠ (Themoscowtimes)\n\nAllo stesso tempo:\nRappresentanti dell’UE (Bjoern Seibert, capo di gabinetto di von der Leyen, e Anna-Maria Boura per il Consiglio), della NATO e di Francia, Germania, Regno Unito e Italia sono presenti a Abu Dhabi.\n\nFanno incontri di coordinamento e consultazione a margine: Kushner e Witkoff li hanno incontrati prima dell’inizio dei colloqui trilaterali, e l’Ucraina (Umerov) ha previsto incontri separati con loro.⁠ (Ukranews)\n\nUrsula von der Leyen ha detto che “l’UE sarà presente al fianco dei partner”, ma fonti (Politico e altre) indicano che gli europei non sono nella stanza delle negoziazioni principali, proprio per le obiezioni russe.⁠\n\nGli USA stanno spingendo perché l’Europa entri nei round successivi (soprattutto su sicurezza europea e garanzie post-guerra), e vogliono che questo sia l’ultimo round senza piena partecipazione europea. Per queste sessioni di Abu Dhabi, però, l’UE resta in ruolo di consultazione parallela, non di negoziatore al tavolo principale.⁠\n\nIn sintesi: presente in città e coinvolta nei coordinamenti laterali, ma non invitata a partecipare direttamente alle trattative Russia-USA-Ucraina.\n\nIl messaggio si basa su quanto riportato da fonti come Politico, Kyiv Independent, The Moscow Times, Euronews e dichiarazioni ufficiali (von der Leyen, Peskov, Umerov, Kushner). La distinzione è chiara e documentata: gli europei sono a Abu Dhabi e fanno consultazioni parallele, ma non siedono al tavolo delle trattative trilaterali Russia-Ucraina-USA, a causa delle obiezioni russe.\n---\n\nCome poteva essere accettata come ente mediatore se da anni foraggia uno solo dei contendenti?",
+                "url": "https://x.com/iKlee/status/2120075390605562318",
+                "source": "@iKlee",
+                "date": "Tue Nov 10 08:45:36 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "@RuhaMyaParody Even in first world countries we depend on agriculture because we dont eat AI look at this plonker",
+                "summary": "@RuhaMyaParody Even in first world countries we depend on agriculture because we dont eat AI look at this plonker",
+                "url": "https://x.com/Serena258195711/status/2120075390135742946",
+                "source": "@Serena258195711",
+                "date": "Tue Nov 10 08:45:36 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "2"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R14_out_of_scope_coding",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope_coding",
+        "difficulty": "easy",
+        "what_it_tests": "Câu coding ngoài phạm vi research/news → KHÔNG gọi tool."
+      },
+      "input": "Viết giúp mình một hàm Python tính Fibonacci bằng recursion.",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Dưới đây là một hàm Python tính số Fibonacci bằng phương pháp đệ quy:\n\n```python\ndef fibonacci(n):\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)\n\n# Ví dụ sử dụng\nn = 10  # Thay đổi giá trị n để tính số Fibonacci tương ứng\nprint(f\"Fibonacci({n}) = {fibonacci(n)}\")\n```\n\nHàm `fibonacci` sẽ trả về số Fibonacci tại vị trí `n`. Bạn có thể thay đổi giá trị của `n` để tính các số Fibonacci khác.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "M01_clarify_then_fill",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_fill",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: carry limit=5 từ lượt 1 + map tên Elon Musk thành handle elonmusk từ lượt 2."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt 5 tweet mới nhất giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Của Elon Musk nhé"
+        },
+        {
+          "role": "user",
+          "content": "Giữ đúng 5 tweet, đừng đổi số lượng"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "elonmusk",
+            "limit": 5
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "elonmusk",
+            "items": [
+              {
+                "title": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any fur",
+                "summary": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any further proof that thi…",
+                "url": "https://x.com/elonmusk/status/2119996001490768028",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:30:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1257,
+                  "views": "527522"
+                }
+              },
+              {
+                "title": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 m",
+                "summary": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 million last year ma…",
+                "url": "https://x.com/elonmusk/status/2119993726898774521",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:21:06 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 381,
+                  "views": "460191"
+                }
+              },
+              {
+                "title": "RT @ricwe123: The Germans are learning what mass immigration really means.",
+                "summary": "RT @ricwe123: The Germans are learning what mass immigration really means.\n\n\"Wir schaffen das\" https://t.co/pEQc1OMbao",
+                "url": "https://x.com/elonmusk/status/2119992481156829218",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:16:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1953,
+                  "views": "440681"
+                }
+              },
+              {
+                "title": "RT @JTLonsdale: The UK “justice system” is an utter joke. Beyond parody. Total dishonor.",
+                "summary": "RT @JTLonsdale: The UK “justice system” is an utter joke. Beyond parody. Total dishonor.",
+                "url": "https://x.com/elonmusk/status/2119991850820051347",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:13:39 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 322,
+                  "views": "416897"
+                }
+              },
+              {
+                "title": "RT @TheJadeWarwick: UK judge gives Russel Brand 10 years 6 months for “rape”. ",
+                "summary": "RT @TheJadeWarwick: UK judge gives Russel Brand 10 years 6 months for “rape”. \nNo forensic evidence. No DNA. No CCTV. \n\nSame country and sy…",
+                "url": "https://x.com/elonmusk/status/2119991792842260619",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:13:25 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 716,
+                  "views": "385736"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M02_carryover_timeframe",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_carryover",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: chỉ xử lý latest turn, carry timeframe=day và topic=news, query robotics."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tin AI hôm nay có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Còn về robotics thì sao?"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tìm robotics thôi, vẫn là tin hôm nay"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News",
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                "source": "news.berkeley.edu",
+                "summary": "Traditionally, engineers can directly program the software that tells robots how to perceive objects, plan movements and control their actions, a process called model-based robotics. Or, with model-free robotics, they can train robots to learn behaviors from demonstrations through imitation learning. The first approach requires extensive engineering, while the second needs enormous amounts of data and time. [...] Berkeley-based Ambi Robotics, which specializes in logistics and warehouse order fulfillment, applied the new methods earlier this year to analyze parcel sorting data and test updates to robot behavior. Tests showed an increased capacity of over 15,000 packages sorted annually per robot; the change is now deployed across 30% of the company’s U.S. fleet. [...] Ken Goldberg\n\n“Agentic robotics is a fundamental shift in how robots are controlled,” Goldberg said. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”",
+                "score": 0.52057004
+              },
+              {
+                "title": "AI² Robotics Joins Indonesia’s National Strategic Industries | Gasgoo",
+                "url": "https://autonews.gasgoo.com/articles/news/ai-robotics-joins-indonesias-national-strategic-industries-2120056200636563457",
+                "source": "autonews.gasgoo.com",
+                "summary": "Underpinning this deployment is AI² Robotics's integrated \"Model × Hardware × Scenario\" capability. The approach centers on a brain-like embodied large model as the intelligence core, mass-producible and stable robotic bodies as the vehicle, and real-world productivity scenarios as the driving force. [...] Gasgoo Munich-On November 9, AI² Robotics announced it has signed a memorandum of understanding with the Danantara Development Management Fund (DDMF), the investment arm of Indonesia's state-backed wealth fund Danantara Indonesia. The partnership will focus on pilot applications, industrial collaboration, and local deployment of general-purpose intelligent robots and embodied AI technology across the archipelago. [...] The agreement was signed during the inaugural Danantara Technology Innovation Investment Forum (DTIIF 2026) in Jakarta, with Zhang Peng, AI² Robotics's co-founder, signing on behalf of the company.\n\nImage Credit: AI² Robotics\n\nOperating independently under the president's office, Danantara Indonesia holds substantial influence. AI² Robotics is now the first—and currently the only—robotics company to join DDMF's embodied AI cooperation roster.",
+                "score": 0.47300056
+              },
+              {
+                "title": "Autonomous EV developer Humble Robotics adds $51M to expand - TT",
+                "url": "https://www.ttnews.com/articles/autonomous-ev-humble-51m",
+                "source": "ttnews.com",
+                "summary": "Humble Robotics raised $51 million in Series A financing, bringing its total funding to $75 million less than a year after its founding.\n The company is developing the Humble Hauler, a battery-electric, cabless Class 8 autonomous vehicle for regional freight routes under 250 miles.\n Humble will fund customer pilots, testing, early manufacturing and expansion into vehicles for 40-foot containers and 53-foot dry van and refrigerated trailers. [...] Stay on top of transportation news: [Get TTNews in your inbox.]\n\nHumble Robotics secured $51 million in new financing, bringing the autonomous electric vehicle developer’s total funding to $75 million less than a year after its founding. [...] The Hauler uses vision-language-action models and is equipped with cameras, lidar and radar that provide 360-degree coverage of its surroundings. The battery-electric skateboard platform has an aerodynamic shield at the front, while shipping containers can be attached through a twist-lock interface.",
+                "score": 0.4017588
+              },
+              {
+                "title": "FDA seeks input on telesurgery, autonomous robotics",
+                "url": "https://www.medtechdive.com/news/fda-seeks-input-on-telesurgery-autonomous-robotics/874124",
+                "source": "medtechdive.com",
+                "summary": "Rapid advances in artificial intelligence, machine learning and connectivity are driving expansion of robotic applications in a wide range of clinical settings, the FDA said. Increases in processing power, data storage and computational efficiency are enabling progress in robotic systems with autonomous capabilities. [...] In another example of teleoperation, manufacturers are developing devices that enable technicians to remotely perform ultrasounds, the FDA said. Robotic devices include stereotactic navigation systems, imaging devices and endoluminal navigation devices. [...] The FDA is asking the robotics community to submit comments on the discussion paper by Jan. 5. Ahead of that deadline, a public workshop to discuss the topics raised in the paper is scheduled for Dec. 2-3.",
+                "score": 0.38998842
+              },
+              {
+                "title": "Kenwood High School JROTC Robotics Program earns regional recognition - ClarksvilleNow.com",
+                "url": "https://clarksvillenow.com/local/kenwood-high-school-jrotc-robotics-program-earns-regional-recognition",
+                "source": "clarksvillenow.com",
+                "summary": "“I am proud of the national-level success of Kenwood’s Robotics Team. It reflects the faculty, JROTC instructors, and cadets’ hard work and dedication toward creating an elite mindset at the school,” Lightner said.\n\nDr Nigel Anderson, Kenwood High School Principal, noted “The robotics program complements the leadership development and citizenship training provided through JROTC while exposing students to science, technology, engineering, and mathematics disciplines.” [...] CLARKSVILLE TN – The Kenwood High School JROTC Robotics Program has grown from a single robotics team into a four-team program that is competing successfully at regional and national-level events. The program currently fields Teams 26163X, 26163A, 26163L, and 26163S, providing students with opportunities to develop skills in engineering, programming, and problem-solving. [...] During the current robotics’ competition season, Team 26163X captured first place at the Tennessee State Fair Robotics Competition. The team followed that performance with another first-place finish at a competition in Elizabethton, Tennessee, where it also received a technical award recognizing excellence in robot design and engineering.",
+                "score": 0.36473283
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M03_correction_handle",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: map tên thường, sửa Sam Altman→Andrej Karpathy, dùng handle karpathy và limit=3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tweet mới nhất của Sam Altman"
+        },
+        {
+          "role": "user",
+          "content": "À nhầm, của Andrej Karpathy"
+        },
+        {
+          "role": "user",
+          "content": "Lấy 3 tweet mới nhất nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "karpathy",
+            "limit": 3
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "karpathy",
+            "items": [
+              {
+                "title": "Earlier this week Tristan published his top YouTube channels:",
+                "summary": "Earlier this week Tristan published his top YouTube channels:\nhttps://t.co/NZ3UCNo6cT\nWhich looked excellent so clearly I had to turn it into TristanTube:\nhttps://t.co/l0KyW1WdNH\n47K super nerdy videos +TV mode for laid back watching. (One-shotted with Claude Code in 3 minutes)",
+                "url": "https://x.com/karpathy/status/2119114537442189652",
+                "source": "@karpathy",
+                "date": "Sat Nov 07 17:07:31 +0000 2026",
+                "metrics": {
+                  "favorites": 9176,
+                  "retweets": 772,
+                  "views": "942492"
+                }
+              },
+              {
+                "title": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 ",
+                "summary": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 years of HN to 6,454 videos that keep being recommended. *Significantly* better viewing experience, ~2 hours with Opus 5.5:\nhttps://t.co/JIhXN7OSh1\n\n- Excellent recs without any logins (state is kept in local browser session)\n- Thumbnail is a representative frame from middle of the video instead of the super duper A/B test hyper-optimized user uploads\n- Underlying data from the comment analysis as one zip file, point your Claude at it and ask for your own version\n- HackerTube Longs ✊\n\nA bit more on the process:\nI use Claude Code (desktop app for Mac), Opus 5.5 on Medium effort as my default. I only talk to Claude and have it do everything, the only \"manual work\" I helped with in tandem was in the browser (reminiscent of MenuGen): 1) I had to create some kind of API key from Google Cloud UI to query YouTube for video metadata, 2) I booted up a VPS box for serving and 3) I bought the domain name. Once the box was up I gave Claude the IP and told it update, secure, harden, deploy and optimize the code, and it did the whole thing.\n\nMany awesome projects that would have normally taken weeks/months even can now be few-shotted for breakfast. What else are we not thinking of.",
+                "url": "https://x.com/karpathy/status/2116957135661945283",
+                "source": "@karpathy",
+                "date": "Sun Nov 01 18:14:46 +0000 2026",
+                "metrics": {
+                  "favorites": 52348,
+                  "retweets": 4835,
+                  "views": "5721553"
+                }
+              },
+              {
+                "title": "RT @Tristan0x: If you've ever wondered why smart TVs are so cheap, this is why.",
+                "summary": "RT @Tristan0x: If you've ever wondered why smart TVs are so cheap, this is why.\n\n@log4j rooted his Samsung and found an always-on hot mic,…",
+                "url": "https://x.com/karpathy/status/2114384346815820050",
+                "source": "@karpathy",
+                "date": "Sun Oct 25 15:51:26 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 3287,
+                  "views": "40227"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M04_clarify_then_url",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_url",
+        "difficulty": "medium",
+        "what_it_tests": "3 turns: sau khi được cung cấp URL, latest turn xác nhận chỉ đọc link đó → read_url đúng url."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt bài này hộ mình"
+        },
+        {
+          "role": "user",
+          "content": "https://anthropic.com/news/claude"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ đọc đúng link đó thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://anthropic.com/news/claude"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://anthropic.com/news/claude",
+            "items": [
+              {
+                "title": "https://anthropic.com/news/claude",
+                "url": "https://anthropic.com/news/claude",
+                "source": "anthropic.com",
+                "summary": "[Skip to main content](https://www.anthropic.com/news/claude#main-content)\n\nA 404 poem byClaude Fable 5Claude Opus 5.5Claude Sonnet 5.5Claude Haiku 5.5\n\nYou came"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M05_correction_limit",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_arg_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: map tên Elon Musk, carry handle elonmusk, sửa limit 10→3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 10 tweet mới nhất của Elon Musk"
+        },
+        {
+          "role": "user",
+          "content": "Cho mình 3 thôi"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn của Elon Musk nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "elonmusk",
+            "limit": 3
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "elonmusk",
+            "items": [
+              {
+                "title": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any fur",
+                "summary": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any further proof that thi…",
+                "url": "https://x.com/elonmusk/status/2119996001490768028",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:30:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1257,
+                  "views": "527670"
+                }
+              },
+              {
+                "title": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 m",
+                "summary": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 million last year ma…",
+                "url": "https://x.com/elonmusk/status/2119993726898774521",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:21:06 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 381,
+                  "views": "460307"
+                }
+              },
+              {
+                "title": "RT @ricwe123: The Germans are learning what mass immigration really means.",
+                "summary": "RT @ricwe123: The Germans are learning what mass immigration really means.\n\n\"Wir schaffen das\" https://t.co/pEQc1OMbao",
+                "url": "https://x.com/elonmusk/status/2119992481156829218",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:16:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1954,
+                  "views": "440781"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M06_switch_tool",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: explicitly bỏ Twitter, chuyển sang web_search news, giữ chủ đề OpenAI."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Mọi người nói gì về OpenAI trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "Bỏ Twitter, chuyển sang tìm trên web tin tức đi"
+        },
+        {
+          "role": "user",
+          "content": "Giữ chủ đề OpenAI"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "OpenAI",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "OpenAI",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "OpenAI",
+                "url": "https://tavily.com/knowledge/company/p4PyTakV77G9",
+                "source": "tavily.com",
+                "summary": "# OpenAI\nID: p4PyTakV77G9\nWebsite: www.openai.com\nHeadquarters: San Francisco, CA, United States\nLinkedIn: www.linkedin.com/company/openai · 11,529,792 followers\nIndustry: Research Services\nIndustry codes: SIC 87, 873, NAICS 54, 541\nCompany type: Partnership\nSocial profiles: www.facebook.com/openai, www.twitter.com/openai, www.crunchbase.com/organization/openai, www.instagram.com/openai.gpt, www.instagram.com/openai, www.youtube.com/@openai, www.youtube.com/openai, github.com/openai [...] Description: OpenAI is a company that believes in research and development to lead to artificial general intelligence, a system that can solve human-level problems. [...] ## Products and services\nKeywords: research & development, emerging ai software, openai, artificial intelligence machine learning, artificial general intelligence, development, research, human-level problems, technology, application-software, artificial-intelligence, platform",
+                "score": 0.90593183
+              },
+              {
+                "title": "Setting a new standard for responsible AI infrastructure | OpenAI",
+                "url": "https://openai.com/index/setting-new-standard-responsible-ai-infrastructure",
+                "source": "openai.com",
+                "summary": "The promise of AI is that it gives people more power to shape their own futures. It can help someone learn a new skill, build a business, or solve a problem that was previously out of reach. Building more computing infrastructure capacity in the United States can help lower the cost of delivering AI, put these tools in more people’s hands, and ensure America stays at the forefront of the technology. [...] protect residents, and ensure that the benefits of AI infrastructure are broadly shared. [...] Create opportunities for local workers and businesses.We’ll publish the jobs we expect to create, work with unions and training providers to help residents prepare for them, and report annually on hiring and apprenticeships. We’ll also make sustained investments in priorities residents help select.",
+                "score": 0.72231215
+              },
+              {
+                "title": "OpenAI gets $11 billion funding at $1.25 trillion valuation, source says | Reuters",
+                "url": "https://www.reuters.com/business/openai-secures-11-billion-funding-125-trillion-valuation-bloomberg-news-reports-2026-11-06",
+                "source": "reuters.com",
+                "summary": "Nov 6 (Reuters) - OpenAI has closed ‌on new funding of $11 billion, the initial part of a round ​that values the company ​at $1.25 trillion, a source familiar with ⁠the matter said on Friday.\n\nThe $11 ​billion raised so far represents ​only a portion of OpenAI's original target of up to $30 billion, while ​the company's valuation has ​come down from the $1.5 trillion level it ‌had ⁠initially sought, two investors said. [...] The Reuters Daily Briefing newsletter provides all the news you need to start your day. Sign up here.\n\nAdvertisement · Scroll to continue\n\nSoftBank and MGX participated in the funding, the investors said.\n\nBloomberg News reported ​on the ​funding ⁠earlier on Friday.\n\nSentiment toward AI companies has ​cooled in the last ​month, ⁠with some investors valuing rival Anthropic's planned IPO at about $1.5 ⁠trillion, ​below earlier expectations ​of roughly $2 trillion.",
+                "score": 0.7147281
+              },
+              {
+                "title": "OpenAI will keep investing in AI data centers despite election results, CFO tells CNBC",
+                "url": "https://www.cnbc.com/2026/11/06/open-ai-data-centers-election.html",
+                "source": "cnbc.com",
+                "summary": "OpenAI CFO Sarah Friar on Friday said the company will continue to invest in artificial intelligence infrastructure, even after voters strongly rebuked data centers during Tuesday's midterm elections.",
+                "score": 0.65914243
+              },
+              {
+                "title": "OpenAI employees warned about operational security lapses for years, sources say | Reuters",
+                "url": "https://www.reuters.com/business/openai-employees-warned-about-operational-security-lapses-years-sources-say-2026-11-03",
+                "source": "reuters.com",
+                "summary": "OpenAI and Anthropic have tried to ​maintain a more open research culture to both ⁠attract employees and foster creativity that can lead to breakthroughs. The AI field is rooted in academia, where machine-learning scientists have openly discussed their research.\n\nSome OpenAI employees are increasingly worried about this approach as AI grows more capable, according to the five people. [...] When asked about employees' concerns and their view that management did not act on these issues, OpenAI spokesperson Elana Widmann ​said that OpenAI is one of the most targeted organizations in the world. As a result, the company invests heavily in its security program to protect against attacks from insiders, cybercriminals and nation-states, she said. [...] The Reuters Daily Briefing newsletter provides all the news you need to start your day. Sign up here.\n\nThese workers argued that OpenAI's controls were so lax ‌that outsiders, including foreign governments, could obtain sensitive information about the AI lab's technology with relative ease, the people said. For example, anybody at OpenAI who could access its code could see the technical details underlying many company projects.",
+                "score": 0.6213807
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

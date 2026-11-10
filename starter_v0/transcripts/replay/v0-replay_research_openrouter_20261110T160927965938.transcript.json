@@ -1,0 +1,158 @@
+{
+  "transcript_id": "v0-replay_research_openrouter_20261110T160927965938",
+  "version": "v0-replay",
+  "artifact_version": "v0-replay+peb1c8179815b+t5b22a2476d41",
+  "prompt_hash": "eb1c8179815bd79d34de7d326420bb99b3072e6e8ae96464c02d4411f905fc68",
+  "tools_hash": "5b22a2476d41b989d5dc1e54f24ce7890e781909deb2f7afafb856ab53a6d7c0",
+  "replay": true,
+  "replay_note": "Scripted replay on the saved snapshot of this version; not a live user chat.",
+  "conversation": "research",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "snapshot": "artifacts\\snapshots\\2A202603687-BùiAnhDũng\\v0",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T16:09:27",
+  "updated_at": "2026-11-10T16:09:44",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T16:09:27",
+      "user": "Tin công nghệ nổi bật trong tuần này",
+      "status": "answered",
+      "assistant_text": "Dưới đây là một số tin công nghệ nổi bật trong tuần này:\n\n1. **[Điểm tin Khoa học và Công nghệ hằng tuần](https://haiphong.gov.vn/thong-bao-76144/diem-tin-khoa-hoc-va-cong-nghe-hang-tuan-999065)** - Trung tâm Công nghệ Thông tin và Truyền thông Hải Phòng đã tổng hợp các thông tin nổi bật về khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số trong nước và trên địa bàn thành phố.\n\n2. **[Nghệ An: Thông tin nổi bật ngày 9/11](https://baonghean.vn/nghe-an-thong-tin-noi-bat-ngay-9-11-10355501.html)** - Khai giảng khóa đào tạo trình độ đại học chuyên ngành Công nghệ thông tin tại Nghệ An, cùng với các thông tin khác liên quan đến an toàn khai thác khoáng sản.\n\n3. **[Chỉ đạo, điều hành nổi bật của UBND tỉnh](https://langson.gov.vn/chi-dao-dieu-hanh-noi-bat/chi-dao-dieu-hanh-noi-bat-cua-ubnd-tinh-lanh-dao-ubnd-tinh-tu-ngay-02-11-2026-07-11-2026.html)** - Thông tin về kế hoạch hành động thực hiện Chiến lược phát triển khoa học, công nghệ và đổi mới sáng tạo đến năm 2030.\n\n4. **[CÔNG AN TỈNH LÂM ĐỒNG GIỮ VỮNG AN NINH](https://congan.lamdong.gov.vn/cong-an-tinh-lam-dong-giu-vung-an-ninh-tu-cao-nguyen-den-mien-bien-ket-qua-cong-tac-noi-bat-thang-10-va-nhiem-vu-trong-tam-thang-112026-N11789.aspx)** - Tình hình sử dụng thiết bị bay không người lái và các vấn đề an ninh mạng đang diễn biến phức tạp.\n\n5. **[Cơ hội lớn để Việt Nam thoát khỏi vị trí gia công trong chuỗi cung ứng bán dẫn toàn cầu](https://dangcongsan.vn/bokhoahoccongnghe/tin-tuc-hoat-dong/co-hoi-lon-de-viet-nam-thoat-khoi-vi-tri-gia-cong-trong-chuoi-cung-ung-ban-dan-toan-cau.html)** - Việt Nam có cơ hội thu hút thêm dòng vốn, công nghệ và tri thức quốc tế trong lĩnh vực bán dẫn.\n\nBạn có thể tham khảo các liên kết để biết thêm chi tiết về từng tin tức.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "lookup",
+              "args": {
+                "query": "tin công nghệ nổi bật",
+                "topic": "news",
+                "timeframe": "week",
+                "max_results": 5
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "lookup",
+              "args": {
+                "query": "tin công nghệ nổi bật",
+                "topic": "news",
+                "timeframe": "week",
+                "max_results": 5
+              },
+              "result": {
+                "tool": "web_search",
+                "query": "tin công nghệ nổi bật",
+                "topic": "news",
+                "timeframe": "week",
+                "items": [
+                  {
+                    "title": "Điểm tin Khoa học và Công nghệ hằng tuần",
+                    "url": "https://haiphong.gov.vn/thong-bao-76144/diem-tin-khoa-hoc-va-cong-nghe-hang-tuan-999065",
+                    "source": "haiphong.gov.vn",
+                    "summary": "(Haiphong.gov.vn) - Trung tâm Công nghệ Thông tin và Truyền thông Hải Phòng trân trọng gửi các cơ quan, đơn vị Điểm tin Khoa học và Công nghệ số 41 năm 2026 (tuần từ ngày 19/10/2026 đến ngày 25/10/2026), tổng hợp các thông tin nổi bật về khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số trong nước và trên địa bàn thành phố.\n\nĐiểm tin được đăng tải tại địa chỉ: [...] Xã Quyết Thắng thông báo cho thuê nhà, đất tại cơ sở 3 Trường Mầm non Tiên Cường\nCông bố kết quả thi tuyển phương án kiến trúc Trường THPT chuyên Nguyễn Trãi\nThông báo về việc cho thuê nhà, đất do Trung tâm dịch vụ sự nghiệp công phường Nhị Chiểu quản lý, khai thác: Trụ sở UBND phường Duy Tân (cũ)\nCông khai thủ tục hành chính được sửa đổi, bổ sung lĩnh vực thủy sản và kiểm ngư thuộc phạm vi chức năng quản lý của Sở Nông nghiệp và Môi trường [...] QR Code\nLấy ý kiến Nhân dân về đề nghị truy tặng danh hiệu “Bà mẹ Việt Nam anh hùng” cho bà Lưu Thị Đặt\nTòa án nhân dân Khu vực 10 – Hải Phòng thông báo tìm bà Nguyễn Thị Đằm\nThông báo về việc cho thuê nhà do Ban Quản lý dự án đầu tư xây dựng xã Nam Sách quản lý, khai thác Khu đất: Trụ sở chi cục thuế khu vực Nam Thanh (Chi cục thuế huyện Nam Sách cũ), xã Nam Sách, thành phố Hải Phòng\nCảnh báo về đề xuất kiểm tra bắt buộc đối với đồ gỗ nội thất lắp ráp xuất khẩu sang Đài Loan",
+                    "score": 0.60610276
+                  },
+                  {
+                    "title": "Nghệ An: Thông tin nổi bật ngày 9/11",
+                    "url": "https://baonghean.vn/nghe-an-thong-tin-noi-bat-ngay-9-11-10355501.html",
+                    "source": "baonghean.vn",
+                    "summary": "Thời sự\n\n# Nghệ An: Thông tin nổi bật ngày 9/11\n\nNguyên Sơn - Trần Hải • 09/11/2026 19:00\n\nĐBQH đoàn Nghệ An tham gia nhiều ý kiến trong phiên thảo luận tại hội trường; Nghệ An khai giảng khóa đào tạo trình độ đại học chuyên ngành Công nghệ thông tin; Giảm giá xăng, dầu tác động tích cực đến đời sống dn sinh; Rà soát toàn diện công tác an toàn khai thác khoáng sản... là những thông tin nổi bật trong ngày. [...] \\ Sáng 9/11, Ban Tổ chức Tỉnh ủy Nghệ An phối hợp với Trường Đại học Vinh tổ chức Lễ khai giảng khóa đào tạo trình độ đại học chuyên ngành Công nghệ thông tin, hình thức vừa làm, vừa học, dành cho 76 cán bộ, công chức cấp xã.\n\nĐại diện Lãnh đạo Ban Tổ chức Tỉnh ủy, BGH Trường Đại học Vinh chụp ảnh lưu niệm với học viên..png)\n\nĐại diện Lãnh đạo Ban Tổ chức Tỉnh ủy, BGH Trường Đại học Vinh chụp ảnh lưu niệm với học viên. [...] \\ Tại Vương quốc Đan Mạch, ngày 9/11, đoàn công tác tỉnh Nghệ An do đồng chí Dương Đình Chỉnh - Ủy viên Ban Thường vụ Tỉnh ủy, Phó Chủ tịch Thường trực HĐND tỉnh làm Trưởng đoàn đã có buổi làm việc với Hiệp hội Công nghiệp Thiết bị Y tế Đan Mạch\n\nToàn cảnh buổi làm việc.\n\nToàn cảnh cuộc làm việc.",
+                    "score": 0.5414337
+                  },
+                  {
+                    "title": "Chỉ đạo, điều hành nổi bật của UBND tỉnh, Lãnh đạo UBND tỉnh, từ ngày 02/11/2026 - 07/11/2026",
+                    "url": "https://langson.gov.vn/chi-dao-dieu-hanh-noi-bat/chi-dao-dieu-hanh-noi-bat-cua-ubnd-tinh-lanh-dao-ubnd-tinh-tu-ngay-02-11-2026-07-11-2026.html",
+                    "source": "langson.gov.vn",
+                    "summary": "rắn xây dựng trên địa bàn tỉnh; triển khai Kế hoạch hành động thực hiện Chiến lược phát triển khoa học, công nghệ và đổi mới sáng tạo đến năm 2030… là những thông tin chỉ đạo điều hành nổi bật của UBND tỉnh; Lãnh đạo UBND tỉnh từ ngày 02/11 – 07/11/2026. [...] Theo đó, các sở, ban, ngành; UBND các xã, phường tổ chức tuyên truyền, quán triệt, phổ biến nội dung Chiến lược và Kế hoạch hành động ban hành kèm theo Quyết định số 4179/QĐ-BKHCN đến cán bộ, công chức, viên chức, người lao động thuộc phạm vi quản lý. Căn cứ Quyết định số 4179/QĐ-BKHCN, Kế hoạch số 346/KH-UBND ngày 07/9/2026 của UBND tỉnh về khoa học, công nghệ và đổi mới sáng tạo giai đoạn 2026 - 2030 và các chương trình, kế hoạch có liên quan, rà soát, lồng ghép, cụ thể hóa các nội dung vào",
+                    "score": 0.37298524
+                  },
+                  {
+                    "title": "CÔNG AN TỈNH LÂM ĐỒNG GIỮ VỮNG AN NINH TỪ CAO NGUYÊN ĐẾN MIỀN BIỂN: KẾT QUẢ CÔNG TÁC NỔI BẬT THÁNG 10 VÀ NHIỆM VỤ TRỌNG TÂM THÁNG 11/2026",
+                    "url": "https://congan.lamdong.gov.vn/cong-an-tinh-lam-dong-giu-vung-an-ninh-tu-cao-nguyen-den-mien-bien-ket-qua-cong-tac-noi-bat-thang-10-va-nhiem-vu-trong-tam-thang-112026-N11789.aspx",
+                    "source": "congan.lamdong.gov.vn",
+                    "summary": "Thời gian gần đây, tình hình sử dụng thiết bị bay không người lái (UAV) và phương tiện bay khác xâm nhập khu vực cấm bay tại một số cảng hàng không diễn biến phức tạp, đe dọa an ninh, an toàn hàng không. Một số cá nhân, tổ chức tiếp tục lợi dụng không gian mạng để lan truyền thông tin giả mạo, sai sự thật nhằm câu view, câu like hoặc kích động phản ứng của người dân phục vụ mưu đồ xấu. Tội phạm lừa đảo sử dụng công nghệ cao tiếp tục diễn biến phức tạp; phương thức, thủ đoạn ngày càng tinh vi, [...] ### Trại tạm giam số 1 phối hợp với Bệnh xá Công an tỉnh khám sức khỏe định kỳ cho phạm nhân\n\nCông an xã Bảo Lâm 3 tập huấn kỹ năng lái xe mô tô an toàn cho lực lượng cơ sở\n\n### Công an xã Bảo Lâm 3 tập huấn kỹ năng lái xe mô tô an toàn cho lực lượng cơ sở\n\nĐưa công nghệ đến gần hơn với người yếu thế\n\n### Đưa công nghệ đến gần hơn với người yếu thế\n\nCông an xã Đạ Huoai tăng cường quản lý, giáo dục người chấp hành án hình sự tại cộng đồng [...] ### Công an xã Đắk Wil tham gia diễn tập chiến đấu phòng thủ năm 2026\n\n.png)\n\n# \n\nCơ quan chủ quản: Công an tỉnh Lâm Đồng  \nĐơn vị quản trị: Đội Công nghệ Thông tin - Phòng Tham mưu  \nBản quyền thuộc về Công an tỉnh Lâm Đồng  \nKhi sử dụng lại thông tin, đề nghị ghi rõ nguồn \"Trang TTĐT Công an tỉnh Lâm Đồng\"",
+                    "score": 0.30538702
+                  },
+                  {
+                    "title": "Cơ hội lớn để Việt Nam thoát khỏi vị trí gia công trong chuỗi cung ứng bán dẫn toàn cầu",
+                    "url": "https://dangcongsan.vn/bokhoahoccongnghe/tin-tuc-hoat-dong/co-hoi-lon-de-viet-nam-thoat-khoi-vi-tri-gia-cong-trong-chuoi-cung-ung-ban-dan-toan-cau.html",
+                    "source": "dangcongsan.vn",
+                    "summary": "### Các tin khác\n\nPhát huy nguồn lực trí thức Việt Nam tại Nhật Bản để giải quyết các bài toán công nghệ thực tiễn\n\nNgăn nguy cơ Việt Nam trở thành điểm tiếp nhận rác thải điện tử từ nước ngoài\n\nViệt Nam mở rộng cơ hội đầu tư R&D cho doanh nghiệp công nghệ chu u\n\nPhát động Tháng hành động vì bình đẳng giới và phòng ngừa, ứng phó với bạo lực trên cơ sở giới năm 2026\n\nIRIFF 2026: Mở rộng kết nối, thúc đẩy hợp tác khoa học và công nghệ quốc tế [...] Tăng trưởng xuất khẩu 31,8% là một thành quả đáng chú ý, nhưng ý nghĩa lớn hơn nằm ở cơ hội mà con số này mở ra. Khi chuỗi cung ứng toàn cầu tiếp tục tái cấu trúc, Việt Nam có điều kiện thu hút thêm dòng vốn, công nghệ và tri thức quốc tế. Vấn đề không còn đơn thuần là thu hút thêm bao nhiêu nhà máy, mà là Việt Nam có thể tham gia su đến đu vào quá trình tạo ra một con chip.\n\nTrung tm Truyền thông KH&CN / mst.gov.vn\n\nTừ khóa: bán dẫn\n\n### Các tin khác [...] Trong bức tranh đó, chu Á - Thái Bình Dương (APAC) chiếm khoảng 58% doanh thu ngành bán dẫn toàn cầu, với sự phn công ngày càng chuyên môn hóa. Đài Loan giữ vai trò chủ lực trong dịch vụ gia công chế tạo chip, chiếm khoảng 60% sản lượng foundry toàn cầu; Hàn Quốc nổi bật về chip nhớ và công nghệ chế tạo tiên tiến; Nhật Bản có thế mạnh về vật liệu, thiết bị và các đầu vào chuyên dụng.",
+                    "score": 0.2814357
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Dưới đây là một số tin công nghệ nổi bật trong tuần này:\n\n1. **[Điểm tin Khoa học và Công nghệ hằng tuần](https://haiphong.gov.vn/thong-bao-76144/diem-tin-khoa-hoc-va-cong-nghe-hang-tuan-999065)** - Trung tâm Công nghệ Thông tin và Truyền thông Hải Phòng đã tổng hợp các thông tin nổi bật về khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số trong nước và trên địa bàn thành phố.\n\n2. **[Nghệ An: Thông tin nổi bật ngày 9/11](https://baonghean.vn/nghe-an-thong-tin-noi-bat-ngay-9-11-10355501.html)** - Khai giảng khóa đào tạo trình độ đại học chuyên ngành Công nghệ thông tin tại Nghệ An, cùng với các thông tin khác liên quan đến an toàn khai thác khoáng sản.\n\n3. **[Chỉ đạo, điều hành nổi bật của UBND tỉnh](https://langson.gov.vn/chi-dao-dieu-hanh-noi-bat/chi-dao-dieu-hanh-noi-bat-cua-ubnd-tinh-lanh-dao-ubnd-tinh-tu-ngay-02-11-2026-07-11-2026.html)** - Thông tin về kế hoạch hành động thực hiện Chiến lược phát triển khoa học, công nghệ và đổi mới sáng tạo đến năm 2030.\n\n4. **[CÔNG AN TỈNH LÂM ĐỒNG GIỮ VỮNG AN NINH](https://congan.lamdong.gov.vn/cong-an-tinh-lam-dong-giu-vung-an-ninh-tu-cao-nguyen-den-mien-bien-ket-qua-cong-tac-noi-bat-thang-10-va-nhiem-vu-trong-tam-thang-112026-N11789.aspx)** - Tình hình sử dụng thiết bị bay không người lái và các vấn đề an ninh mạng đang diễn biến phức tạp.\n\n5. **[Cơ hội lớn để Việt Nam thoát khỏi vị trí gia công trong chuỗi cung ứng bán dẫn toàn cầu](https://dangcongsan.vn/bokhoahoccongnghe/tin-tuc-hoat-dong/co-hoi-lon-de-viet-nam-thoat-khoi-vi-tri-gia-cong-trong-chuoi-cung-ung-ban-dan-toan-cau.html)** - Việt Nam có cơ hội thu hút thêm dòng vốn, công nghệ và tri thức quốc tế trong lĩnh vực bán dẫn.\n\nBạn có thể tham khảo các liên kết để biết thêm chi tiết về từng tin tức.",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "tin công nghệ nổi bật",
+            "topic": "news",
+            "timeframe": "week",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "tin công nghệ nổi bật",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "Điểm tin Khoa học và Công nghệ hằng tuần",
+                "url": "https://haiphong.gov.vn/thong-bao-76144/diem-tin-khoa-hoc-va-cong-nghe-hang-tuan-999065",
+                "source": "haiphong.gov.vn",
+                "summary": "(Haiphong.gov.vn) - Trung tâm Công nghệ Thông tin và Truyền thông Hải Phòng trân trọng gửi các cơ quan, đơn vị Điểm tin Khoa học và Công nghệ số 41 năm 2026 (tuần từ ngày 19/10/2026 đến ngày 25/10/2026), tổng hợp các thông tin nổi bật về khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số trong nước và trên địa bàn thành phố.\n\nĐiểm tin được đăng tải tại địa chỉ: [...] Xã Quyết Thắng thông báo cho thuê nhà, đất tại cơ sở 3 Trường Mầm non Tiên Cường\nCông bố kết quả thi tuyển phương án kiến trúc Trường THPT chuyên Nguyễn Trãi\nThông báo về việc cho thuê nhà, đất do Trung tâm dịch vụ sự nghiệp công phường Nhị Chiểu quản lý, khai thác: Trụ sở UBND phường Duy Tân (cũ)\nCông khai thủ tục hành chính được sửa đổi, bổ sung lĩnh vực thủy sản và kiểm ngư thuộc phạm vi chức năng quản lý của Sở Nông nghiệp và Môi trường [...] QR Code\nLấy ý kiến Nhân dân về đề nghị truy tặng danh hiệu “Bà mẹ Việt Nam anh hùng” cho bà Lưu Thị Đặt\nTòa án nhân dân Khu vực 10 – Hải Phòng thông báo tìm bà Nguyễn Thị Đằm\nThông báo về việc cho thuê nhà do Ban Quản lý dự án đầu tư xây dựng xã Nam Sách quản lý, khai thác Khu đất: Trụ sở chi cục thuế khu vực Nam Thanh (Chi cục thuế huyện Nam Sách cũ), xã Nam Sách, thành phố Hải Phòng\nCảnh báo về đề xuất kiểm tra bắt buộc đối với đồ gỗ nội thất lắp ráp xuất khẩu sang Đài Loan",
+                "score": 0.60610276
+              },
+              {
+                "title": "Nghệ An: Thông tin nổi bật ngày 9/11",
+                "url": "https://baonghean.vn/nghe-an-thong-tin-noi-bat-ngay-9-11-10355501.html",
+                "source": "baonghean.vn",
+                "summary": "Thời sự\n\n# Nghệ An: Thông tin nổi bật ngày 9/11\n\nNguyên Sơn - Trần Hải • 09/11/2026 19:00\n\nĐBQH đoàn Nghệ An tham gia nhiều ý kiến trong phiên thảo luận tại hội trường; Nghệ An khai giảng khóa đào tạo trình độ đại học chuyên ngành Công nghệ thông tin; Giảm giá xăng, dầu tác động tích cực đến đời sống dn sinh; Rà soát toàn diện công tác an toàn khai thác khoáng sản... là những thông tin nổi bật trong ngày. [...] \\ Sáng 9/11, Ban Tổ chức Tỉnh ủy Nghệ An phối hợp với Trường Đại học Vinh tổ chức Lễ khai giảng khóa đào tạo trình độ đại học chuyên ngành Công nghệ thông tin, hình thức vừa làm, vừa học, dành cho 76 cán bộ, công chức cấp xã.\n\nĐại diện Lãnh đạo Ban Tổ chức Tỉnh ủy, BGH Trường Đại học Vinh chụp ảnh lưu niệm với học viên..png)\n\nĐại diện Lãnh đạo Ban Tổ chức Tỉnh ủy, BGH Trường Đại học Vinh chụp ảnh lưu niệm với học viên. [...] \\ Tại Vương quốc Đan Mạch, ngày 9/11, đoàn công tác tỉnh Nghệ An do đồng chí Dương Đình Chỉnh - Ủy viên Ban Thường vụ Tỉnh ủy, Phó Chủ tịch Thường trực HĐND tỉnh làm Trưởng đoàn đã có buổi làm việc với Hiệp hội Công nghiệp Thiết bị Y tế Đan Mạch\n\nToàn cảnh buổi làm việc.\n\nToàn cảnh cuộc làm việc.",
+                "score": 0.5414337
+              },
+              {
+                "title": "Chỉ đạo, điều hành nổi bật của UBND tỉnh, Lãnh đạo UBND tỉnh, từ ngày 02/11/2026 - 07/11/2026",
+                "url": "https://langson.gov.vn/chi-dao-dieu-hanh-noi-bat/chi-dao-dieu-hanh-noi-bat-cua-ubnd-tinh-lanh-dao-ubnd-tinh-tu-ngay-02-11-2026-07-11-2026.html",
+                "source": "langson.gov.vn",
+                "summary": "rắn xây dựng trên địa bàn tỉnh; triển khai Kế hoạch hành động thực hiện Chiến lược phát triển khoa học, công nghệ và đổi mới sáng tạo đến năm 2030… là những thông tin chỉ đạo điều hành nổi bật của UBND tỉnh; Lãnh đạo UBND tỉnh từ ngày 02/11 – 07/11/2026. [...] Theo đó, các sở, ban, ngành; UBND các xã, phường tổ chức tuyên truyền, quán triệt, phổ biến nội dung Chiến lược và Kế hoạch hành động ban hành kèm theo Quyết định số 4179/QĐ-BKHCN đến cán bộ, công chức, viên chức, người lao động thuộc phạm vi quản lý. Căn cứ Quyết định số 4179/QĐ-BKHCN, Kế hoạch số 346/KH-UBND ngày 07/9/2026 của UBND tỉnh về khoa học, công nghệ và đổi mới sáng tạo giai đoạn 2026 - 2030 và các chương trình, kế hoạch có liên quan, rà soát, lồng ghép, cụ thể hóa các nội dung vào",
+                "score": 0.37298524
+              },
+              {
+                "title": "CÔNG AN TỈNH LÂM ĐỒNG GIỮ VỮNG AN NINH TỪ CAO NGUYÊN ĐẾN MIỀN BIỂN: KẾT QUẢ CÔNG TÁC NỔI BẬT THÁNG 10 VÀ NHIỆM VỤ TRỌNG TÂM THÁNG 11/2026",
+                "url": "https://congan.lamdong.gov.vn/cong-an-tinh-lam-dong-giu-vung-an-ninh-tu-cao-nguyen-den-mien-bien-ket-qua-cong-tac-noi-bat-thang-10-va-nhiem-vu-trong-tam-thang-112026-N11789.aspx",
+                "source": "congan.lamdong.gov.vn",
+                "summary": "Thời gian gần đây, tình hình sử dụng thiết bị bay không người lái (UAV) và phương tiện bay khác xâm nhập khu vực cấm bay tại một số cảng hàng không diễn biến phức tạp, đe dọa an ninh, an toàn hàng không. Một số cá nhân, tổ chức tiếp tục lợi dụng không gian mạng để lan truyền thông tin giả mạo, sai sự thật nhằm câu view, câu like hoặc kích động phản ứng của người dân phục vụ mưu đồ xấu. Tội phạm lừa đảo sử dụng công nghệ cao tiếp tục diễn biến phức tạp; phương thức, thủ đoạn ngày càng tinh vi, [...] ### Trại tạm giam số 1 phối hợp với Bệnh xá Công an tỉnh khám sức khỏe định kỳ cho phạm nhân\n\nCông an xã Bảo Lâm 3 tập huấn kỹ năng lái xe mô tô an toàn cho lực lượng cơ sở\n\n### Công an xã Bảo Lâm 3 tập huấn kỹ năng lái xe mô tô an toàn cho lực lượng cơ sở\n\nĐưa công nghệ đến gần hơn với người yếu thế\n\n### Đưa công nghệ đến gần hơn với người yếu thế\n\nCông an xã Đạ Huoai tăng cường quản lý, giáo dục người chấp hành án hình sự tại cộng đồng [...] ### Công an xã Đắk Wil tham gia diễn tập chiến đấu phòng thủ năm 2026\n\n.png)\n\n# \n\nCơ quan chủ quản: Công an tỉnh Lâm Đồng  \nĐơn vị quản trị: Đội Công nghệ Thông tin - Phòng Tham mưu  \nBản quyền thuộc về Công an tỉnh Lâm Đồng  \nKhi sử dụng lại thông tin, đề nghị ghi rõ nguồn \"Trang TTĐT Công an tỉnh Lâm Đồng\"",
+                "score": 0.30538702
+              },
+              {
+                "title": "Cơ hội lớn để Việt Nam thoát khỏi vị trí gia công trong chuỗi cung ứng bán dẫn toàn cầu",
+                "url": "https://dangcongsan.vn/bokhoahoccongnghe/tin-tuc-hoat-dong/co-hoi-lon-de-viet-nam-thoat-khoi-vi-tri-gia-cong-trong-chuoi-cung-ung-ban-dan-toan-cau.html",
+                "source": "dangcongsan.vn",
+                "summary": "### Các tin khác\n\nPhát huy nguồn lực trí thức Việt Nam tại Nhật Bản để giải quyết các bài toán công nghệ thực tiễn\n\nNgăn nguy cơ Việt Nam trở thành điểm tiếp nhận rác thải điện tử từ nước ngoài\n\nViệt Nam mở rộng cơ hội đầu tư R&D cho doanh nghiệp công nghệ chu u\n\nPhát động Tháng hành động vì bình đẳng giới và phòng ngừa, ứng phó với bạo lực trên cơ sở giới năm 2026\n\nIRIFF 2026: Mở rộng kết nối, thúc đẩy hợp tác khoa học và công nghệ quốc tế [...] Tăng trưởng xuất khẩu 31,8% là một thành quả đáng chú ý, nhưng ý nghĩa lớn hơn nằm ở cơ hội mà con số này mở ra. Khi chuỗi cung ứng toàn cầu tiếp tục tái cấu trúc, Việt Nam có điều kiện thu hút thêm dòng vốn, công nghệ và tri thức quốc tế. Vấn đề không còn đơn thuần là thu hút thêm bao nhiêu nhà máy, mà là Việt Nam có thể tham gia su đến đu vào quá trình tạo ra một con chip.\n\nTrung tm Truyền thông KH&CN / mst.gov.vn\n\nTừ khóa: bán dẫn\n\n### Các tin khác [...] Trong bức tranh đó, chu Á - Thái Bình Dương (APAC) chiếm khoảng 58% doanh thu ngành bán dẫn toàn cầu, với sự phn công ngày càng chuyên môn hóa. Đài Loan giữ vai trò chủ lực trong dịch vụ gia công chế tạo chip, chiếm khoảng 60% sản lượng foundry toàn cầu; Hàn Quốc nổi bật về chip nhớ và công nghệ chế tạo tiên tiến; Nhật Bản có thế mạnh về vật liệu, thiết bị và các đầu vào chuyên dụng.",
+                "score": 0.2814357
+              }
+            ]
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T16:09:44"
+    }
+  ]
+}

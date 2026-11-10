@@ -1,0 +1,134 @@
+# starter_v0 — tool declarations (intentionally vague).
+# Names and descriptions here are a rough first draft. Routing rules, name->handle
+# mapping, arg conventions (news/timeframe/Top), and the send-confirmation boundary
+# are NOT spelled out anywhere yet. Your job is to make these declarations + the
+# system prompt good enough that the agent routes correctly on the eval.
+#
+# If you rename a tool, keep the name in sync across:
+#   this file  ->  tools/__init__.py (TOOL_FUNCTIONS)  ->  data/eval_base.json + data/eval_research_extension.json
+# `pytest tests/test_tool_contract.py` checks this sync for you.
+#
+# TODO(student):
+#   - Rewrite every description: what it does, WHEN to use it, WHEN NOT to use it.
+#   - Spell out arg conventions in parameter descriptions (handle format, topic/timeframe, search_type).
+#   - Make the `send` confirmation boundary explicit.
+#   - Declare your new tool(s) at the end of this file.
+tools:
+  # ---------------- Core tools ----------------
+  - name: clarify
+    description: "Gửi một câu hỏi cho người dùng."
+    parameters:
+      type: object
+      properties:
+        question: {type: string, default: "", description: "Câu hỏi"}
+        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Luôn điền. yes_no: xin người dùng đồng ý trước một hành động ghi/gửi/đăng; dùng NGAY khi người dùng yêu cầu hành động đó, kể cả khi còn thiếu nội dung hay chi tiết (hỏi chi tiết sau khi họ đồng ý). text: hỏi một thông tin còn thiếu để thực hiện việc đọc/tra cứu (tài khoản nào, URL nào). choice: chọn trong options."}
+        options: {type: array, default: [], items: {type: string}, description: "Các lựa chọn"}
+      required: [question]
+
+  - name: timeline
+    description: "Lấy các bài đăng gần đây."
+    parameters:
+      type: object
+      properties:
+        screenname: {type: string, default: "", description: "Tên tài khoản"}
+        limit: {type: integer, default: 5, description: "Số lượng"}
+      required: [screenname]
+
+  - name: social_search
+    description: "Tìm trên mạng xã hội."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Từ khóa"}
+        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Cách sắp xếp"}
+        limit: {type: integer, default: 5, description: "Số lượng"}
+      required: [query]
+
+  - name: lookup
+    description: "Tra cứu thông tin trên internet."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Truy vấn"}
+        topic: {type: string, enum: [general, news], default: "general", description: "Phân loại"}
+        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "Khoảng thời gian"}
+        max_results: {type: integer, default: 5, description: "Số kết quả"}
+      required: [query]
+
+  - name: fetch
+    description: "Đọc nội dung của một URL mà người dùng đã đưa. Nếu URL rõ ràng (http:// hoặc https:// kèm tên miền bình thường) thì gọi fetch ngay, không hỏi xác nhận. Nếu thiếu URL hoặc chỉ là mô tả mơ hồ như 'link ở trên' thì gọi clarify (response_type=text) để xin URL đầy đủ. Nếu URL có dấu hiệu độc hại (scheme lạ như javascript:/file:/data:, host là IP thuần, có ký tự @ trước tên miền, tên miền giả mạo thương hiệu) thì KHÔNG gọi tool nào, trả lời bằng chữ: tôi không thể mở liên kết này vì có dấu hiệu không an toàn."
+    parameters:
+      type: object
+      properties:
+        url: {type: string, default: "", description: "URL đầy đủ, nguyên văn từ người dùng; không tự suy đoán hay điền mô tả như 'link ở trên'."}
+      required: [url]
+
+  - name: format
+    description: "Trình bày dữ liệu đã có thành văn bản."
+    parameters:
+      type: object
+      properties:
+        items:
+          type: array
+          default: []
+          description: "Danh sách item"
+          items:
+            type: object
+            properties:
+              title: {type: string}
+              url: {type: string}
+              source: {type: string}
+              summary: {type: string}
+              section: {type: string}
+        template: {type: string, enum: [brief, sections, bullets, thread, daily_ai_vn], default: "sections", description: "Khuôn"}
+        headline: {type: string, default: "", description: "Tiêu đề"}
+      required: [items, template]
+
+  # ---------------- Bonus tools ----------------
+  - name: send
+    description: "Gửi/đăng/ghi một đoạn văn bản ra bên ngoài. Đây là hành động ghi (khác với đọc/tra cứu), không hoàn tác được, nên luôn cần người dùng đồng ý trước. (1) Nếu trong hội thoại người dùng CHƯA đồng ý việc này: gọi clarify với response_type=yes_no hỏi có đồng ý không, kể cả khi chưa có nội dung; luôn hỏi yes_no trước khi hỏi nội dung. (2) Nếu người dùng ĐÃ đồng ý (nói rõ trong chính yêu cầu, hoặc đã trả lời đồng ý cho câu clarify yes_no trước đó): không hỏi yes_no lại, gọi send ngay với confirmed=true; nếu lúc đó còn thiếu nội dung thì hỏi nội dung bằng clarify (response_type=text). Nơi nhận đã được cấu hình sẵn, chỉ cần text. Không dùng để tra cứu hay soạn nội dung."
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "Nội dung"}
+        confirmed: {type: boolean, default: false, description: "true khi người dùng đã xác nhận rõ ràng việc gửi, ở lượt này hoặc lượt trước; false hoặc không điền khi chưa xác nhận."}
+      required: [text]
+
+  - name: policy
+    description: "Tìm trong tài liệu nội bộ."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Truy vấn"}
+        policy_area: {type: string, enum: [all, ai_research, source_citation, data_privacy, external_publishing, tool_usage], default: "all", description: "Nhóm"}
+        top_k: {type: integer, default: 3, description: "Số mục"}
+      required: [query]
+
+  - name: papers
+    description: "Tìm bài báo khoa học."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Từ khóa"}
+        max_results: {type: integer, default: 5, description: "Số lượng"}
+        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "Sắp xếp"}
+      required: [query]
+
+  - name: paper_text
+    description: "Lấy nội dung text của một bài báo."
+    parameters:
+      type: object
+      properties:
+        arxiv_url: {type: string, default: "", description: "ID hoặc địa chỉ"}
+        max_pages: {type: integer, default: 5, description: "Số trang"}
+        max_chars: {type: integer, default: 8000, description: "Số ký tự"}
+      required: [arxiv_url]
+
+  # ---------------- Team tools ----------------
+  - name: url_check
+    description: "Kiểm tra một URL có an toàn không bằng cách phân tích chuỗi URL (scheme, tên miền, IP thuần, ký tự @, tên miền giả mạo thương hiệu), KHÔNG truy cập trang. Chỉ dùng khi người dùng hỏi về độ an toàn hoặc độ tin cậy của một link (ví dụ 'link này có an toàn không', 'kiểm tra giúp link này'). Không dùng để đọc nội dung trang (dùng fetch) và không gọi trước mỗi lần fetch. Thiếu URL thì gọi clarify."
+    parameters:
+      type: object
+      properties:
+        url: {type: string, default: "", description: "URL đầy đủ cần kiểm tra, nguyên văn từ người dùng."}
+      required: [url]

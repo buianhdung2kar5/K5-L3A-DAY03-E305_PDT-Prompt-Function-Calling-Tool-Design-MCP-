@@ -16,62 +16,62 @@
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
-    description: "Gửi một câu hỏi cho người dùng."
+    description: "Hỏi người dùng một câu và chờ họ trả lời ở lượt sau. Dùng khi thiếu thông tin cần thiết (tài khoản nào, URL nào) hoặc trước một hành động ghi/gửi cần được họ đồng ý. Không dùng khi đã đủ thông tin để làm ngay, và không hỏi lại điều người dùng đã nói."
     parameters:
       type: object
       properties:
-        question: {type: string, default: "", description: "Câu hỏi"}
-        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Kiểu trả lời"}
-        options: {type: array, default: [], items: {type: string}, description: "Các lựa chọn"}
+        question: {type: string, default: "", description: "Một câu hỏi ngắn, một ý, bằng ngôn ngữ của người dùng. Với yes_no chỉ hỏi có đồng ý hay không, không gộp với câu hỏi nội dung."}
+        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Luôn điền. yes_no: xin người dùng đồng ý trước một hành động ghi/gửi/đăng; dùng NGAY khi người dùng yêu cầu hành động đó, kể cả khi còn thiếu nội dung hay chi tiết (hỏi chi tiết sau khi họ đồng ý). text: hỏi một thông tin còn thiếu để thực hiện việc đọc/tra cứu (tài khoản nào, URL nào). choice: chọn trong options."}
+        options: {type: array, default: [], items: {type: string}, description: "Chỉ dùng khi response_type=choice: danh sách các lựa chọn cho người dùng."}
       required: [question]
 
   - name: timeline
-    description: "Lấy các bài đăng gần đây."
+    description: "Lấy các bài đăng gần đây của MỘT tài khoản Twitter/X theo tên tài khoản. Dùng khi người dùng nêu rõ tài khoản (ví dụ: tweet mới nhất của sama). Không dùng để tìm theo từ khóa hoặc chủ đề (dùng social_search) và không dùng cho tin tức trên web (dùng lookup). Chưa biết tài khoản nào thì gọi clarify, không đoán."
     parameters:
       type: object
       properties:
-        screenname: {type: string, default: "", description: "Tên tài khoản"}
-        limit: {type: integer, default: 5, description: "Số lượng"}
+        screenname: {type: string, default: "", description: "Tên tài khoản (handle) KHÔNG có ký tự @, ví dụ karpathy chứ không phải @karpathy."}
+        limit: {type: integer, default: 5, description: "Số bài tối đa, từ 1 trở lên, mặc định 5. Giữ đúng số người dùng nêu (ví dụ lấy 3 tweet thì limit=3)."}
       required: [screenname]
 
   - name: social_search
-    description: "Tìm trên mạng xã hội."
+    description: "Tìm bài đăng trên mạng xã hội (Twitter/X) theo từ khóa hoặc chủ đề. Dùng khi người dùng nhắc mạng xã hội, tweet, mọi người nói gì, hoặc muốn xem bài đăng về một chủ đề. Không dùng cho tin tức và bài báo trên web (dùng lookup) và không dùng khi người dùng chỉ định một tài khoản cụ thể (dùng timeline)."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Từ khóa"}
-        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Cách sắp xếp"}
-        limit: {type: integer, default: 5, description: "Số lượng"}
+        query: {type: string, default: "", description: "Từ khóa tìm kiếm ngắn, giữ chủ đề chính người dùng nêu."}
+        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Latest: bài mới nhất (mặc định). Top: bài phổ biến nhất, dùng khi người dùng nói nổi bật, phổ biến hoặc hot."}
+        limit: {type: integer, default: 5, description: "Số bài tối đa, từ 1 trở lên, mặc định 5. Giữ đúng số người dùng nêu."}
       required: [query]
 
   - name: lookup
-    description: "Tra cứu thông tin trên internet."
+    description: "Tìm thông tin trên web: tin tức, bài báo và các câu hỏi cần tra cứu trên internet. Không dùng cho tweet hoặc bài đăng mạng xã hội (dùng social_search hoặc timeline), không dùng để đọc nội dung một URL cụ thể (dùng fetch) và không dùng để tìm paper khoa học (dùng papers)."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Truy vấn"}
-        topic: {type: string, enum: [general, news], default: "general", description: "Phân loại"}
-        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "Khoảng thời gian"}
-        max_results: {type: integer, default: 5, description: "Số kết quả"}
+        query: {type: string, default: "", description: "Chủ đề chính, ngắn gọn. Không thêm chữ news hay tin tức vào query vì đã có tham số topic."}
+        topic: {type: string, enum: [general, news], default: "general", description: "news: khi người dùng hỏi tin tức hoặc sự kiện mới. general: các câu hỏi tra cứu còn lại (mặc định)."}
+        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "day: hôm nay hoặc 24 giờ qua. week: tuần này (mặc định). month: tháng này. year: năm nay. Chọn theo cụm thời gian người dùng nêu."}
+        max_results: {type: integer, default: 5, description: "Số kết quả tối đa, mặc định 5."}
       required: [query]
 
   - name: fetch
-    description: "Lấy nội dung từ một địa chỉ."
+    description: "Đọc nội dung của một URL mà người dùng đã đưa. Nếu URL rõ ràng (http:// hoặc https:// kèm tên miền bình thường) thì gọi fetch ngay, không hỏi xác nhận. Nếu thiếu URL hoặc chỉ là mô tả mơ hồ như 'link ở trên' thì gọi clarify (response_type=text) để xin URL đầy đủ. Nếu URL có dấu hiệu độc hại (scheme lạ như javascript:/file:/data:, host là IP thuần, có ký tự @ trước tên miền, tên miền giả mạo thương hiệu) thì KHÔNG gọi tool nào, trả lời bằng chữ: tôi không thể mở liên kết này vì có dấu hiệu không an toàn."
     parameters:
       type: object
       properties:
-        url: {type: string, default: "", description: "Địa chỉ"}
+        url: {type: string, default: "", description: "URL đầy đủ, nguyên văn từ người dùng; không tự suy đoán hay điền mô tả như 'link ở trên'."}
       required: [url]
 
   - name: format
-    description: "Trình bày dữ liệu đã có thành văn bản."
+    description: "Trình bày các mục đã có (title, url, source, summary) thành văn bản markdown. Dùng khi người dùng muốn dựng bản tin hoặc digest từ kết quả đã có. Không dùng để tìm kiếm hay lấy dữ liệu mới, không dùng để gửi (dùng send) và không gọi khi chưa có mục nào."
     parameters:
       type: object
       properties:
         items:
           type: array
           default: []
-          description: "Danh sách item"
+          description: "Các mục lấy từ kết quả tool trước, mỗi mục có title, url, source, summary; section (tùy chọn) để nhóm mục."
           items:
             type: object
             properties:
@@ -80,46 +80,74 @@ tools:
               source: {type: string}
               summary: {type: string}
               section: {type: string}
-        template: {type: string, enum: [brief, sections, bullets, thread, daily_ai_vn], default: "sections", description: "Khuôn"}
-        headline: {type: string, default: "", description: "Tiêu đề"}
+        template: {type: string, enum: [brief, sections, bullets, thread, daily_ai_vn], default: "sections", description: "brief: tối đa 5 ý ngắn. sections: nhóm theo section (mặc định). bullets: danh sách gạch đầu dòng. thread: đánh số 1/, 2/ cho một chuỗi bài. daily_ai_vn: bản tin AI hằng ngày bằng tiếng Việt."}
+        headline: {type: string, default: "", description: "Tiêu đề của bản tin (tùy chọn)."}
       required: [items, template]
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: "Gửi/đăng/ghi một đoạn văn bản ra bên ngoài. Đây là hành động ghi (khác với đọc/tra cứu), không hoàn tác được, nên luôn cần người dùng đồng ý trước. (1) Nếu trong hội thoại người dùng CHƯA đồng ý việc này: gọi clarify với response_type=yes_no hỏi có đồng ý không, kể cả khi chưa có nội dung; luôn hỏi yes_no trước khi hỏi nội dung. (2) Nếu người dùng ĐÃ đồng ý (nói rõ trong chính yêu cầu, hoặc đã trả lời đồng ý cho câu clarify yes_no trước đó): không hỏi yes_no lại, gọi send ngay với confirmed=true; nếu lúc đó còn thiếu nội dung thì hỏi nội dung bằng clarify (response_type=text). Nơi nhận đã được cấu hình sẵn, chỉ cần text. Không dùng để tra cứu hay soạn nội dung."
     parameters:
       type: object
       properties:
-        text: {type: string, default: "", description: "Nội dung"}
-        confirmed: {type: boolean, default: false, description: "Cờ xác nhận"}
+        text: {type: string, default: "", description: "Nội dung đúng như người dùng muốn gửi; chỉ gửi sau khi người dùng đã đồng ý."}
+        confirmed: {type: boolean, default: false, description: "true khi người dùng đã xác nhận rõ ràng việc gửi, ở lượt này hoặc lượt trước; false hoặc không điền khi chưa xác nhận."}
       required: [text]
 
   - name: policy
-    description: "Tìm trong tài liệu nội bộ."
+    description: "Tìm trong tài liệu chính sách nội bộ của công ty (nghiên cứu AI, trích dẫn nguồn, dữ liệu cá nhân, đăng ra ngoài, dùng tool). Dùng khi người dùng hỏi về quy định hoặc chính sách của công ty. Không dùng cho tin tức hay kiến thức bên ngoài (dùng lookup)."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Truy vấn"}
-        policy_area: {type: string, enum: [all, ai_research, source_citation, data_privacy, external_publishing, tool_usage], default: "all", description: "Nhóm"}
-        top_k: {type: integer, default: 3, description: "Số mục"}
+        query: {type: string, default: "", description: "Câu hỏi hoặc từ khóa về chính sách."}
+        policy_area: {type: string, enum: [all, ai_research, source_citation, data_privacy, external_publishing, tool_usage], default: "all", description: "Nhóm chính sách: ai_research, source_citation, data_privacy, external_publishing, tool_usage. Dùng all nếu không rõ nhóm (mặc định)."}
+        top_k: {type: integer, default: 3, description: "Số mục tối đa trả về, mặc định 3."}
       required: [query]
 
   - name: papers
-    description: "Tìm bài báo khoa học."
+    description: "Tìm bài báo khoa học trên arXiv theo từ khóa. Dùng khi người dùng hỏi về paper, nghiên cứu học thuật hoặc arXiv. Không dùng cho tin tức hay blog (dùng lookup) và không dùng để đọc nội dung đầy đủ của một paper đã biết (dùng paper_text)."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Từ khóa"}
-        max_results: {type: integer, default: 5, description: "Số lượng"}
-        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "Sắp xếp"}
+        query: {type: string, default: "", description: "Từ khóa về chủ đề paper, ưu tiên tiếng Anh (ví dụ mixture of experts)."}
+        max_results: {type: integer, default: 5, description: "Số paper tối đa, mặc định 5, tối đa 10 (tool tự giới hạn)."}
+        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "relevance: theo độ liên quan (mặc định). submittedDate: mới nộp nhất, dùng khi người dùng hỏi mới nhất. lastUpdatedDate: mới cập nhật nhất."}
       required: [query]
 
   - name: paper_text
-    description: "Lấy nội dung text của một bài báo."
+    description: "Tải PDF arXiv và trích văn bản vài trang đầu. Dùng khi người dùng đã có ID hoặc URL của một paper arXiv và muốn đọc hoặc tóm tắt nội dung. Không dùng để tìm paper (dùng papers) và không dùng cho URL không phải arXiv (dùng fetch)."
     parameters:
       type: object
       properties:
-        arxiv_url: {type: string, default: "", description: "ID hoặc địa chỉ"}
-        max_pages: {type: integer, default: 5, description: "Số trang"}
-        max_chars: {type: integer, default: 8000, description: "Số ký tự"}
+        arxiv_url: {type: string, default: "", description: "ID arXiv (ví dụ 2401.12345) hoặc URL arxiv.org/abs hay arxiv.org/pdf của paper."}
+        max_pages: {type: integer, default: 5, description: "Số trang đầu cần đọc, mặc định 5."}
+        max_chars: {type: integer, default: 8000, description: "Số ký tự tối đa trả về, mặc định 8000 (tool giới hạn từ 1000 đến 20000)."}
       required: [arxiv_url]
+
+  # ---------------- Team tools ----------------
+  - name: url_check
+    description: "Kiểm tra một URL có an toàn không bằng cách phân tích chuỗi URL (scheme, tên miền, IP thuần, ký tự @, tên miền giả mạo thương hiệu), KHÔNG truy cập trang. Chỉ dùng khi người dùng hỏi về độ an toàn hoặc độ tin cậy của một link (ví dụ 'link này có an toàn không', 'kiểm tra giúp link này'). Không dùng để đọc nội dung trang (dùng fetch) và không gọi trước mỗi lần fetch. Thiếu URL thì gọi clarify."
+    parameters:
+      type: object
+      properties:
+        url: {type: string, default: "", description: "URL đầy đủ cần kiểm tra, nguyên văn từ người dùng."}
+      required: [url]
+
+  - name: time_now
+    description: "Cho biết ngày giờ hiện tại theo giờ Việt Nam và khoảng ngày của 'hôm nay', 'hôm qua', 'tuần này', '7 ngày qua', 'tháng này'. Chỉ dùng khi người dùng HỎI trực tiếp về ngày, giờ, thứ mấy hoặc cần biết một khoảng ngày cụ thể. Không gọi trước khi tìm tin hay tra cứu (lookup đã có tham số timeframe) và không dùng cho câu hỏi không liên quan đến thời gian."
+    parameters:
+      type: object
+      properties:
+        when: {type: string, enum: [now, today, yesterday, this_week, last_7_days, this_month], default: "now", description: "now: ngày giờ hiện tại. today, yesterday, this_week (thứ Hai đến Chủ nhật), last_7_days, this_month: khoảng ngày tương ứng."}
+      required: []
+
+  - name: save_note
+    description: "Lưu một ghi chú văn bản vào file cục bộ của nhóm (thư mục notes/). Đây là hành động ghi: khi người dùng yêu cầu lưu, trước hết gọi clarify với response_type=yes_no để xin đồng ý; chỉ gọi save_note với confirmed=true khi người dùng đã đồng ý rõ ràng (trong yêu cầu hoặc ở lượt trước). Chỉ dùng khi người dùng muốn LƯU hoặc GHI NHỚ nội dung; không dùng để gửi hay đăng lên Telegram (dùng send)."
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "Nội dung ghi chú, đúng như người dùng muốn lưu."}
+        title: {type: string, default: "", description: "Tiêu đề ngắn của ghi chú (tùy chọn)."}
+        confirmed: {type: boolean, default: false, description: "true chỉ khi người dùng đã đồng ý rõ ràng việc lưu, ở lượt này hoặc lượt trước; ngược lại false hoặc không điền."}
+      required: [text]
+
