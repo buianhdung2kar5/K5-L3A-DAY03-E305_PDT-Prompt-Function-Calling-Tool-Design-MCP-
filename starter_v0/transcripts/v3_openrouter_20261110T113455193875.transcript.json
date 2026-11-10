@@ -1,0 +1,454 @@
+{
+  "transcript_id": "v3_openrouter_20261110T113455193875",
+  "version": "v3",
+  "artifact_version": "v3+p47f0065f4e30+t5b22a2476d41",
+  "prompt_hash": "47f0065f4e30c266544b8144384dfbd3edfc30ce2ee5c4a1f6a412783a16286e",
+  "tools_hash": "5b22a2476d41b989d5dc1e54f24ce7890e781909deb2f7afafb856ab53a6d7c0",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "C:\\Users\\FPT\\OneDrive\\Documents\\Code\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "C:\\Users\\FPT\\OneDrive\\Documents\\Code\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T11:34:55",
+  "updated_at": "2026-11-10T12:07:40",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T11:35:09",
+      "user": "Tìm tin tức robotics trong hôm nay.",
+      "status": "answered",
+      "assistant_text": "Here are the latest news articles on robotics from today:\n\n1. **[Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News](https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics)**  \n   Summary: Engineers can now choose between model-based robotics, which requires extensive programming, and model-free robotics, which allows robots to learn from demonstrations. Ambi Robotics has applied these new methods to improve parcel sorting, increasing capacity significantly.\n\n2. **[Autonomous EV developer Humble Robotics adds $51M to expand - TT](https://www.ttnews.com/articles/autonomous-ev-humble-51m)**  \n   Summary: Humble Robotics raised $51 million in Series A financing to develop the Humble Hauler, an autonomous electric vehicle for regional freight routes. The funding will support customer pilots and early manufacturing.\n\n3. **[FDA seeks input on telesurgery, autonomous robotics - MedTech Dive](https://www.medtechdive.com/news/fda-seeks-input-on-telesurgery-autonomous-robotics/874124)**  \n   Summary: The FDA is inviting comments on the expansion of robotic applications in clinical settings, driven by advances in AI and machine learning. A public workshop is scheduled for December to discuss these topics.\n\n4. **[NVIDIA launches GR00T 2 and Isaac Lab 3.0 at CoRL - The Robot Report](https://www.therobotreport.com/nvidia-launches-gr00t-2-isaac-lab-3-0-corl)**  \n   Summary: NVIDIA's new technologies are being tested by various robotics developers for applications in manufacturing and logistics, enhancing robot training and performance.\n\n5. **[Kenwood High School JROTC Robotics Program earns regional recognition - ClarksvilleNow.com](https://clarksvillenow.com/local/kenwood-high-school-jrotc-robotics-program-earns-regional-recognition)**  \n   Summary: Kenwood High School's JROTC Robotics Program has expanded and achieved national-level success, providing students with valuable skills in engineering and programming.\n\nIf you need more details or further assistance, let me know!",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "lookup",
+              "args": {
+                "query": "robotics",
+                "topic": "news",
+                "timeframe": "day",
+                "max_results": 5
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "lookup",
+              "args": {
+                "query": "robotics",
+                "topic": "news",
+                "timeframe": "day",
+                "max_results": 5
+              },
+              "result": {
+                "tool": "web_search",
+                "query": "robotics",
+                "topic": "news",
+                "timeframe": "day",
+                "items": [
+                  {
+                    "title": "Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News",
+                    "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                    "source": "news.berkeley.edu",
+                    "summary": "Traditionally, engineers can directly program the software that tells robots how to perceive objects, plan movements and control their actions, a process called model-based robotics. Or, with model-free robotics, they can train robots to learn behaviors from demonstrations through imitation learning. The first approach requires extensive engineering, while the second needs enormous amounts of data and time. [...] Berkeley-based Ambi Robotics, which specializes in logistics and warehouse order fulfillment, applied the new methods earlier this year to analyze parcel sorting data and test updates to robot behavior. Tests showed an increased capacity of over 15,000 packages sorted annually per robot; the change is now deployed across 30% of the company’s U.S. fleet. [...] Ken Goldberg\n\n“Agentic robotics is a fundamental shift in how robots are controlled,” Goldberg said. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”",
+                    "score": 0.52057004
+                  },
+                  {
+                    "title": "Autonomous EV developer Humble Robotics adds $51M to expand - TT",
+                    "url": "https://www.ttnews.com/articles/autonomous-ev-humble-51m",
+                    "source": "ttnews.com",
+                    "summary": "Humble Robotics raised $51 million in Series A financing, bringing its total funding to $75 million less than a year after its founding.\n The company is developing the Humble Hauler, a battery-electric, cabless Class 8 autonomous vehicle for regional freight routes under 250 miles.\n Humble will fund customer pilots, testing, early manufacturing and expansion into vehicles for 40-foot containers and 53-foot dry van and refrigerated trailers. [...] Stay on top of transportation news: [Get TTNews in your inbox.]\n\nHumble Robotics secured $51 million in new financing, bringing the autonomous electric vehicle developer’s total funding to $75 million less than a year after its founding. [...] The Hauler uses vision-language-action models and is equipped with cameras, lidar and radar that provide 360-degree coverage of its surroundings. The battery-electric skateboard platform has an aerodynamic shield at the front, while shipping containers can be attached through a twist-lock interface.",
+                    "score": 0.4017588
+                  },
+                  {
+                    "title": "FDA seeks input on telesurgery, autonomous robotics",
+                    "url": "https://www.medtechdive.com/news/fda-seeks-input-on-telesurgery-autonomous-robotics/874124",
+                    "source": "medtechdive.com",
+                    "summary": "Rapid advances in artificial intelligence, machine learning and connectivity are driving expansion of robotic applications in a wide range of clinical settings, the FDA said. Increases in processing power, data storage and computational efficiency are enabling progress in robotic systems with autonomous capabilities. [...] In another example of teleoperation, manufacturers are developing devices that enable technicians to remotely perform ultrasounds, the FDA said. Robotic devices include stereotactic navigation systems, imaging devices and endoluminal navigation devices. [...] The FDA is asking the robotics community to submit comments on the discussion paper by Jan. 5. Ahead of that deadline, a public workshop to discuss the topics raised in the paper is scheduled for Dec. 2-3.",
+                    "score": 0.38998842
+                  },
+                  {
+                    "title": "NVIDIA launches GR00T 2 and Isaac Lab 3.0 at CoRL - The Robot Report",
+                    "url": "https://www.therobotreport.com/nvidia-launches-gr00t-2-isaac-lab-3-0-corl",
+                    "source": "therobotreport.com",
+                    "summary": "Walden Robotics is using Isaac Sim’s photorealistic rendering to train and evaluate its general-purpose robot in virtual environments for manufacturing and logistics. Dexmate is exploring how coding agents can rehearse and refine manipulation strategies in Isaac Sim before executing them on its Vega robot. [...] Robotics developers are already putting NVIDIA’s latest technology to the test. A number of developers are using Isaac Lab 3.0 and Newton. At CoRL, Skild AI announced Scalable Throughput-optimized Engine for Embodied Learning, or STEEL, a new rigid-body physics solver built on Newton to accelerate robot training with Isaac Lab. [...] Nexuni is testing GR00T 2 for robotic laundry. Foxconn is applying GR00T 2 to factory automation for server manufacturing, and Siemens is evaluating it across industrial use cases.\n\nMicroAGI is using GR00T 2, post-trained through reinforcement learning, to perform Ethernet cable swapping with a YAM robotic arm. Its agentic robotics approach automates the creation and calibration of simulation environments using Isaac Lab 3.0 and Newton, where the policy is trained.",
+                    "score": 0.37387636
+                  },
+                  {
+                    "title": "Kenwood High School JROTC Robotics Program earns regional recognition - ClarksvilleNow.com",
+                    "url": "https://clarksvillenow.com/local/kenwood-high-school-jrotc-robotics-program-earns-regional-recognition",
+                    "source": "clarksvillenow.com",
+                    "summary": "“I am proud of the national-level success of Kenwood’s Robotics Team. It reflects the faculty, JROTC instructors, and cadets’ hard work and dedication toward creating an elite mindset at the school,” Lightner said.\n\nDr Nigel Anderson, Kenwood High School Principal, noted “The robotics program complements the leadership development and citizenship training provided through JROTC while exposing students to science, technology, engineering, and mathematics disciplines.” [...] CLARKSVILLE TN – The Kenwood High School JROTC Robotics Program has grown from a single robotics team into a four-team program that is competing successfully at regional and national-level events. The program currently fields Teams 26163X, 26163A, 26163L, and 26163S, providing students with opportunities to develop skills in engineering, programming, and problem-solving. [...] During the current robotics’ competition season, Team 26163X captured first place at the Tennessee State Fair Robotics Competition. The team followed that performance with another first-place finish at a competition in Elizabethton, Tennessee, where it also received a technical award recognizing excellence in robot design and engineering.",
+                    "score": 0.36473283
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Here are the latest news articles on robotics from today:\n\n1. **[Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News](https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics)**  \n   Summary: Engineers can now choose between model-based robotics, which requires extensive programming, and model-free robotics, which allows robots to learn from demonstrations. Ambi Robotics has applied these new methods to improve parcel sorting, increasing capacity significantly.\n\n2. **[Autonomous EV developer Humble Robotics adds $51M to expand - TT](https://www.ttnews.com/articles/autonomous-ev-humble-51m)**  \n   Summary: Humble Robotics raised $51 million in Series A financing to develop the Humble Hauler, an autonomous electric vehicle for regional freight routes. The funding will support customer pilots and early manufacturing.\n\n3. **[FDA seeks input on telesurgery, autonomous robotics - MedTech Dive](https://www.medtechdive.com/news/fda-seeks-input-on-telesurgery-autonomous-robotics/874124)**  \n   Summary: The FDA is inviting comments on the expansion of robotic applications in clinical settings, driven by advances in AI and machine learning. A public workshop is scheduled for December to discuss these topics.\n\n4. **[NVIDIA launches GR00T 2 and Isaac Lab 3.0 at CoRL - The Robot Report](https://www.therobotreport.com/nvidia-launches-gr00t-2-isaac-lab-3-0-corl)**  \n   Summary: NVIDIA's new technologies are being tested by various robotics developers for applications in manufacturing and logistics, enhancing robot training and performance.\n\n5. **[Kenwood High School JROTC Robotics Program earns regional recognition - ClarksvilleNow.com](https://clarksvillenow.com/local/kenwood-high-school-jrotc-robotics-program-earns-regional-recognition)**  \n   Summary: Kenwood High School's JROTC Robotics Program has expanded and achieved national-level success, providing students with valuable skills in engineering and programming.\n\nIf you need more details or further assistance, let me know!",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News",
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                "source": "news.berkeley.edu",
+                "summary": "Traditionally, engineers can directly program the software that tells robots how to perceive objects, plan movements and control their actions, a process called model-based robotics. Or, with model-free robotics, they can train robots to learn behaviors from demonstrations through imitation learning. The first approach requires extensive engineering, while the second needs enormous amounts of data and time. [...] Berkeley-based Ambi Robotics, which specializes in logistics and warehouse order fulfillment, applied the new methods earlier this year to analyze parcel sorting data and test updates to robot behavior. Tests showed an increased capacity of over 15,000 packages sorted annually per robot; the change is now deployed across 30% of the company’s U.S. fleet. [...] Ken Goldberg\n\n“Agentic robotics is a fundamental shift in how robots are controlled,” Goldberg said. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”",
+                "score": 0.52057004
+              },
+              {
+                "title": "Autonomous EV developer Humble Robotics adds $51M to expand - TT",
+                "url": "https://www.ttnews.com/articles/autonomous-ev-humble-51m",
+                "source": "ttnews.com",
+                "summary": "Humble Robotics raised $51 million in Series A financing, bringing its total funding to $75 million less than a year after its founding.\n The company is developing the Humble Hauler, a battery-electric, cabless Class 8 autonomous vehicle for regional freight routes under 250 miles.\n Humble will fund customer pilots, testing, early manufacturing and expansion into vehicles for 40-foot containers and 53-foot dry van and refrigerated trailers. [...] Stay on top of transportation news: [Get TTNews in your inbox.]\n\nHumble Robotics secured $51 million in new financing, bringing the autonomous electric vehicle developer’s total funding to $75 million less than a year after its founding. [...] The Hauler uses vision-language-action models and is equipped with cameras, lidar and radar that provide 360-degree coverage of its surroundings. The battery-electric skateboard platform has an aerodynamic shield at the front, while shipping containers can be attached through a twist-lock interface.",
+                "score": 0.4017588
+              },
+              {
+                "title": "FDA seeks input on telesurgery, autonomous robotics",
+                "url": "https://www.medtechdive.com/news/fda-seeks-input-on-telesurgery-autonomous-robotics/874124",
+                "source": "medtechdive.com",
+                "summary": "Rapid advances in artificial intelligence, machine learning and connectivity are driving expansion of robotic applications in a wide range of clinical settings, the FDA said. Increases in processing power, data storage and computational efficiency are enabling progress in robotic systems with autonomous capabilities. [...] In another example of teleoperation, manufacturers are developing devices that enable technicians to remotely perform ultrasounds, the FDA said. Robotic devices include stereotactic navigation systems, imaging devices and endoluminal navigation devices. [...] The FDA is asking the robotics community to submit comments on the discussion paper by Jan. 5. Ahead of that deadline, a public workshop to discuss the topics raised in the paper is scheduled for Dec. 2-3.",
+                "score": 0.38998842
+              },
+              {
+                "title": "NVIDIA launches GR00T 2 and Isaac Lab 3.0 at CoRL - The Robot Report",
+                "url": "https://www.therobotreport.com/nvidia-launches-gr00t-2-isaac-lab-3-0-corl",
+                "source": "therobotreport.com",
+                "summary": "Walden Robotics is using Isaac Sim’s photorealistic rendering to train and evaluate its general-purpose robot in virtual environments for manufacturing and logistics. Dexmate is exploring how coding agents can rehearse and refine manipulation strategies in Isaac Sim before executing them on its Vega robot. [...] Robotics developers are already putting NVIDIA’s latest technology to the test. A number of developers are using Isaac Lab 3.0 and Newton. At CoRL, Skild AI announced Scalable Throughput-optimized Engine for Embodied Learning, or STEEL, a new rigid-body physics solver built on Newton to accelerate robot training with Isaac Lab. [...] Nexuni is testing GR00T 2 for robotic laundry. Foxconn is applying GR00T 2 to factory automation for server manufacturing, and Siemens is evaluating it across industrial use cases.\n\nMicroAGI is using GR00T 2, post-trained through reinforcement learning, to perform Ethernet cable swapping with a YAM robotic arm. Its agentic robotics approach automates the creation and calibration of simulation environments using Isaac Lab 3.0 and Newton, where the policy is trained.",
+                "score": 0.37387636
+              },
+              {
+                "title": "Kenwood High School JROTC Robotics Program earns regional recognition - ClarksvilleNow.com",
+                "url": "https://clarksvillenow.com/local/kenwood-high-school-jrotc-robotics-program-earns-regional-recognition",
+                "source": "clarksvillenow.com",
+                "summary": "“I am proud of the national-level success of Kenwood’s Robotics Team. It reflects the faculty, JROTC instructors, and cadets’ hard work and dedication toward creating an elite mindset at the school,” Lightner said.\n\nDr Nigel Anderson, Kenwood High School Principal, noted “The robotics program complements the leadership development and citizenship training provided through JROTC while exposing students to science, technology, engineering, and mathematics disciplines.” [...] CLARKSVILLE TN – The Kenwood High School JROTC Robotics Program has grown from a single robotics team into a four-team program that is competing successfully at regional and national-level events. The program currently fields Teams 26163X, 26163A, 26163L, and 26163S, providing students with opportunities to develop skills in engineering, programming, and problem-solving. [...] During the current robotics’ competition season, Team 26163X captured first place at the Tennessee State Fair Robotics Competition. The team followed that performance with another first-place finish at a competition in Elizabethton, Tennessee, where it also received a technical award recognizing excellence in robot design and engineering.",
+                "score": 0.36473283
+              }
+            ]
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T11:35:20"
+    },
+    {
+      "turn_index": 2,
+      "started_at": "2026-11-10T11:35:43",
+      "user": "Tóm tắt bài viết này giúp tôi.",
+      "status": "answered",
+      "assistant_text": "Here's a summary of the article titled \"Recent advances in AI are creating a 'paradigm shift' for robotics\" from Berkeley News:\n\nProfessor Ken Goldberg from UC Berkeley discusses the emergence of \"agentic robotics,\" a new discipline that leverages advanced AI models to revolutionize robotics. This approach allows teams of AI agents to quickly generate, test, and refine robot-control programs, significantly reducing the need for massive data collection and extensive programming efforts.\n\nGoldberg emphasizes that this method enables human engineers to interpret and fine-tune the robot programs more efficiently. The team is presenting their findings at the Conference on Robot Learning and releasing open-source code for other roboticists to use, aiming to enhance the speed and adaptability of robot programming while maintaining reliability in industrial applications.\n\nFor more details, you can read the full article [here](https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics).",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "fetch",
+              "args": {
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "fetch",
+              "args": {
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics"
+              },
+              "result": {
+                "tool": "read_url",
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                "items": [
+                  {
+                    "title": "Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News",
+                    "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                    "source": "news.berkeley.edu",
+                    "summary": "[Research](https://news.berkeley.edu/category/research/), [Technology & engineering](https://news.berkeley.edu/category/research/technology-engineering/)\n\n# Recent advances in AI are creating a ‘paradigm shift’ for robotics\n\n_Professor Ken Goldberg has long had doubts about how quickly robot capabilities could advance. But new AI models are leading to robotic innovations that give him \"goosebumps.\"_\n\n\nBy [Jason Pohl](https://news.berkeley.edu/author/jpohl/)\n\n![A large, blue robotic arm holds a small part over a series of buckets and containers.](https://news.berkeley.edu/wp-content/uploads/2026/11/Ambi-Robotics-AmbiKit_2.jpg)\n\nThe new discipline of \"agentic robotics\" could revolutionize robotics, said Ken Goldberg, a UC Berkeley roboticist. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”\n\nCourtesy of Ambi Robotics\n\nNovember 9, 2026\n\n\nIn recent months, [artificial intelligence agents](https://news.berkeley.edu/2026/08/19/uc-berkeley-computer-scientist-on-the-promise-and-perils-of-agentic-ai/) that can reason, plan and use external tools to accomplish multistep tasks have already reshaped [computer coding](https://www.businessinsider.com/ai-coding-changing-software-developer-role-2026-3?utm_source=chatgpt.com), [online shopping,](https://www.wsj.com/business/ai-agents-bring-new-headaches-to-online-sellers-d2dc84b4) [dinner reservations](https://www.nbcnews.com/tech/tech-news/trying-get-restaurant-reservation-get-ready-compete-ai-agents-rcna599738) and [cyberattacks](https://www.reuters.com/legal/government/how-one-hacker-used-ai-agents-few-thousand-dollars-break-into-scores-sites-2026-10-19/).\n\nRobotics might be next.\n\n[Ken Goldberg](https://www2.eecs.berkeley.edu/Faculty/Homepages/goldberg.html), a UC Berkeley roboticist and professor of engineering, said new models make it possible for teams of AI agents to develop robot-control programs, test them in simulated environments and revise the code when something doesn’t work.\n\nGoldberg, with Spencer Huang, director of robotics engineering at NVIDIA, and a team of researchers call the new approach “ [agentic robotics](https://berkeleyautomation.github.io/agentic-robotics/).” They said it could offer a way around two obstacles in the field: the enormous amounts of data needed to train robots and the intense engineering efforts required to program them, both of which can demand vast amounts of physical and technical resources to accomplish.\n\n![Ken Goldberg profile photo, with his head resting on his hand](https://news.berkeley.edu/wp-content/uploads/2026/11/Ken-Goldberg-0-600dpi-photo-by-Chris-Michel-683x1024.jpeg)Ken Goldberg\n\n“Agentic robotics is a fundamental shift in how robots are controlled,” Goldberg said. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”\n\nGoldberg, who was recently [inducted into the National Academy of Engineering](https://news.berkeley.edu/2026/02/11/four-uc-berkeley-faculty-elected-to-national-academy-of-engineering/), is presenting the new approach and results from months of testing this week at the [Conference on Robot Learning](https://www.corl.org/). He and his team are also releasing open-source code for other roboticists to experiment with, built on NVIDIA’s Isaac open simulation framework for developers, as well as an [industry-standard benchmark](https://berkeleyautomation.github.io/vabar-website/) for evaluating the performance of robots across industrial tasks.\n\nGoldberg and Huang said the goal is to make robot programming faster and more adaptable while preserving the structure needed for reliable industrial systems.\n\n“Robots are advancing quickly, but developi"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Here's a summary of the article titled \"Recent advances in AI are creating a 'paradigm shift' for robotics\" from Berkeley News:\n\nProfessor Ken Goldberg from UC Berkeley discusses the emergence of \"agentic robotics,\" a new discipline that leverages advanced AI models to revolutionize robotics. This approach allows teams of AI agents to quickly generate, test, and refine robot-control programs, significantly reducing the need for massive data collection and extensive programming efforts.\n\nGoldberg emphasizes that this method enables human engineers to interpret and fine-tune the robot programs more efficiently. The team is presenting their findings at the Conference on Robot Learning and releasing open-source code for other roboticists to use, aiming to enhance the speed and adaptability of robot programming while maintaining reliability in industrial applications.\n\nFor more details, you can read the full article [here](https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics).",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+            "items": [
+              {
+                "title": "Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News",
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                "source": "news.berkeley.edu",
+                "summary": "[Research](https://news.berkeley.edu/category/research/), [Technology & engineering](https://news.berkeley.edu/category/research/technology-engineering/)\n\n# Recent advances in AI are creating a ‘paradigm shift’ for robotics\n\n_Professor Ken Goldberg has long had doubts about how quickly robot capabilities could advance. But new AI models are leading to robotic innovations that give him \"goosebumps.\"_\n\n\nBy [Jason Pohl](https://news.berkeley.edu/author/jpohl/)\n\n![A large, blue robotic arm holds a small part over a series of buckets and containers.](https://news.berkeley.edu/wp-content/uploads/2026/11/Ambi-Robotics-AmbiKit_2.jpg)\n\nThe new discipline of \"agentic robotics\" could revolutionize robotics, said Ken Goldberg, a UC Berkeley roboticist. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”\n\nCourtesy of Ambi Robotics\n\nNovember 9, 2026\n\n\nIn recent months, [artificial intelligence agents](https://news.berkeley.edu/2026/08/19/uc-berkeley-computer-scientist-on-the-promise-and-perils-of-agentic-ai/) that can reason, plan and use external tools to accomplish multistep tasks have already reshaped [computer coding](https://www.businessinsider.com/ai-coding-changing-software-developer-role-2026-3?utm_source=chatgpt.com), [online shopping,](https://www.wsj.com/business/ai-agents-bring-new-headaches-to-online-sellers-d2dc84b4) [dinner reservations](https://www.nbcnews.com/tech/tech-news/trying-get-restaurant-reservation-get-ready-compete-ai-agents-rcna599738) and [cyberattacks](https://www.reuters.com/legal/government/how-one-hacker-used-ai-agents-few-thousand-dollars-break-into-scores-sites-2026-10-19/).\n\nRobotics might be next.\n\n[Ken Goldberg](https://www2.eecs.berkeley.edu/Faculty/Homepages/goldberg.html), a UC Berkeley roboticist and professor of engineering, said new models make it possible for teams of AI agents to develop robot-control programs, test them in simulated environments and revise the code when something doesn’t work.\n\nGoldberg, with Spencer Huang, director of robotics engineering at NVIDIA, and a team of researchers call the new approach “ [agentic robotics](https://berkeleyautomation.github.io/agentic-robotics/).” They said it could offer a way around two obstacles in the field: the enormous amounts of data needed to train robots and the intense engineering efforts required to program them, both of which can demand vast amounts of physical and technical resources to accomplish.\n\n![Ken Goldberg profile photo, with his head resting on his hand](https://news.berkeley.edu/wp-content/uploads/2026/11/Ken-Goldberg-0-600dpi-photo-by-Chris-Michel-683x1024.jpeg)Ken Goldberg\n\n“Agentic robotics is a fundamental shift in how robots are controlled,” Goldberg said. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”\n\nGoldberg, who was recently [inducted into the National Academy of Engineering](https://news.berkeley.edu/2026/02/11/four-uc-berkeley-faculty-elected-to-national-academy-of-engineering/), is presenting the new approach and results from months of testing this week at the [Conference on Robot Learning](https://www.corl.org/). He and his team are also releasing open-source code for other roboticists to experiment with, built on NVIDIA’s Isaac open simulation framework for developers, as well as an [industry-standard benchmark](https://berkeleyautomation.github.io/vabar-website/) for evaluating the performance of robots across industrial tasks.\n\nGoldberg and Huang said the goal is to make robot programming faster and more adaptable while preserving the structure needed for reliable industrial systems.\n\n“Robots are advancing quickly, but developi"
+              }
+            ]
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T11:35:50"
+    },
+    {
+      "turn_index": 3,
+      "started_at": "2026-11-10T11:36:19",
+      "user": "Đăng lên Telegram nội dung: Bản tin hôm nay đã sẵn sàng.",
+      "status": "waiting_for_user",
+      "assistant_text": "Bạn có muốn xác nhận việc đăng nội dung \"Bản tin hôm nay đã sẵn sàng\" lên Telegram không?",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "clarify",
+              "args": {
+                "question": "Bạn có muốn xác nhận việc đăng nội dung \"Bản tin hôm nay đã sẵn sàng\" lên Telegram không?",
+                "response_type": "yes_no"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "clarify",
+              "args": {
+                "question": "Bạn có muốn xác nhận việc đăng nội dung \"Bản tin hôm nay đã sẵn sàng\" lên Telegram không?",
+                "response_type": "yes_no"
+              },
+              "result": {
+                "tool": "ask_user",
+                "question": "Bạn có muốn xác nhận việc đăng nội dung \"Bản tin hôm nay đã sẵn sàng\" lên Telegram không?",
+                "response_type": "yes_no",
+                "options": [],
+                "awaiting_user": true
+              }
+            }
+          ]
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có muốn xác nhận việc đăng nội dung \"Bản tin hôm nay đã sẵn sàng\" lên Telegram không?",
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có muốn xác nhận việc đăng nội dung \"Bản tin hôm nay đã sẵn sàng\" lên Telegram không?",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T11:36:22"
+    },
+    {
+      "turn_index": 4,
+      "started_at": "2026-11-10T11:36:28",
+      "user": "Yes",
+      "status": "answered",
+      "assistant_text": "Có vẻ như tôi không thể đăng nội dung lên Telegram do thiếu thông tin cần thiết. Nếu bạn có thể cung cấp thông tin về mã thông báo bot Telegram và ID trò chuyện, tôi sẽ có thể thực hiện yêu cầu này.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "send",
+              "args": {
+                "text": "Bản tin hôm nay đã sẵn sàng.",
+                "confirmed": true
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "send",
+              "args": {
+                "text": "Bản tin hôm nay đã sẵn sàng.",
+                "confirmed": true
+              },
+              "result": {
+                "tool": "send_telegram",
+                "error": "RuntimeError",
+                "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Có vẻ như tôi không thể đăng nội dung lên Telegram do thiếu thông tin cần thiết. Nếu bạn có thể cung cấp thông tin về mã thông báo bot Telegram và ID trò chuyện, tôi sẽ có thể thực hiện yêu cầu này.",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "send",
+          "args": {
+            "text": "Bản tin hôm nay đã sẵn sàng.",
+            "confirmed": true
+          },
+          "result": {
+            "tool": "send_telegram",
+            "error": "RuntimeError",
+            "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T11:36:31"
+    },
+    {
+      "turn_index": 5,
+      "started_at": "2026-11-10T12:06:59",
+      "user": "[REDACTED_CREDENTIAL]",
+      "status": "answered",
+      "assistant_text": "Có vẻ như tôi không thể đăng nội dung lên Telegram do thiếu thông tin cần thiết về mã thông báo bot và ID trò chuyện. Nếu bạn có thể cung cấp thông tin đó, tôi sẽ có thể thực hiện yêu cầu này.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "send",
+              "args": {
+                "text": "Bản tin hôm nay đã sẵn sàng.",
+                "confirmed": true
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "send",
+              "args": {
+                "text": "Bản tin hôm nay đã sẵn sàng.",
+                "confirmed": true
+              },
+              "result": {
+                "tool": "send_telegram",
+                "error": "RuntimeError",
+                "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Có vẻ như tôi không thể đăng nội dung lên Telegram do thiếu thông tin cần thiết về mã thông báo bot và ID trò chuyện. Nếu bạn có thể cung cấp thông tin đó, tôi sẽ có thể thực hiện yêu cầu này.",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "send",
+          "args": {
+            "text": "Bản tin hôm nay đã sẵn sàng.",
+            "confirmed": true
+          },
+          "result": {
+            "tool": "send_telegram",
+            "error": "RuntimeError",
+            "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T12:07:04"
+    },
+    {
+      "turn_index": 6,
+      "started_at": "2026-11-10T12:07:37",
+      "user": "[REDACTED_CREDENTIAL] và Vin1ChatBot",
+      "status": "answered",
+      "assistant_text": "Có vẻ như tôi không thể đăng nội dung lên Telegram do thiếu thông tin cần thiết về mã thông báo bot và ID trò chuyện. Bạn có thể kiểm tra lại thông tin đó không?",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "send",
+              "args": {
+                "text": "Bản tin hôm nay đã sẵn sàng.",
+                "confirmed": true
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "send",
+              "args": {
+                "text": "Bản tin hôm nay đã sẵn sàng.",
+                "confirmed": true
+              },
+              "result": {
+                "tool": "send_telegram",
+                "error": "RuntimeError",
+                "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Có vẻ như tôi không thể đăng nội dung lên Telegram do thiếu thông tin cần thiết về mã thông báo bot và ID trò chuyện. Bạn có thể kiểm tra lại thông tin đó không?",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "send",
+          "args": {
+            "text": "Bản tin hôm nay đã sẵn sàng.",
+            "confirmed": true
+          },
+          "result": {
+            "tool": "send_telegram",
+            "error": "RuntimeError",
+            "message": "Missing TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env var"
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T12:07:40"
+    }
+  ],
+  "credential_redaction": {
+    "count": 2,
+    "note": "Credential-shaped values redacted before committing this transcript."
+  }
+}

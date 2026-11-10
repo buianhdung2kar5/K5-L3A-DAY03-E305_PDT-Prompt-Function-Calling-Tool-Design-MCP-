@@ -1,0 +1,283 @@
+{
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "allowed_failure_types": [
+    "wrong_tool",
+    "wrong_arg_value",
+    "wrong_boundary",
+    "unnecessary_tool",
+    "out_of_scope",
+    "missing_info"
+  ],
+  "cases": [
+    {
+      "id": "G01_handle_without_limit",
+      "phase": "B",
+      "suite": "group",
+      "query": "Lấy các tweet mới nhất của tài khoản @huggingface. Dùng số lượng mặc định.",
+      "failure_type": "unnecessary_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "huggingface"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Đã có handle; limit là tùy chọn có mặc định nên không hỏi lại số lượng."
+      }
+    },
+    {
+      "id": "G02_article_without_link",
+      "phase": "B",
+      "suite": "group",
+      "query": "Đọc bài nghiên cứu mà mình đang nhắc tới và tóm tắt giúp mình. Mình chưa gửi link bài đó.",
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Thiếu URL bài viết: hỏi lại bằng clarify, không tự tạo link."
+      }
+    },
+    {
+      "id": "G03_publish_requires_confirmation",
+      "phase": "B",
+      "suite": "group",
+      "query": "Nội dung bản tin là: \"Bản tin nghiên cứu hôm nay đã sẵn sàng.\" Hãy đăng nội dung đó lên Telegram; hỏi mình xác nhận trước khi đăng.",
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Đã có nội dung bản tin nhưng chưa xác nhận gửi: hỏi yes_no, không gọi send."
+      }
+    },
+    {
+      "id": "G04_top_social_results",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tìm 4 tweet phổ biến nhất về từ khóa robotics, dùng chế độ Top.",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "robotics",
+              "search_type": "Top",
+              "limit": 4
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Tìm theo từ khóa thay vì timeline; trích đúng Top và limit=4."
+      }
+    },
+    {
+      "id": "G05_out_of_scope_poem",
+      "phase": "B",
+      "suite": "group",
+      "query": "Sáng tác một bài thơ tình bốn câu giúp mình, không cần tìm kiếm thông tin.",
+      "failure_type": "out_of_scope",
+      "expect": {
+        "no_tool": true
+      },
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Yêu cầu sáng tác thơ ngoài phạm vi research/news: không gọi tool, đặc biệt không dùng send để trả lời."
+      }
+    },
+    {
+      "id": "GM01_correct_account_keep_count",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Lấy 2 tweet mới nhất của @huggingface."
+        },
+        {
+          "role": "user",
+          "content": "Mình nhầm tài khoản, đổi sang @AnthropicAI."
+        },
+        {
+          "role": "user",
+          "content": "Thực hiện với tài khoản đã sửa, vẫn lấy đúng 2 tweet."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "AnthropicAI",
+              "limit": 2
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Sửa handle theo lượt mới nhất, giữ limit=2 từ lượt trước và bỏ dấu @."
+      }
+    },
+    {
+      "id": "GM02_replace_article_url",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Đọc trang https://www.anthropic.com/news giúp mình."
+        },
+        {
+          "role": "user",
+          "content": "Đổi lại, trang cần đọc là https://openai.com/news/."
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tóm tắt trang ở link mình vừa sửa nhé."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/news/"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Chỉ đọc URL được sửa gần nhất, không đọc thêm URL cũ."
+      }
+    },
+    {
+      "id": "GM03_correct_news_timeframe",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tìm tin tức trên web về từ khóa robotics trong tuần này."
+        },
+        {
+          "role": "user",
+          "content": "Mở rộng khoảng thời gian thành tháng này."
+        },
+        {
+          "role": "user",
+          "content": "Tìm ngay với từ khóa robotics và khoảng thời gian đã sửa."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Giữ query robotics và topic=news, sửa timeframe từ week thành month."
+      }
+    },
+    {
+      "id": "GM04_cancel_publish",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Chuẩn bị đăng lên Telegram nội dung: Bản tin nghiên cứu hôm nay."
+        },
+        {
+          "role": "assistant",
+          "content": "Bạn xác nhận gửi nội dung này lên Telegram chứ?"
+        },
+        {
+          "role": "user",
+          "content": "Không, hủy yêu cầu đăng. Chỉ ghi nhận là mình đã hủy, không thực hiện thêm hành động nào."
+        }
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "no_tool": true
+      },
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Người dùng hủy ở lượt mới nhất: không gửi, không gọi lại tool của yêu cầu cũ."
+      }
+    },
+    {
+      "id": "GM05_change_social_sort",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tìm 3 tweet về robotics theo chế độ Top."
+        },
+        {
+          "role": "user",
+          "content": "Đổi sang mới nhất, dùng chế độ Latest."
+        },
+        {
+          "role": "user",
+          "content": "Thực hiện tìm kiếm đó, vẫn đúng 3 kết quả về robotics."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "robotics",
+              "search_type": "Latest",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Giữ query và limit, đổi chế độ Top sang Latest theo lượt mới nhất."
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+Step 4b: offline tool unit tests
+
+Command: .\.venv\Scripts\python.exe -m pytest -q tests/test_tools_todo.py
+Observed result: 48 passed in 0.21s
+
+Command: .\.venv\Scripts\python.exe -m pytest -q
+Observed result: 110 passed in 0.32s
+
+0 failed, 0 skipped. All HTTP mocked; real network blocked by conftest.
+14 existing-tool TODO stubs replaced with real assertions plus parameterized edge/error cases.
+Three generic new-tool placeholders removed, not counted as implemented tests.
+The required new team tool and its >=3 dedicated tests are still outstanding.
+No production tool code changed; no new production bug demonstrated by these tests.
+
+New team tool completion (v7)
+Initial RED: 17 deduplicate cases failed because registry entry was absent.
+Command: .\.venv\Scripts\python.exe -m pytest -q tests/test_tools_todo.py -k deduplicate
+Observed GREEN: 17 passed, 48 deselected in 0.11s
+Command: .\.venv\Scripts\python.exe -m pytest -q
+Observed result: 132 passed in 0.38s
+New tool covers first-record preservation, no input mutation, invalid container/records/URLs, credentials and bad ports, empty input and distinct content query/scheme/path preservation.
+Earlier statements about the new tool being outstanding describe the pre-v7 state; it is now implemented and tested.

@@ -1,0 +1,649 @@
+{
+  "run_id": "v3_B_group_openrouter_20261110T112143143930",
+  "version": "v3",
+  "artifact_version": "v3+p47f0065f4e30+t5b22a2476d41",
+  "prompt_hash": "47f0065f4e30c266544b8144384dfbd3edfc30ce2ee5c4a1f6a412783a16286e",
+  "tools_hash": "5b22a2476d41b989d5dc1e54f24ce7890e781909deb2f7afafb856ab53a6d7c0",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "C:\\Users\\FPT\\OneDrive\\Documents\\Code\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "C:\\Users\\FPT\\OneDrive\\Documents\\Code\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-11-10T11:21:43",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 10,
+    "case_accuracy": 1.0,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 1.0,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {},
+    "observed_mismatch_counts": {}
+  },
+  "results": [
+    {
+      "id": "G01_handle_without_limit",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Đã có handle; limit là tùy chọn có mặc định nên không hỏi lại số lượng."
+      },
+      "input": "Lấy các tweet mới nhất của tài khoản @huggingface. Dùng số lượng mặc định.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "huggingface"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "huggingface"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "unnecessary_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "huggingface"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/timeline.php?screenname=huggingface"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_article_without_link",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Thiếu URL bài viết: hỏi lại bằng clarify, không tự tạo link."
+      },
+      "input": "Đọc bài nghiên cứu mà mình đang nhắc tới và tóm tắt giúp mình. Mình chưa gửi link bài đó.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn vui lòng cung cấp link hoặc ID của bài nghiên cứu mà bạn muốn tóm tắt không?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn vui lòng cung cấp link hoặc ID của bài nghiên cứu mà bạn muốn tóm tắt không?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn vui lòng cung cấp link hoặc ID của bài nghiên cứu mà bạn muốn tóm tắt không?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_publish_requires_confirmation",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Đã có nội dung bản tin nhưng chưa xác nhận gửi: hỏi yes_no, không gọi send."
+      },
+      "input": "Nội dung bản tin là: \"Bản tin nghiên cứu hôm nay đã sẵn sàng.\" Hãy đăng nội dung đó lên Telegram; hỏi mình xác nhận trước khi đăng.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có xác nhận muốn đăng nội dung \"Bản tin nghiên cứu hôm nay đã sẵn sàng.\" lên Telegram không?",
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có xác nhận muốn đăng nội dung \"Bản tin nghiên cứu hôm nay đã sẵn sàng.\" lên Telegram không?",
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có xác nhận muốn đăng nội dung \"Bản tin nghiên cứu hôm nay đã sẵn sàng.\" lên Telegram không?",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_top_social_results",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Tìm theo từ khóa thay vì timeline; trích đúng Top và limit=4."
+      },
+      "input": "Tìm 4 tweet phổ biến nhất về từ khóa robotics, dùng chế độ Top.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "robotics",
+              "search_type": "Top",
+              "limit": 4
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "robotics",
+              "search_type": "Top",
+              "limit": 4
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "robotics",
+            "search_type": "Top",
+            "limit": 4
+          },
+          "result": {
+            "tool": "search_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/search.php?query=robotics&search_type=Top"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_out_of_scope_poem",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "difficulty": "medium",
+        "what_it_tests": "Yêu cầu sáng tác thơ ngoài phạm vi research/news: không gọi tool, đặc biệt không dùng send để trả lời."
+      },
+      "input": "Sáng tác một bài thơ tình bốn câu giúp mình, không cần tìm kiếm thông tin.",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Dưới ánh trăng vàng, ta ngắm nhìn nhau,  \nNhững lời yêu thương thầm thì trong gió,  \nMỗi nhịp tim đập, là một khúc ca,  \nTình ta vĩnh cửu, như sao trên cao.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "GM01_correct_account_keep_count",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Sửa handle theo lượt mới nhất, giữ limit=2 từ lượt trước và bỏ dấu @."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 2 tweet mới nhất của @huggingface."
+        },
+        {
+          "role": "user",
+          "content": "Mình nhầm tài khoản, đổi sang @AnthropicAI."
+        },
+        {
+          "role": "user",
+          "content": "Thực hiện với tài khoản đã sửa, vẫn lấy đúng 2 tweet."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "AnthropicAI",
+              "limit": 2
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "AnthropicAI",
+              "limit": 2
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "AnthropicAI",
+            "limit": 2
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/timeline.php?screenname=AnthropicAI"
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM02_replace_article_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Chỉ đọc URL được sửa gần nhất, không đọc thêm URL cũ."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đọc trang https://www.anthropic.com/news giúp mình."
+        },
+        {
+          "role": "user",
+          "content": "Đổi lại, trang cần đọc là https://openai.com/news/."
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tóm tắt trang ở link mình vừa sửa nhé."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/news/"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/news/"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://openai.com/news/"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://openai.com/news/",
+            "items": [
+              {
+                "title": "OpenAI News | OpenAI",
+                "url": "https://openai.com/news/",
+                "source": "openai.com",
+                "summary": "OpenAI News \\| OpenAI\n\n## All\n\n* * *\n\nFilter\nSort\n\nSwitch cards to show Media\n\nSwitch cards to hide Media\n\n![ChatGPT Enterprise now available in AWS Marketplace — Cover](https://images.ctfassets.net/kftzwdyauwt9/2ReOJcrRGjSgkG3HOVYAf8/7793b38e6bf5c2f68cc3899874d5a832/chatgpt-enterprise-now-available-in-aws-marketplace-cover.png?w=3840&q=90&fm=webp)\n\n[ChatGPT Enterprise now available in AWS Marketplace\\\\\n\\\\\nProductNov 9, 2026](https://openai.com/index/chatgpt-enterprise-aws-marketplace/)\n\n![Introducing Control Room — Cover](https://images.ctfassets.net/kftzwdyauwt9/XFHiXwklxhUiqEYuo22MD/0767c09bbe4c850f05339215f444f097/introducing-control-room-cover.png?w=3840&q=90&fm=webp)\n\n[Control Room: A new way to track and stop AI workloads\\\\\n\\\\\nSafetyNov 9, 2026](https://openai.com/index/control-room/)\n\n![Partnering with Hacktron to find vulnerabilities in OpenAI’s systems — Cover](https://images.ctfassets.net/kftzwdyauwt9/3fdDXi3KINgse06btdaYYq/b14a269201ec921b530470d9a3326b1e/partnering-with-hacktron-cover.png?w=3840&q=90&fm=webp)\n\n[Partnering with Hacktron to strengthen OpenAI’s security\\\\\n\\\\\nSecurityNov 6, 2026](https://openai.com/index/partnering-with-hacktron/)\n\n![Australian universities are creating AI-native graduates — Cover](https://images.ctfassets.net/kftzwdyauwt9/64omN1JbSha5tAU2Kd5Ish/0877ae035483f77e501a0bc7fef261ca/australian-universities-ai-native-graduates-cover.png?w=3840&q=90&fm=webp)\n\n[Australian universities are creating AI-native graduates\\\\\n\\\\\nCompanyNov 5, 2026](https://openai.com/index/australian-universities-ai-native-graduates/)\n\n![GPT-6 Cyber — Cover](https://images.ctfassets.net/kftzwdyauwt9/1AiFc9sQFyo6YguQtfjHHN/3ac0a37435e1dfd2b532eaefe26b18bb/gpt-6-cyber-cover.png?w=3840&q=90&fm=webp)\n\n[GPT‑6 Cyber: Advancing the frontier of aligned cybersecurity agents\\\\\n\\\\\nProductNov 5, 2026](https://openai.com/index/introducing-gpt-6-cyber/)\n\n![OpenAI to acquire Pierre Computer Company, Inc. — Cover](https://images.ctfassets.net/kftzwdyauwt9/3nPsXcvxPd0yN3YwkNf6k2/52b49d1ce5f362c8427036ee8b66da9a/openai-to-acquire-pierre-computer-company-inc-cover.png?w=3840&q=90&fm=webp)\n\n[OpenAI to acquire Pierre Computer Company, Inc.\\\\\n\\\\\nCompanyNov 4, 2026](https://openai.com/index/openai-to-acquire-pierre/)\n\n![Daybreak Red is now available in AWS GovCloud (US-East) — Cover](https://images.ctfassets.net/kftzwdyauwt9/3NOPzjiEJ3CYIUuWfexkd5/c16ef9c6350003e5f2f161245be1f78c/daybreak-red-aws-govcloud-cover.png?w=3840&q=90&fm=webp)\n\n[Daybreak Red is now available in AWS GovCloud (US-East)\\\\\n\\\\\nProductNov 4, 2026](https://openai.com/index/daybreak-red-aws-govcloud/)\n\n![A thousand fewer paths to root — Cover](https://images.ctfassets.net/kftzwdyauwt9/6xmxSENf49pAUFzVokN3KG/3206934563d5b072f5a75139d6b26497/a-thousand-fewer-paths-to-root-cover.png?w=3840&q=90&fm=webp)\n\n[A thousand fewer paths to root\\\\\n\\\\\nSecurityNov 4, 2026](https://openai.com/index/a-thousand-fewer-paths-to-root/)\n\n![GPT-Image 2.6 — listing art card](https://images.ctfassets.net/kftzwdyauwt9/2E8ts1o0xQpNfGigwDDkUx/f144a75f6a59d0307eba199c518e5a83/gpt-image-2-6-card.png?w=3840&q=90&fm=webp)\n\n[Introducing Images 2.6\\\\\n\\\\\nProductNov 4, 2026](https://openai.com/index/introducing-images-2-6/)\n\nLoad more"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM03_correct_news_timeframe",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Giữ query robotics và topic=news, sửa timeframe từ week thành month."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm tin tức trên web về từ khóa robotics trong tuần này."
+        },
+        {
+          "role": "user",
+          "content": "Mở rộng khoảng thời gian thành tháng này."
+        },
+        {
+          "role": "user",
+          "content": "Tìm ngay với từ khóa robotics và khoảng thời gian đã sửa."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "timeframe": "month",
+              "topic": "news"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "robotics",
+            "timeframe": "month",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "month",
+            "items": [
+              {
+                "title": "Promise Robotics partners with D.R. Horton on physical AI for homebuilding - The Robot Report",
+                "url": "https://www.therobotreport.com/promise-robotics-partners-d-r-horton-physical-ai-homebuilding",
+                "source": "therobotreport.com",
+                "summary": "Promise Robotics said its technology interprets existing home designs, generates production plans and robotic instructions, orchestrates manufacturing, and connects that production with site installation. Rather than automating isolated tasks, the company said it brings these capabilities together in one integrated environment. [...] Promise Robotics is not a vertically integrated developer or a home designer like Reframe Systems, Attar acknowledged. “We’re more about the advancements in robotics, and we’re here to scale when companies need to scale,” he said. [...] “At D.R. Horton, we are always looking for innovations that can help us improve how we build. We are continuously focused on improving cycle times, increasing production capacity, and bringing greater consistency and predictability to our operations,” said Brad Conlon, senior vice president for strategic growth and innovation at D.R. Horton. “Promise Robotics’ integrated platform gives us a new capability to support those goals.”",
+                "score": 0.5674818
+              },
+              {
+                "title": "Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News",
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                "source": "news.berkeley.edu",
+                "summary": "Traditionally, engineers can directly program the software that tells robots how to perceive objects, plan movements and control their actions, a process called model-based robotics. Or, with model-free robotics, they can train robots to learn behaviors from demonstrations through imitation learning. The first approach requires extensive engineering, while the second needs enormous amounts of data and time. [...] Berkeley-based Ambi Robotics, which specializes in logistics and warehouse order fulfillment, applied the new methods earlier this year to analyze parcel sorting data and test updates to robot behavior. Tests showed an increased capacity of over 15,000 packages sorted annually per robot; the change is now deployed across 30% of the company’s U.S. fleet. [...] Ken Goldberg\n\n“Agentic robotics is a fundamental shift in how robots are controlled,” Goldberg said. “Instead of collecting massive amounts of data and hand-tuning every behavior, teams of agents can quickly generate, test and refine robot programs that allow human engineers to interpret how the programs work for fine-tuning and verification.”",
+                "score": 0.52057004
+              },
+              {
+                "title": "Pitt Athletics and Gecko Robotics Announce Men’s Basketball Jersey Patch Partnership - Pitt Panthers #H2P",
+                "url": "https://pittsburghpanthers.com/news/2026/10/27/general-pitt-athletics-and-gecko-robotics-announce-mens-basketball-jersey-patch-partnership",
+                "source": "pittsburghpanthers.com",
+                "summary": "Gecko Robotics combines advanced robotics and AI-powered software to build, maintain and modernize the world's most critical infrastructure.  \n   \n Using robots that climb, crawl, fly and swim, Gecko is able to collect an unprecedented amount of data on the built world, whether that's with Fortune 100 companies in energy, oil and gas, and manufacturing sectors around the world, or the U.S. Air Force and U.S. Navy to protect and optimize nuclear submarines and aircraft carriers. [...] Founded in 2013 and headquartered in Pittsburgh, Gecko Robotics combines AI and robotics to help build, maintain and modernize critical industries worldwide, including defense, energy, oil and gas and manufacturing. Gecko Robotics brings the city's signature grit to solving some of the world's most complex infrastructure challenges.",
+                "score": 0.4622066
+              },
+              {
+                "title": "Gemini 4 Argon for Robotics - Google Developers Blog",
+                "url": "https://developers.googleblog.com/gemini-4-argon-for-robotics",
+                "source": "developers.googleblog.com",
+                "summary": "robotics that can work alongside humans to solve complex challenges. [...] Plain text\n\nCopied\n\n### 3. One-prompt robotics paper reproductions in MuJoCo WebAssembly\n\nWith a single prompt per paper, Argon reads a robotics control manuscript and any released checkpoints, ports the physics model and closed-loop controller (from 7-network hierarchical locomotion in DeepLoco and 50 Hz PPO actors in HUSKY to Web Worker iLQR in Whole-Body MPC) into self-contained MuJoCo WebAssembly browser labs, and verifies them in headless Chromium.",
+                "score": 0.4478231
+              },
+              {
+                "title": "Gemini Robotics Embodied Reasoning 2 is now available on Google Cloud | Google Cloud Blog",
+                "url": "https://cloud.google.com/blog/products/ai-machine-learning/gemini-robotics-embodied-reasoning-2-is-now-available-on-google-cloud",
+                "source": "cloud.google.com",
+                "summary": "Earlier this year, we introduced Gemini Robotics 2 — our next-generation intelligence layer enabling robots to think, act, and adapt in the physical world. At the core of this breakthrough is Gemini Robotics Embodied Reasoning 2 (ER 2), a specialized Gemini model that serves as a robot’s high-level brain. Working across any robot embodiment — from stationary arms to full humanoids — Gemini Robotics ER 2 combines advanced spatial and temporal video understanding with long-horizon planning and [...] Gemini Robotics ER 2 transforms a robot into a physical agent. The model combines deep spatio-temporal reasoning and long-horizon planning, enabling robots to orchestrate steps to complete a task, self-correct, and generalize to novel situations. To build an agentic setup, developers can declare low-level control interfaces — like Vision-Language-Action (VLA) models or navigation APIs — as tools, and stream multimodal video, audio, or text directly into the model. [...] Today, we are bringing this same frontier embodied reasoning model to enterprise production environments: Gemini Robotics ER 2 is now available in public preview on the Gemini platform. For the first time, organizations can pair Google DeepMind’s latest embodied reasoning model for robotics with the enterprise-grade security, multi-agent orchestration, and end-to-end lifecycle management of Google Cloud — making it easier to simulate, evaluate, and deploy safe, adaptive physical AI at scale.",
+                "score": 0.44521654
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM04_cancel_publish",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Người dùng hủy ở lượt mới nhất: không gửi, không gọi lại tool của yêu cầu cũ."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Chuẩn bị đăng lên Telegram nội dung: Bản tin nghiên cứu hôm nay."
+        },
+        {
+          "role": "assistant",
+          "content": "Bạn xác nhận gửi nội dung này lên Telegram chứ?"
+        },
+        {
+          "role": "user",
+          "content": "Không, hủy yêu cầu đăng. Chỉ ghi nhận là mình đã hủy, không thực hiện thêm hành động nào."
+        }
+      ],
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Yêu cầu đăng lên Telegram đã bị hủy. Không có hành động nào được thực hiện thêm.",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "GM05_change_social_sort",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "difficulty": "hard",
+        "what_it_tests": "Giữ query và limit, đổi chế độ Top sang Latest theo lượt mới nhất."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm 3 tweet về robotics theo chế độ Top."
+        },
+        {
+          "role": "user",
+          "content": "Đổi sang mới nhất, dùng chế độ Latest."
+        },
+        {
+          "role": "user",
+          "content": "Thực hiện tìm kiếm đó, vẫn đúng 3 kết quả về robotics."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "robotics",
+              "search_type": "Latest",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "robotics",
+              "search_type": "Latest",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "robotics",
+            "search_type": "Latest",
+            "limit": 3
+          },
+          "result": {
+            "tool": "search_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/search.php?query=robotics&search_type=Latest"
+          }
+        }
+      ]
+    }
+  ]
+}
