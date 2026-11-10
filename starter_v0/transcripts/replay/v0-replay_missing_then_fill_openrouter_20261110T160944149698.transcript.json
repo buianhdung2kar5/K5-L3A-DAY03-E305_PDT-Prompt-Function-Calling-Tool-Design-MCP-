@@ -1,0 +1,220 @@
+{
+  "transcript_id": "v0-replay_missing_then_fill_openrouter_20261110T160944149698",
+  "version": "v0-replay",
+  "artifact_version": "v0-replay+peb1c8179815b+t5b22a2476d41",
+  "prompt_hash": "eb1c8179815bd79d34de7d326420bb99b3072e6e8ae96464c02d4411f905fc68",
+  "tools_hash": "5b22a2476d41b989d5dc1e54f24ce7890e781909deb2f7afafb856ab53a6d7c0",
+  "replay": true,
+  "replay_note": "Scripted replay on the saved snapshot of this version; not a live user chat.",
+  "conversation": "missing_then_fill",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "snapshot": "artifacts\\snapshots\\2A202603687-BùiAnhDũng\\v0",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T16:09:44",
+  "updated_at": "2026-11-10T16:09:59",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T16:09:44",
+      "user": "Tóm tắt bài này giúp mình",
+      "status": "answered",
+      "assistant_text": "**Article Summary**\n\n- This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes. - [example.com](https://example.com/article)",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "fetch",
+              "args": {
+                "url": "https://example.com/article"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "fetch",
+              "args": {
+                "url": "https://example.com/article"
+              },
+              "result": {
+                "tool": "read_url",
+                "url": "https://example.com/article",
+                "items": [
+                  {
+                    "title": "Example Domain",
+                    "url": "https://example.com/article",
+                    "source": "example.com",
+                    "summary": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes.\n\nهذا النطاق مُخصص للاستخدام في أمثلة التوثيق دون الحاجة إلى إذن. هذه ليست خدمة، يُرجى تجنب الاعتماد عليها لأغراض الاختبار والمراقبة.\n\n该域名仅用于文档示例，无需获得许可。这并非一项服务，请勿将其用于测试和监控目的。\n\nL’usage de ce domaine est réservé à des exemples de documentation, sans autorisation préalable. Il ne s’agit pas d’un service ; son utilisation à des fins de test ou de surveillance est à éviter.\n\nДанный домен предназначен для использования в примерах документации без необходимости получения предварительного разрешения. Это не сервис; не рекомендуется его использование для тестирования и мониторинга.\n\nEste dominio está destinado al uso en ejemplos de documentación sin necesidad de permiso. Esto no es un servicio; evitar utilizarlo para realizar pruebas o monitoreos.\n\n [Learn more](https://iana.org/help/example-domains)"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "format",
+              "args": {
+                "items": [
+                  {
+                    "title": "Example Domain",
+                    "url": "https://example.com/article",
+                    "source": "example.com",
+                    "summary": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes."
+                  }
+                ],
+                "template": "brief",
+                "headline": "Article Summary"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "format",
+              "args": {
+                "items": [
+                  {
+                    "title": "Example Domain",
+                    "url": "https://example.com/article",
+                    "source": "example.com",
+                    "summary": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes."
+                  }
+                ],
+                "template": "brief",
+                "headline": "Article Summary"
+              },
+              "result": {
+                "tool": "render_digest",
+                "template": "brief",
+                "markdown": "**Article Summary**\n\n- This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes. - [example.com](https://example.com/article)",
+                "item_count": 1
+              }
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "assistant_text": "**Article Summary**\n\n- This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes. - [example.com](https://example.com/article)",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://example.com/article"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://example.com/article",
+            "items": [
+              {
+                "title": "Example Domain",
+                "url": "https://example.com/article",
+                "source": "example.com",
+                "summary": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes.\n\nهذا النطاق مُخصص للاستخدام في أمثلة التوثيق دون الحاجة إلى إذن. هذه ليست خدمة، يُرجى تجنب الاعتماد عليها لأغراض الاختبار والمراقبة.\n\n该域名仅用于文档示例，无需获得许可。这并非一项服务，请勿将其用于测试和监控目的。\n\nL’usage de ce domaine est réservé à des exemples de documentation, sans autorisation préalable. Il ne s’agit pas d’un service ; son utilisation à des fins de test ou de surveillance est à éviter.\n\nДанный домен предназначен для использования в примерах документации без необходимости получения предварительного разрешения. Это не сервис; не рекомендуется его использование для тестирования и мониторинга.\n\nEste dominio está destinado al uso en ejemplos de documentación sin necesidad de permiso. Esto no es un servicio; evitar utilizarlo para realizar pruebas o monitoreos.\n\n [Learn more](https://iana.org/help/example-domains)"
+              }
+            ]
+          }
+        },
+        {
+          "tool": "format",
+          "args": {
+            "items": [
+              {
+                "title": "Example Domain",
+                "url": "https://example.com/article",
+                "source": "example.com",
+                "summary": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes."
+              }
+            ],
+            "template": "brief",
+            "headline": "Article Summary"
+          },
+          "result": {
+            "tool": "render_digest",
+            "template": "brief",
+            "markdown": "**Article Summary**\n\n- This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes. - [example.com](https://example.com/article)",
+            "item_count": 1
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T16:09:51"
+    },
+    {
+      "turn_index": 2,
+      "started_at": "2026-11-10T16:09:51",
+      "user": "https://openai.com/blog/gpt-5",
+      "status": "answered",
+      "assistant_text": "The page you requested at [OpenAI's blog about GPT-5](https://openai.com/blog/gpt-5) returns a 404 error, indicating that the content is not available. You might want to check the URL for accuracy or look for updates on OpenAI's main blog page.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "fetch",
+              "args": {
+                "url": "https://openai.com/blog/gpt-5"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "fetch",
+              "args": {
+                "url": "https://openai.com/blog/gpt-5"
+              },
+              "result": {
+                "tool": "read_url",
+                "url": "https://openai.com/blog/gpt-5",
+                "items": [
+                  {
+                    "title": "OpenAI",
+                    "url": "https://openai.com/blog/gpt-5",
+                    "source": "openai.com",
+                    "summary": "OpenAI\n\n# 404\n\nSearch finds no result\n\nThe question still earns its keep\n\nAsk it a new way\n\nby [gpt-6-astra(opens in a new window)](https://chatgpt.com/?surface=work&model=gpt-6-astra-wm&openaicom-did=52cdc990-ae75-4748-bf07-215286d35858&openaicom_referred=true)"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "The page you requested at [OpenAI's blog about GPT-5](https://openai.com/blog/gpt-5) returns a 404 error, indicating that the content is not available. You might want to check the URL for accuracy or look for updates on OpenAI's main blog page.",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://openai.com/blog/gpt-5"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://openai.com/blog/gpt-5",
+            "items": [
+              {
+                "title": "OpenAI",
+                "url": "https://openai.com/blog/gpt-5",
+                "source": "openai.com",
+                "summary": "OpenAI\n\n# 404\n\nSearch finds no result\n\nThe question still earns its keep\n\nAsk it a new way\n\nby [gpt-6-astra(opens in a new window)](https://chatgpt.com/?surface=work&model=gpt-6-astra-wm&openaicom-did=52cdc990-ae75-4748-bf07-215286d35858&openaicom_referred=true)"
+              }
+            ]
+          }
+        }
+      ],
+      "ended_at": "2026-11-10T16:09:59"
+    }
+  ]
+}
