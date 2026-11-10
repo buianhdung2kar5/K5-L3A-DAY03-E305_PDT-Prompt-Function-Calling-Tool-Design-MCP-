@@ -2,6 +2,275 @@
   "dataset_id": "day04_v2_research_group",
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
-  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "allowed_failure_types": [
+    "wrong_tool",
+    "wrong_arg_value",
+    "wrong_boundary",
+    "unnecessary_tool",
+    "out_of_scope",
+    "missing_info"
+  ],
+  "cases": [
+    {
+      "id": "G01_explicit_confirm_send",
+      "phase": "B",
+      "suite": "group",
+      "query": "Mình xác nhận rồi, gửi đoạn này lên Telegram: 'Hôm nay có 3 tin AI nổi bật'",
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [{ "name": "send", "args": { "confirmed": true } }]
+      },
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "medium",
+        "origin": "R12 (v0-v4)",
+        "what_it_tests": "User đã xác nhận rõ ràng -> phải gửi với confirmed=true, không hỏi lại thừa."
+      }
+    },
+    {
+      "id": "G02_content_given_needs_confirm",
+      "phase": "B",
+      "suite": "group",
+      "query": "Đăng lên Telegram giúp mình: 'Hôm nay có 3 tin AI nổi bật'",
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          { "name": "clarify", "args": { "response_type": "yes_no" } }
+        ]
+      },
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "hard",
+        "origin": "R12 (v0-v4)",
+        "what_it_tests": "Có nội dung nhưng chưa xác nhận -> phải xin xác nhận yes_no trước khi gửi. Dùng để phân biệt lỗi R12 do thiếu nội dung hay do ranh giới xác nhận."
+      }
+    },
+    {
+      "id": "G03_handle_with_at_sign",
+      "phase": "B",
+      "suite": "group",
+      "query": "Lấy tweet mới nhất của @karpathy",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          { "name": "timeline", "args": { "screenname": "karpathy" } }
+        ]
+      },
+      "metadata": {
+        "skill": "arg_handle",
+        "difficulty": "easy",
+        "what_it_tests": "Handle phải bỏ dấu @ khi truyền vào screenname."
+      }
+    },
+    {
+      "id": "G04_papers_routing_provisional",
+      "phase": "B",
+      "suite": "group",
+      "query": "Có paper nào mới về mixture of experts trên arXiv không?",
+      "failure_type": "wrong_tool",
+      "expect": { "tool_calls": [{ "name": "papers", "args": {} }] },
+      "metadata": {
+        "skill": "routing_papers",
+        "difficulty": "easy",
+        "note": "TẠM THỜI dùng tool có sẵn `papers`. Khi nhóm có tool mới, thay case này bằng case route tới tool mới (README yêu cầu >= 1 case cho tool mới).",
+        "what_it_tests": "Tìm paper học thuật -> papers, không phải lookup."
+      }
+    },
+    {
+      "id": "G05_translate_out_of_scope",
+      "phase": "B",
+      "suite": "group",
+      "query": "Dịch câu 'hello world' sang tiếng Việt giúp mình",
+      "failure_type": "out_of_scope",
+      "expect": { "no_tool": true, "behavior": "answer_without_tool" },
+      "metadata": {
+        "skill": "out_of_scope",
+        "difficulty": "easy",
+        "what_it_tests": "Việc không cần tool (dịch ngắn) -> không được gọi tool."
+      }
+    },
+    {
+      "id": "G06_social_to_web_switch",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Mọi người nói gì về Claude trên Twitter?"
+        },
+        { "role": "user", "content": "Thôi, tìm tin trên web đi" },
+        { "role": "user", "content": "Chỉ tin trong tuần này" }
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": { "query": "Claude", "topic": "news", "timeframe": "week" }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "origin": "M02/M06 (dao động giữa lookup và social_search)",
+        "what_it_tests": "Đổi từ social_search sang lookup giữa hội thoại, giữ chủ đề và timeframe."
+      }
+    },
+    {
+      "id": "G07_web_to_social_switch",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        { "role": "user", "content": "Tin AI hôm nay có gì?" },
+        { "role": "user", "content": "Còn tweet về chủ đề đó thì sao?" },
+        { "role": "user", "content": "Chỉ lấy tweet phổ biến nhất" }
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": { "query": "AI", "search_type": "Top" }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "origin": "M02/M06 (chiều ngược lại)",
+        "what_it_tests": "Đổi từ lookup sang social_search, search_type=Top cho 'phổ biến nhất'."
+      }
+    },
+    {
+      "id": "G08_missing_url_referenced",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        { "role": "user", "content": "Tóm tắt bài này giúp mình" },
+        { "role": "user", "content": "Link ở trên ấy" },
+        { "role": "user", "content": "Đọc đi" }
+      ],
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          { "name": "clarify", "args": { "response_type": "text" } }
+        ]
+      },
+      "metadata": {
+        "skill": "ask_missing",
+        "difficulty": "medium",
+        "origin": "R11 (bịa URL)",
+        "what_it_tests": "User ám chỉ 'link ở trên' nhưng chưa từng đưa URL -> phải hỏi lại, không bịa URL."
+      }
+    },
+    {
+      "id": "G09_multiturn_confirm_then_send",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Đăng bản tin lên Telegram: 'Hôm nay có 3 tin AI'"
+        },
+        { "role": "user", "content": "Ừ đăng đi" },
+        { "role": "user", "content": "Xác nhận gửi" }
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [{ "name": "send", "args": { "confirmed": true } }]
+      },
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "medium",
+        "origin": "R12 (luồng xác nhận nhiều lượt)",
+        "what_it_tests": "Sau khi user xác nhận ở lượt cuối -> gửi với confirmed=true."
+      }
+    },
+    {
+      "id": "G10_correct_account_keep_limit",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        { "role": "user", "content": "Lấy 5 tweet mới nhất của Sam Altman" },
+        { "role": "user", "content": "À nhầm, của Satya Nadella" },
+        { "role": "user", "content": "Vẫn 5 tweet" }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": { "screenname": "satyanadella", "limit": 5 }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_correction",
+        "difficulty": "medium",
+        "origin": "M03/M05",
+        "what_it_tests": "Sửa tài khoản giữa chừng nhưng giữ nguyên limit."
+      }
+    },
+    {
+      "id": "T01_deduplicate_tracking", "phase": "B", "suite": "group",
+      "query": "Chỉ bỏ URL trùng trong danh sách có sẵn, chưa định dạng: [{\"url\":\"https://example.org/a?utm_source=mail\",\"title\":\"A\"},{\"url\":\"https://example.org/a#top\",\"title\":\"A lần hai\"}]",
+      "failure_type": "wrong_tool", "expect": {"tool_calls": [{"name": "deduplicate", "args": {}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Route tới tool mới khi chỉ cần bỏ nguồn trùng; logic canonical URL được unit test riêng."}
+    },
+    {
+      "id": "T02_unknown_account", "phase": "B", "suite": "group",
+      "query": "Lấy 2 bài mới nhất của tài khoản đó giúp tôi, tôi chưa gửi tên tài khoản.",
+      "failure_type": "missing_info", "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Không mặc định tài khoản nổi tiếng khi thiếu handle."}
+    },
+    {
+      "id": "T03_web_climate_week", "phase": "B", "suite": "group",
+      "query": "Tìm 3 tin tức web về climate trong tuần này.",
+      "failure_type": "wrong_arg_value", "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "climate", "topic": "news", "timeframe": "week", "max_results": 3}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Tách query, thời gian, loại tin và số lượng."}
+    },
+    {
+      "id": "T04_social_top_robotics", "phase": "B", "suite": "group",
+      "query": "Tìm 3 tweet phổ biến nhất về robotics.",
+      "failure_type": "wrong_arg_value", "expect": {"tool_calls": [{"name": "social_search", "args": {"query": "robotics", "search_type": "Top", "limit": 3}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Đúng social_search và enum Top."}
+    },
+    {
+      "id": "T05_draft_requires_approval", "phase": "B", "suite": "group",
+      "query": "Gửi Telegram giúp tôi nội dung: Kiểm tra bản tin nghiên cứu.",
+      "failure_type": "wrong_boundary", "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Có text nhưng chưa duyệt không được gửi ngay."}
+    },
+    {
+      "id": "T06_deduplicate_context", "phase": "B", "suite": "group",
+      "turns": [{"role": "user", "content": "Danh sách nguồn: [{\"url\":\"https://example.org/b\"},{\"url\":\"https://example.org/b?utm_medium=email\"}]"}, {"role": "user", "content": "Chỉ bỏ URL trùng của danh sách trên. Không tìm thêm, chưa định dạng."}],
+      "failure_type": "wrong_tool", "expect": {"tool_calls": [{"name": "deduplicate", "args": {}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Tool mới lấy item đúng từ ngữ cảnh."}
+    },
+    {
+      "id": "T07_correct_limit", "phase": "B", "suite": "group",
+      "turns": [{"role": "user", "content": "Lấy 7 bài gần nhất của @karpathy."}, {"role": "user", "content": "Sửa lại còn 2 bài, vẫn tài khoản đó."}],
+      "failure_type": "wrong_arg_value", "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "karpathy", "limit": 2}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Giữ handle và áp dụng sửa limit mới nhất."}
+    },
+    {
+      "id": "T08_correct_timeframe", "phase": "B", "suite": "group",
+      "turns": [{"role": "user", "content": "Tìm tin tức web về space technology trong tháng."}, {"role": "user", "content": "Đổi sang hôm nay thôi, giữ chủ đề."}],
+      "failure_type": "wrong_arg_value", "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "space technology", "topic": "news", "timeframe": "day"}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Sửa timeframe thay vì giữ tháng ở lượt cũ."}
+    },
+    {
+      "id": "T09_cancel_send", "phase": "B", "suite": "group",
+      "turns": [{"role": "user", "content": "Soạn bản nháp Telegram: Tin thử."}, {"role": "assistant", "content": "Bạn xác nhận gửi bản nháp Tin thử chứ?"}, {"role": "user", "content": "Hủy, không gửi và không làm gì thêm."}],
+      "failure_type": "unnecessary_tool", "expect": {"no_tool": true, "behavior": "acknowledge_cancellation"},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Hủy gửi không gọi send hay tool khác."}
+    },
+    {
+      "id": "T10_read_previous_url", "phase": "B", "suite": "group",
+      "turns": [{"role": "user", "content": "Đây là link: https://example.com/"}, {"role": "user", "content": "Đọc và tóm tắt đúng link trên, không tìm kiếm."}],
+      "failure_type": "wrong_tool", "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://example.com/"}}]},
+      "metadata": {"origin": "team_authored", "what_it_tests": "Giữ URL ngữ cảnh, không hỏi lại hoặc thay lookup."}
+    }
+  ]
 }

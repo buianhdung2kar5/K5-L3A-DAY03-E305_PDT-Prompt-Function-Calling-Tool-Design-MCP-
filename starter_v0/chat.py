@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import time
+from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -84,12 +86,16 @@ def run_model_tool_loop(
     tools: list[dict[str, Any]],
     model: str | None,
     max_tool_rounds: int,
+    tool_executor: Callable[[ToolCall], dict[str, Any]] | None = None,
+    request_delay: float = 0.0,
 ) -> dict[str, Any]:
     working_messages = list(messages)
     rounds: list[dict[str, Any]] = []
     all_tool_events: list[dict[str, Any]] = []
 
     for round_index in range(1, max_tool_rounds + 1):
+        if request_delay:
+            time.sleep(request_delay)
         response = provider.complete(working_messages, tools, model=model, temperature=0.0)
         calls = response.tool_calls
         round_record: dict[str, Any] = {
@@ -113,7 +119,7 @@ def run_model_tool_loop(
 
         for call in calls:
             print(f"🔧 {call.name}({json.dumps(call.args, ensure_ascii=False, sort_keys=True)})")
-            event = execute_tool_call(call)
+            event = (tool_executor or execute_tool_call)(call)
             round_record["tool_results"].append(event)
             all_tool_events.append(event)
 
@@ -159,7 +165,10 @@ def main() -> None:
     parser.add_argument("--transcripts-dir", type=Path, default=ROOT / "transcripts")
     parser.add_argument("--history-window", type=int, default=5, help="Keep the last N user/assistant pairs in context.")
     parser.add_argument("--max-tool-rounds", type=int, default=4)
+    parser.add_argument("--request-delay", type=float, default=0.0, help="Pause before each provider request to respect RPM limits.")
     args = parser.parse_args()
+    if args.request_delay < 0:
+        parser.error("--request-delay must be nonnegative")
 
     system_prompt = args.system_prompt.read_text(encoding="utf-8")
     tool_declarations = load_tool_declarations(args.tools)
@@ -184,6 +193,7 @@ def main() -> None:
         "tools": str(args.tools),
         "history_window": args.history_window,
         "max_tool_rounds": args.max_tool_rounds,
+        "request_delay_seconds": args.request_delay,
         "created_at": now_iso(),
         "updated_at": now_iso(),
         "turns": [],
@@ -230,6 +240,7 @@ def main() -> None:
                 tools=openai_tools,
                 model=args.model,
                 max_tool_rounds=args.max_tool_rounds,
+                request_delay=args.request_delay,
             )
             turn_record.update(result)
             assistant_text = result["assistant_text"]

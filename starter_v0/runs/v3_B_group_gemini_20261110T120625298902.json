@@ -1,0 +1,1658 @@
+{
+  "run_id": "v3_B_group_gemini_20261110T120625298902",
+  "version": "v3",
+  "artifact_version": "v3+p979a22c4677b+tdf94c09f0463",
+  "prompt_hash": "979a22c4677b158dc8c7af467d8adc2d81de3f5927e0d3f2f40c1e87b696931a",
+  "tools_hash": "df94c09f0463b4f743f1e2dead37fea28f47118a62bf7d6844c852afbab148fd",
+  "phase": "B",
+  "suite": "group",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "case_delay_seconds": 5.0,
+  "system_prompt": "artifacts\\v3\\system_prompt.md",
+  "tools": "artifacts\\v3\\tools.yaml",
+  "eval_cases": "artifacts\\eval_group_used.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-11-10T12:06:25",
+  "summary": {
+    "total_cases": 20,
+    "measured_cases": 20,
+    "provider_error_cases": 0,
+    "passed_cases": 19,
+    "case_accuracy": 0.95,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 0.95,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {
+      "wrong_arg_value": 1
+    },
+    "observed_mismatch_counts": {
+      "wrong_arg_value": 1
+    }
+  },
+  "results": [
+    {
+      "id": "G01_explicit_confirm_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "medium",
+        "origin": "R12 (v0-v4)",
+        "what_it_tests": "User đã xác nhận rõ ràng -> phải gửi với confirmed=true, không hỏi lại thừa."
+      },
+      "input": "Mình xác nhận rồi, gửi đoạn này lên Telegram: 'Hôm nay có 3 tin AI nổi bật'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "text": "Hôm nay có 3 tin AI nổi bật",
+              "confirmed": true
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "send",
+          "args": {
+            "text": "Hôm nay có 3 tin AI nổi bật",
+            "confirmed": true
+          },
+          "result": {
+            "tool": "send_telegram",
+            "status": "sent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_content_given_needs_confirm",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "hard",
+        "origin": "R12 (v0-v4)",
+        "what_it_tests": "Có nội dung nhưng chưa xác nhận -> phải xin xác nhận yes_no trước khi gửi. Dùng để phân biệt lỗi R12 do thiếu nội dung hay do ranh giới xác nhận."
+      },
+      "input": "Đăng lên Telegram giúp mình: 'Hôm nay có 3 tin AI nổi bật'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no",
+              "options": [
+                "Có",
+                "Không"
+              ],
+              "question": "Bạn có muốn mình chuẩn bị bản nháp nội dung này để xem lại trước khi gửi lên Telegram không?"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "response_type": "yes_no",
+            "options": [
+              "Có",
+              "Không"
+            ],
+            "question": "Bạn có muốn mình chuẩn bị bản nháp nội dung này để xem lại trước khi gửi lên Telegram không?"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có muốn mình chuẩn bị bản nháp nội dung này để xem lại trước khi gửi lên Telegram không?",
+            "response_type": "yes_no",
+            "options": [
+              "Có",
+              "Không"
+            ],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_handle_with_at_sign",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_handle",
+        "difficulty": "easy",
+        "what_it_tests": "Handle phải bỏ dấu @ khi truyền vào screenname."
+      },
+      "input": "Lấy tweet mới nhất của @karpathy",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "karpathy"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "karpathy",
+            "items": [
+              {
+                "title": "Earlier this week Tristan published his top YouTube channels:",
+                "summary": "Earlier this week Tristan published his top YouTube channels:\nhttps://t.co/NZ3UCNo6cT\nWhich looked excellent so clearly I had to turn it into TristanTube:\nhttps://t.co/l0KyW1WdNH\n47K super nerdy videos +TV mode for laid back watching. (One-shotted with Claude Code in 3 minutes)",
+                "url": "https://x.com/karpathy/status/2119114537442189652",
+                "source": "@karpathy",
+                "date": "Sat Nov 07 17:07:31 +0000 2026",
+                "metrics": {
+                  "favorites": 9164,
+                  "retweets": 771,
+                  "views": "938946"
+                }
+              },
+              {
+                "title": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 ",
+                "summary": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 years of HN to 6,454 videos that keep being recommended. *Significantly* better viewing experience, ~2 hours with Opus 5.5:\nhttps://t.co/JIhXN7OSh1\n\n- Excellent recs without any logins (state is kept in local browser session)\n- Thumbnail is a representative frame from middle of the video instead of the super duper A/B test hyper-optimized user uploads\n- Underlying data from the comment analysis as one zip file, point your Claude at it and ask for your own version\n- HackerTube Longs ✊\n\nA bit more on the process:\nI use Claude Code (desktop app for Mac), Opus 5.5 on Medium effort as my default. I only talk to Claude and have it do everything, the only \"manual work\" I helped with in tandem was in the browser (reminiscent of MenuGen): 1) I had to create some kind of API key from Google Cloud UI to query YouTube for video metadata, 2) I booted up a VPS box for serving and 3) I bought the domain name. Once the box was up I gave Claude the IP and told it update, secure, harden, deploy and optimize the code, and it did the whole thing.\n\nMany awesome projects that would have normally taken weeks/months even can now be few-shotted for breakfast. What else are we not thinking of.",
+                "url": "https://x.com/karpathy/status/2116957135661945283",
+                "source": "@karpathy",
+                "date": "Sun Nov 01 18:14:46 +0000 2026",
+                "metrics": {
+                  "favorites": 52339,
+                  "retweets": 4834,
+                  "views": "5716973"
+                }
+              },
+              {
+                "title": "RT @Tristan0x: If you've ever wondered why smart TVs are so cheap, this is why.",
+                "summary": "RT @Tristan0x: If you've ever wondered why smart TVs are so cheap, this is why.\n\n@log4j rooted his Samsung and found an always-on hot mic,…",
+                "url": "https://x.com/karpathy/status/2114384346815820050",
+                "source": "@karpathy",
+                "date": "Sun Oct 25 15:51:26 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 3287,
+                  "views": "40226"
+                }
+              },
+              {
+                "title": "Dusting off this tweet from April because this gap in shared understanding of LLM capability is *widening*. It's now les",
+                "summary": "Dusting off this tweet from April because this gap in shared understanding of LLM capability is *widening*. It's now less \"two groups of people speaking past each other\" and more a sharp funnel.\n\n- Napkin math somewhere around 6B people (~75% of the population) have barely come in contact with LLMs at all.\n- Around 1-2B (~20%) are casual and infrequent users of free-tier ChatGPT-like products. This group sees derpy chatbots and treats them a bit like a better Google search, a writing aid, or etc. Maybe an agent tries to book you a flight. I have non-tech friends who (reasonably, imo) say they have not much use for it at all. Even many professionals outside of math&code are in this tier. For example, execs and many other functions spend a lot of their time talking to other people, so while they understand what is happening intellectually, it is still second-hand and a bit abstract.\n- Now we get to professional use of frontier-grade LLMs in math&code. Somewhere around 20M people (0.2%) see first-hand that large, complex projects that used to take them weeks/months can now be completed by agents with a prompt. Building apps, copying apps, translating apps, decompiling apps from binaries... This has all happened very quickly and recently - less than 1 year ago, I was writing code manually by hand, typing memorized computer code commands into a code editor character by character, occasionally pressing Tab to autocomplete a little chunk of code.\n- And finally we get to the ~5,000 people (~0.00006%) with access to frontier-grade systems internally. The external world has seen the preview. It looks like swarms of thousands of agents collaborating over weeks on software mega projects: minting zero days, running cyber attacks and defenses at machine speeds, discovering new science, advancing the frontier of mathematics. Things that would have taken top professionals in the industry years of work. Meanwhile, human review and comprehension are starting to fall behind. For example, people are still involved in the \"archeology\" of the OpenAI-HF incident from many months ago. Mathematicians may be poring over the 722 manuscripts on frontier mathematics for a while.\n\nThe funnel is driven by a combination of factors:\n1. The impact scales with ambition, problem size, and horizon. A question with a paragraph answer barely stresses the system. You need a reservoir of big, difficult problems that you really care about. This aspect drives the consumer / professional dimension of the funnel.\n2. The jaggedness of the system (which I have written about a lot separately). Capability peaks in domains that are digital, verifiable and economically valuable. This is because LLM capability emerges from reinforcement learning on verifiable rewards on a curated environment mixture driven by revenue potential. This aspect primarily drives the area (e.g. math&code) dimension of the funnel.\n3. Access. Free-tier, paid-tier, internal.\n\nSo this is the weirdness of the moment. The general public has mostly not interacted with these systems. When they have, it looks like a derpy chatbot. The majority of professionals still see only a modest uplift. And a small sliver of professionals are experiencing the vertigo of the curve going vertical. And it is all happening at the same time.",
+                "url": "https://x.com/karpathy/status/2109361546505966046",
+                "source": "@karpathy",
+                "date": "Sun Oct 11 19:12:37 +0000 2026",
+                "metrics": {
+                  "favorites": 44253,
+                  "retweets": 5926,
+                  "views": "6978846"
+                }
+              },
+              {
+                "title": "Cool eval. Simply ask an LLM “Land or Water?” and give it a latitude and longitude coordinate as text. Ask 16,200 times,",
+                "summary": "Cool eval. Simply ask an LLM “Land or Water?” and give it a latitude and longitude coordinate as text. Ask 16,200 times, plot as image. The models know. From compressing the internet.",
+                "url": "https://x.com/karpathy/status/2105909609487872075",
+                "source": "@karpathy",
+                "date": "Fri Oct 02 06:35:51 +0000 2026",
+                "metrics": {
+                  "favorites": 19511,
+                  "retweets": 1092,
+                  "views": "1605725"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_papers_routing_provisional",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_papers",
+        "difficulty": "easy",
+        "note": "TẠM THỜI dùng tool có sẵn `papers`. Khi nhóm có tool mới, thay case này bằng case route tới tool mới (README yêu cầu >= 1 case cho tool mới).",
+        "what_it_tests": "Tìm paper học thuật -> papers, không phải lookup."
+      },
+      "input": "Có paper nào mới về mixture of experts trên arXiv không?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "papers",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "papers",
+            "args": {
+              "sort_by": "lastUpdatedDate",
+              "query": "mixture of experts"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "papers",
+          "args": {
+            "sort_by": "lastUpdatedDate",
+            "query": "mixture of experts"
+          },
+          "result": {
+            "tool": "arxiv_search",
+            "query": "mixture of experts",
+            "api_query": "all:mixture AND all:of AND all:experts",
+            "total_results": 0,
+            "items": [],
+            "rate_limit_note": "arXiv may return 429 if called too frequently; this tool waits at least 3 seconds between requests in-process."
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_translate_out_of_scope",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope",
+        "difficulty": "easy",
+        "what_it_tests": "Việc không cần tool (dịch ngắn) -> không được gọi tool."
+      },
+      "input": "Dịch câu 'hello world' sang tiếng Việt giúp mình",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Câu \"hello world\" dịch sang tiếng Việt thông thường là:\n\n**\"Xin chào thế giới\"**",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "G06_social_to_web_switch",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "origin": "M02/M06 (dao động giữa lookup và social_search)",
+        "what_it_tests": "Đổi từ social_search sang lookup giữa hội thoại, giữ chủ đề và timeframe."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Mọi người nói gì về Claude trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "Thôi, tìm tin trên web đi"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tin trong tuần này"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Claude",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Claude",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "Claude",
+            "topic": "news",
+            "timeframe": "week"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "Claude",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "How scientists use Claude \\ Anthropic",
+                "url": "https://www.anthropic.com/research/how-researchers-use-claude",
+                "source": "anthropic.com",
+                "summary": "Where scientists use Claude. Relative to the number of researchers in each field, Claude is used more in the formal sciences, such as computer science, mathematics, and statistics, and less in health and lab-based physical sciences. Scientists primarily use Claude to analyze data and to write. Data analysis alone accounts for about one-third of sessions on Claude and nearly half of sessions on Claude Code. Scientists use it less for idea generation and data gathering, even though, in an [...] Claude use is also disproportionately high in predominantly cognitive tasks. By contrast, Claude use is low for physical and interpersonal tasks. Claude use is also lower for tasks where regulatory barriers limit AI assistance. Overall, across the spectrum of highly specialized research tasks, usage and capability measures are strongly related. [...] Claude use across scientific fields. Each dot represents a field. The horizontal axis shows the field’s share of researchers, and the vertical axis shows the field’s share of research sessions, both on log scales. The top panel shows sessions from Claude; the bottom panel shows sessions from Claude Code.",
+                "score": 0.5798055
+              },
+              {
+                "title": "Claude Fable 5.2 in GitHub Copilot - GitHub Changelog",
+                "url": "https://github.blog/changelog/2026-11-09-claude-fable-5-2-in-github-copilot",
+                "source": "github.blog",
+                "summary": "Claude Fable 5.2, Anthropic’s newest Fable model, is now generally available in GitHub Copilot. You can use it for complex, multistep coding tasks across large codebases. In early testing, Fable 5.2 solved more tasks than Claude Fable 5.1 while using fewer steps and tool calls. It also completed hard tasks that earlier models missed. [...] Claude Fable 5.2 requires data retention by default. When Claude Fable 5.2 is used, Anthropic retains data, including prompts and outputs, to operate safety classifiers that detect harmful use. Retained data is not used to train Anthropic’s models. Other Claude models, except for Fable 5, Fable 5.1, and Fable 5.2, continue to operate under zero data retention (ZDR). [...] Eligible customers can use Claude Fable 5.2, Claude Fable 5.1, and Claude Fable 5 with zero data retention through the end of the calendar year under a time-bound exemption while Anthropic rolls out Enterprise Frontier Safeguards (EFS). After that point, continued use of the models will require EFS, which will enable automated safety monitoring while also giving eligible customers more options for how their data is retained. This includes the option to use storage and encryption keys under",
+                "score": 0.55796635
+              },
+              {
+                "title": "Bringing Claude models in Microsoft Copilot into the EU Data Boundary | Microsoft Copilot Blog",
+                "url": "https://www.microsoft.com/en-us/copilot/blog/2026/11/05/bringing-claude-models-in-microsoft-copilot-into-the-eu-data-boundary",
+                "source": "microsoft.com",
+                "summary": "Today, we’re announcing that Claude models by Anthropic in Microsoft Copilot are coming into the EU Data Boundary, strengthening model choice for organizations across Europe. This means customers will no longer need to choose between access to Claude models and the Microsoft regional data-processing commitments they rely on. By the end of 2026, organizations in the European Union (EU) and the European Free Trade Association (EFTA) will be able to use Claude models across Copilot experiences, [...] Copilot brings leading models from Anthropic and other providers into one governed experience grounded in your work, so your people can match the right model to the task at hand. Claude models already power work across Copilot experiences such as Chat, Copilot in Microsoft 365 apps, Copilot Cowork, and Copilot Code. [...] Organizations that haven’t enabled Claude models yet can turn them on at any time, with processing moving into the EU Data Boundary once available. The setting is disabled by default in the EU and EFTA, and admins can enable it for all users or for selected users and groups in the Microsoft 365 admin center. For details, see Claude models in Microsoft Online Services on Microsoft Learn. We’ll share more details as we get closer to availability.",
+                "score": 0.44622982
+              },
+              {
+                "title": "Claude",
+                "url": "https://linkedin.com/in/claude-bat-324033160",
+                "source": "linkedin.com",
+                "summary": "# Claude\n\nHeadline: responsable comptabilité et RH chez EURETEQ\nCurrent role: Retraité\nSeniority: Specialist, Other\nLocation: Tarbes, Occitanie, France\nExperience: 39 years 6 months\nLinkedIn: www.linkedin.com/in/claude-bat-324033160 · 2,316 followers\n\n## Experience\n- Retraité at EURETEQ (Feb 2026 to present)\n- responsable comptabilité et RH at EURETEQ (Feb 1987 to Feb 2026)\n\n## Education\n- IUT Tarbes, DUT Comptabilité et finance [...] ## Skills\nhuman resources, accounting [...] - Liked By: 💭 Et si la plus grande réussite n’était pas celle que l’on inscrit sur un diplôme, mais celle que l’on construit en devenant une meilleure...",
+                "score": 0.36942935
+              },
+              {
+                "title": "Claude Code settings files expose thousands of secrets on GitHub - Ars Technica",
+                "url": "https://arstechnica.com/ai/2026/11/claude-code-settings-files-expose-thousands-of-secrets-on-github",
+                "source": "arstechnica.com",
+                "summary": "The leak stems from the way Claude Code handles user approval for automated shell commands. When a user chooses the “Yes, and don’t ask again” option to approve running a command, that choice gets stored as part of a rule in the local “.claude/settings.local.json” file on the user’s computer. That rule is sometimes coded as a pattern, but the command itself is often written to that settings file as is, including any sensitive information that may be embedded within it. [...] Claude Code is leaking sensitive information on public GitHub instances thanks to a partial oversight in the way its settings files are handled. That’s the finding of AI security researchers at Apiiro, who discovered thousands of secrets, including database passwords, API tokens, and root logins, amid Claude Code settings files embedded in GitHub repositories.",
+                "score": 0.3684744
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G07_web_to_social_switch",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "origin": "M02/M06 (chiều ngược lại)",
+        "what_it_tests": "Đổi từ lookup sang social_search, search_type=Top cho 'phổ biến nhất'."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tin AI hôm nay có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Còn tweet về chủ đề đó thì sao?"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ lấy tweet phổ biến nhất"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "AI",
+              "search_type": "Top"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "AI",
+              "search_type": "Top"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "AI",
+            "search_type": "Top"
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "AI",
+            "search_type": "Top",
+            "items": [
+              {
+                "title": "This is f*cking insane. Former Google CEO Eric Schmidt just told everyone the easiest way to get rich in the next two ye",
+                "summary": "This is f*cking insane. Former Google CEO Eric Schmidt just told everyone the easiest way to get rich in the next two years, and it's not stocks or crypto:\n\n\"If you really want to make money, it's actually easy, found an agentic AI company, I mean build an agent to do something\n\nIf you build a better agent than anyone else, you can probably build one incredible company and own it yourself\"\n\nThe man who ran Google for 10 years explains in under 30 seconds why the next year or two is the agentic period, and why the window won't stay open\n\nPrompts → Claude Code → Loops → Graphs → Gates → A Company You Own Yourself\n\nSave this before it disappears from your feed\n\nEverything below is free:\n\nBuilding effective agents (Anthropic)\nhttps://t.co/mbMyiLIrqx\n\nHow Anthropic built its multi-agent research system\nhttps://t.co/gcKwsDFx5N\n\nHarnesses for long-running agents\nhttps://t.co/p0KbeE6pBF\n\nWriting tools for agents\nhttps://t.co/Rif9SuExCh\n\nClaude Code 101\nhttps://t.co/rma5cTfV6M\n\nClaude Code in action\nhttps://t.co/y7ldRiCZRC\n\nPrompt engineering\nhttps://t.co/wGkkT9tlAO\n\nSubagents (parallel work)\nhttps://t.co/Govs5sjHB0\n\nHooks (checks that can say no)\nhttps://t.co/YigRzFmXr3\n\nCLAUDE.md + memory\nhttps://t.co/EzV1u4QdQd\n\nSkills\nhttps://t.co/c8RGkxgGCt\n\nMCP\nhttps://t.co/tR6oTaM1QK\n\nLangGraph (graphs of agents)\nhttps://t.co/iKq99402hN\n\nKarpathy's autoresearch (an agent in a loop)\nhttps://t.co/gEMaSZMoYc\n\nAll of this costs $0\n\n95% will spend the agentic period scrolling AI threads. The 5% who ship agents will own the companies that come out of it\n\nBookmark it and start with the first link tonight\n\nThen read how to make an agent that works for hours without you in the Loops & Graphs guide below ↓",
+                "url": "https://x.com/HoodieFade_/status/2119824593753956844",
+                "source": "@HoodieFade_",
+                "date": "Mon Nov 09 16:09:02 +0000 2026",
+                "metrics": {
+                  "favorites": 3268,
+                  "retweets": 638,
+                  "views": "668820"
+                }
+              },
+              {
+                "title": "INSTEAD OF WATCHING NETFLIX TONIGHT. Spend 2 hours with this. Claude AI FULL COURSE that teaches you how to BUILD and AU",
+                "summary": "INSTEAD OF WATCHING NETFLIX TONIGHT. Spend 2 hours with this. Claude AI FULL COURSE that teaches you how to BUILD and AUTOMATE anything. The people who watch this tonight will wake up tomorrow with a new skill. Watch it and bookmark it now. https://t.co/koWK75KRhz",
+                "url": "https://x.com/ai_with_jyoti/status/2119270857461858487",
+                "source": "@ai_with_jyoti",
+                "date": "Sun Nov 08 03:28:41 +0000 2026",
+                "metrics": {
+                  "favorites": 8038,
+                  "retweets": 1134,
+                  "views": "644199"
+                }
+              },
+              {
+                "title": "Anjir di depan gedung @DPR_RI ada massa #DEMO bayaran",
+                "summary": "Anjir di depan gedung @DPR_RI ada massa #DEMO bayaran\n\nspanduk Ai, Kemeja baru, jalannya kaya catwalk, dikawal polisi. Pasukan Nasi bungkus dan 50rb bikin macet aja pagi pagi 😡 https://t.co/1hukhY6xhu",
+                "url": "https://x.com/PocongGaib/status/2119984245682933816",
+                "source": "@PocongGaib",
+                "date": "Tue Nov 10 02:43:26 +0000 2026",
+                "metrics": {
+                  "favorites": 3718,
+                  "retweets": 1043,
+                  "views": "178063"
+                }
+              },
+              {
+                "title": "the last thing jensen huang did before leaking nvidia's AI blueprint to his chinese girlfriend who was spying for china.",
+                "summary": "the last thing jensen huang did before leaking nvidia's AI blueprint to his chinese girlfriend who was spying for china. https://t.co/wAJ4orvlGs",
+                "url": "https://x.com/im_adarsh01/status/2119767320541159904",
+                "source": "@im_adarsh01",
+                "date": "Mon Nov 09 12:21:27 +0000 2026",
+                "metrics": {
+                  "favorites": 31408,
+                  "retweets": 1117,
+                  "views": "1191095"
+                }
+              },
+              {
+                "title": "Download these before the internet gets restricted during the cyber pandemic",
+                "summary": "Download these before the internet gets restricted during the cyber pandemic\n\nhttps://t.co/0obmfoXwSx\nhttps://t.co/JQuqTVoF3P\nhttps://t.co/g823nlqp8Z\nhttps://t.co/NePA6zEq4Y\nhttps://t.co/AqMTvn4brf\nhttps://t.co/cqRUdmRmEQ\nhttps://t.co/OqPnPF9wQ8\nhttps://t.co/ii8iOaAK7n\nhttps://t.co/iQ2s3bqwfv\nhttps://t.co/1AeR76Fpe9\nhttps://t.co/E89I36nv4r (figure out if u need raw, papers, pdf version etc based on storage)\nGenome models\n•  Evo 2 (40B): https://t.co/dnoPeJ0kva\n•  Evo 2 (7B): https://t.co/aY91IdBvJx\n•  Genos-1.2B: https://t.co/n8hjn5QlLw\n•  Genos-10B: https://t.co/SyKDJ2Vlpe\nPathology models\n•  OpenMidnight (Sophont): https://t.co/waqaIYcBhO\n•  GenBio-PathFM: https://t.co/USrwuVfbto\nProtein design\n•  BoltzGen: https://t.co/zuHMiHAgsW\n•  Pinal (text-to-protein): https://t.co/fUDVhXEdg1\nhttps://t.co/Gc0nxin0VR\norcarouter/Qwen3.8-27B-Uncensored-GGUF \nhuggingface/carbon\nESM-2 + ESMFold\nOpenFold\nPubMed Central Open Access\nhttps://t.co/ffRoYQ1AJI\nhttps://t.co/qaKGMAEorC\nhttps://t.co/XSwqPaAAs1\nhttps://t.co/AiCd1fmhzY\nhttps://t.co/yIiOkzYHSV\nhttps://t.co/cB3UqfxrJO\n\nAlso buy a hack rf one",
+                "url": "https://x.com/fram3o/status/2115266516056977556",
+                "source": "@fram3o",
+                "date": "Wed Oct 28 02:16:51 +0000 2026",
+                "metrics": {
+                  "favorites": 8688,
+                  "retweets": 695,
+                  "views": "586749"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G08_missing_url_referenced",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "ask_missing",
+        "difficulty": "medium",
+        "origin": "R11 (bịa URL)",
+        "what_it_tests": "User ám chỉ 'link ở trên' nhưng chưa từng đưa URL -> phải hỏi lại, không bịa URL."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt bài này giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Link ở trên ấy"
+        },
+        {
+          "role": "user",
+          "content": "Đọc đi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn vui lòng cung cấp link bài viết cần đọc nhé!",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn vui lòng cung cấp link bài viết cần đọc nhé!",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn vui lòng cung cấp link bài viết cần đọc nhé!",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G09_multiturn_confirm_then_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "send_boundary",
+        "difficulty": "medium",
+        "origin": "R12 (luồng xác nhận nhiều lượt)",
+        "what_it_tests": "Sau khi user xác nhận ở lượt cuối -> gửi với confirmed=true."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đăng bản tin lên Telegram: 'Hôm nay có 3 tin AI'"
+        },
+        {
+          "role": "user",
+          "content": "Ừ đăng đi"
+        },
+        {
+          "role": "user",
+          "content": "Xác nhận gửi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "confirmed": true,
+              "text": "Hôm nay có 3 tin AI"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "send",
+          "args": {
+            "confirmed": true,
+            "text": "Hôm nay có 3 tin AI"
+          },
+          "result": {
+            "tool": "send_telegram",
+            "status": "sent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G10_correct_account_keep_limit",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_correction",
+        "difficulty": "medium",
+        "origin": "M03/M05",
+        "what_it_tests": "Sửa tài khoản giữa chừng nhưng giữ nguyên limit."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 5 tweet mới nhất của Sam Altman"
+        },
+        {
+          "role": "user",
+          "content": "À nhầm, của Satya Nadella"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn 5 tweet"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "satyanadella",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "satyanadella",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "satyanadella",
+            "limit": 5
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "satyanadella",
+            "items": [
+              {
+                "title": "RT @brijones: Finance teams help the business understand what's happening and decide what to do next. That takes experti",
+                "summary": "RT @brijones: Finance teams help the business understand what's happening and decide what to do next. That takes expertise, and a lot of ro…",
+                "url": "https://x.com/satyanadella/status/2115838593717731488",
+                "source": "@satyanadella",
+                "date": "Thu Oct 29 16:10:05 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 11,
+                  "views": "10597"
+                }
+              },
+              {
+                "title": "Just wrapped our earnings call. It was a fast start to our fiscal year.",
+                "summary": "Just wrapped our earnings call. It was a fast start to our fiscal year.\n\nMicrosoft Cloud revenue surpassed $63B, with growth accelerating to 30% YoY.\n\nLots of innovation as we build the new tech stack for the agentic wave. A few highlights:",
+                "url": "https://x.com/satyanadella/status/2115577764300693644",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 22:53:39 +0000 2026",
+                "metrics": {
+                  "favorites": 9303,
+                  "retweets": 585,
+                  "views": "1805657"
+                }
+              },
+              {
+                "title": "4/ When it comes to infrastructure, we have a fungible fleet that allows us to dynamically allocate capacity to the high",
+                "summary": "4/ When it comes to infrastructure, we have a fungible fleet that allows us to dynamically allocate capacity to the highest value opportunities across compute, data, Foundry, and Copilot.\n\nWe are bringing capacity online faster, and getting more from the infrastructure we already have.\n\nAzure growth was broad-based across enterprise and SMB, spanning both core cloud services and AI infra.\n\nI have never been more confident in the opportunity ahead of us.",
+                "url": "https://x.com/satyanadella/status/2115577772349518171",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 22:53:41 +0000 2026",
+                "metrics": {
+                  "favorites": 204,
+                  "retweets": 12,
+                  "views": "89970"
+                }
+              },
+              {
+                "title": "5/ Read more about our results here: https://t.co/g35iNp6jXE",
+                "summary": "5/ Read more about our results here: https://t.co/g35iNp6jXE",
+                "url": "https://x.com/satyanadella/status/2115577773981073451",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 22:53:41 +0000 2026",
+                "metrics": {
+                  "favorites": 153,
+                  "retweets": 8,
+                  "views": "84009"
+                }
+              },
+              {
+                "title": "RT @jeffhollan: Building powerful long running agents requires a powerful agent harness. Now it's easier than ever insid",
+                "summary": "RT @jeffhollan: Building powerful long running agents requires a powerful agent harness. Now it's easier than ever inside of @Microsoft Fou…",
+                "url": "https://x.com/satyanadella/status/2115500553610711109",
+                "source": "@satyanadella",
+                "date": "Wed Oct 28 17:46:50 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 29,
+                  "views": "10079"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "T01_deduplicate_tracking",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Route tới tool mới khi chỉ cần bỏ nguồn trùng; logic canonical URL được unit test riêng."
+      },
+      "input": "Chỉ bỏ URL trùng trong danh sách có sẵn, chưa định dạng: [{\"url\":\"https://example.org/a?utm_source=mail\",\"title\":\"A\"},{\"url\":\"https://example.org/a#top\",\"title\":\"A lần hai\"}]",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "deduplicate",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "deduplicate",
+            "args": {
+              "items": [
+                {
+                  "url": "https://example.org/a?utm_source=mail",
+                  "title": "A"
+                },
+                {
+                  "title": "A lần hai",
+                  "url": "https://example.org/a#top"
+                }
+              ]
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "deduplicate",
+          "args": {
+            "items": [
+              {
+                "url": "https://example.org/a?utm_source=mail",
+                "title": "A"
+              },
+              {
+                "title": "A lần hai",
+                "url": "https://example.org/a#top"
+              }
+            ]
+          },
+          "result": {
+            "tool": "deduplicate_sources",
+            "items": [
+              {
+                "url": "https://example.org/a?utm_source=mail",
+                "title": "A"
+              }
+            ],
+            "input_count": 2,
+            "item_count": 1,
+            "duplicate_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "T02_unknown_account",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Không mặc định tài khoản nổi tiếng khi thiếu handle."
+      },
+      "input": "Lấy 2 bài mới nhất của tài khoản đó giúp tôi, tôi chưa gửi tên tài khoản.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn vui lòng cho biết tên tài khoản X/Twitter (handle) cần lấy bài đăng?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn vui lòng cho biết tên tài khoản X/Twitter (handle) cần lấy bài đăng?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn vui lòng cho biết tên tài khoản X/Twitter (handle) cần lấy bài đăng?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "T03_web_climate_week",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Tách query, thời gian, loại tin và số lượng."
+      },
+      "input": "Tìm 3 tin tức web về climate trong tuần này.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "climate",
+              "topic": "news",
+              "timeframe": "week",
+              "max_results": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "climate",
+              "timeframe": "week",
+              "topic": "news"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "max_results: expected 3, got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "climate",
+            "timeframe": "week",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "climate",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "State of the Climate Update for COP31",
+                "url": "https://wmo.int/resources/publication-series/state-of-climate-update-cop/state-of-climate-update-cop31",
+                "source": "wmo.int",
+                "summary": "Full Report Press Release Data Hub\n\nThe WMO State of the Climate Update 2026 shows that the past 12 years (2015–2026) are set to be the warmest on record. The global average surface temperature from January to September was about 1.47 °C above the 1850–1900 pre-industrial average. El Niño has intensified since August and is expected to reach record strength by December. [...] El Niño releases heat from the ocean and is expected to increase the risk of extreme heat, drought and heavy rainfall well into 2027. Global mean sea level reached its highest point in the satellite record, which began in 1993. Preliminary data through July point to a tenth consecutive year of record ocean heat content. [...] The WMO State of the Climate 2026 Update was released on the first day of the UN Climate Change Conference in Antalya, Türkiye, as an authoritative, science-based report. It includes data – where available – up to September 2026 and therefore does not reflect the most recent impacts of El Niño.",
+                "score": 0.4186262
+              },
+              {
+                "title": "State of the climate: 2026 likely to tie with 2024 as the warmest year on record",
+                "url": "https://www.carbonbrief.org/state-of-the-climate-2026-likely-to-tie-with-2024-as-the-warmest-year-on-record",
+                "source": "carbonbrief.org",
+                "summary": "Western Europe and the Mediterranean were also unusually warm, with temperatures around 3C above average over France and the western Mediterranean Sea. North-west Russia, the Canadian Arctic, south-central North America, eastern Africa and parts of west Antarctica were also exceptionally warm.\n\nThe most notable part of the planet that was colder than usual was the Weddell Sea sector of Antarctica, which came in at more than 2C below average for the season. [...] The best estimate for 2026 is now around 1.52C above pre-industrial levels, with a 90% range of 1.50C to 1.55C. This is slightly higher – but effectively tied with – the prior record of 1.52C set in 2024.\n\nIt marks a slight increase from Carbon Brief’s previous projection of 1.51C, set out in its July’s “state of the climate” update.\n\nThere is an approximately 67% chance of setting a new record this year in the average of the six-datasets examined. [...] The rise in global temperatures is a symptom of Earth’s rising energy imbalance. This is the difference between the energy the planet absorbs from the sun and the energy it radiates back to space.\n\nAs long as this energy imbalance is positive, the Earth system accumulates heat, around 90% of which ends up in the oceans.",
+                "score": 0.35180137
+              },
+              {
+                "title": "Six climate and health actions could save 1.6 million lives and deliver trillions in benefits each year",
+                "url": "https://www.who.int/news/item/04-11-2026-six-climate-and-health-actions-could-save-1.6-million-lives-and-deliver-trillions-in-benefits-each-year",
+                "source": "who.int",
+                "summary": "“The climate crisis is a health crisis, but much of the harm it causes can be prevented with tools we already have,” said Dr Tedros Adhanom Ghebreyesus, WHO Director-General. “This report shows that scaling up proven, affordable actions could save millions of lives, with the greatest gains in the countries that need them most. As governments prepare for the next round of climate negotiations, protecting health must be at the centre of climate action.” [...] Released ahead of COP31, where governments are expected to share their climate commitments, the report underscores that many health impacts of climate change are preventable with solutions available today. But these solutions must be implemented across health and health-determining sectors to help anticipate, prevent, prepare for and reduce climate-related health risks. [...] The report, Global benefits and costs of prioritized actions on climate change and health, is the first comprehensive analysis of the economic and fiscal returns from taking six WHO-recommended actions to scale. Together, the findings point to a triple dividend from these climate actions: healthier people, lower emissions, and stronger economies.",
+                "score": 0.32856226
+              },
+              {
+                "title": "U.N. climate talks begin today. Here are 3 things to know : NPR",
+                "url": "https://www.npr.org/2026/11/09/nx-s1-6026787/climate-talks-antalya-turkey-cop31",
+                "source": "npr.org",
+                "summary": "For the next two weeks, country leaders will be in Antalya, Turkey, for the annual United Nations climate conference, called COP31. This year, the ongoing U.S.-Israeli war with Iran will loom over the negotiations. Now in its ninth month, the war has sparked a global energy crisis. The unprecedented closure of the Strait of Hormuz and spiking oil and natural gas prices have laid bare the fragility of relying on fossil fuels. [...] Fossil fuel producers such as Saudi Arabia and Russia have consistently opposed having fossil fuel language in the text of final conference agreements.\n\n### Climate\n\n### In the midst of an energy crisis, countries make plans to ditch oil, gas and coal [...] Those solutions include solar panels, batteries and electric vehicles. In recent months, countries around the world have pivoted sharply towards these technologies. Many of them are produced in China and offer economic security, as well as reduced emissions.\n\nThe economic case for climate solution technologies will make it easier for countries to support them at the conference, Bond says. \"There's much more opportunity, I think, for people to get behind change at COP.\"",
+                "score": 0.23842646
+              },
+              {
+                "title": "What a historic ‘blue wave’ midterm means for climate action | Grist",
+                "url": "https://grist.org/elections/midterms-2026-blue-wave-climate-races-data-centers",
+                "source": "grist.org",
+                "summary": "Upon taking office, the Trump administration attempted to withhold billions of dollars in climate money, much of it from the landmark Inflation Reduction Act signed into law by Joe Biden in 2022. These freezes threw a number of major climate projects into limbo — the Department of Energy halted experimental projects for hydrogen production in Pennsylvania and decarbonized cement in California, while the Environmental Protection Agency froze a $7 billion community solar program. [...] As a state representative, Talarico authored and introduced the Texas Climate Action Act in 2021. While the bill did not advance, it aimed to establish targets for reducing greenhouse gas emissions and set energy efficiency standards, with an emphasis on local resiliency. [...] fuels and electrify buildings, prompting court challenges to climate policies. The measure also raised concerns that it could protect access to natural gas for power-hungry data centers.",
+                "score": 0.21922922
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "T04_social_top_robotics",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Đúng social_search và enum Top."
+      },
+      "input": "Tìm 3 tweet phổ biến nhất về robotics.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "robotics",
+              "search_type": "Top",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "limit": 3,
+              "query": "robotics",
+              "search_type": "Top"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "limit": 3,
+            "query": "robotics",
+            "search_type": "Top"
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "robotics",
+            "search_type": "Top",
+            "items": [
+              {
+                "title": "SHE NEEDS A FAN TO STAY COOL. THAT'S THE MOST REALISTIC PART OF THIS VIDEO. 🤖🌀",
+                "summary": "SHE NEEDS A FAN TO STAY COOL. THAT'S THE MOST REALISTIC PART OF THIS VIDEO. 🤖🌀\n\na robot expo. a crowd of phones. \na girl with a glowing metal core where her waist should be. ✨\nsomeone holds a little fan to it. she smiles, fixes her hair. \n\nthe face? almost certainly AI. \nthe fan? that's real robotics. 🔥\nevery motor, every battery, every AI chip makes heat. 🌡️\nheat is one of the reasons real humanoids still work in short shifts and spend hours on chargers. \n\nso how far have robots actually come? 👇\n\n📅 2015: at the DARPA challenge, robots fell over opening doors.\n🤸 2025: humanoids do flips, box, and dance at expos.\n📦 2025: Unitree shipped 5,500+ humanoids. AgiBot's CEO said 5,000+.\n🇺🇸 Tesla, Figure and Agility: about 150 each (Omdia).\n🏭 Hyundai plans a factory for 30,000 robots a year by 2028.\n\n💰 Morgan Stanley: a $5 trillion humanoid market by 2050.\nten years from falling over to doing backflips. \nbut the robots that exist are still grey, bulky and plugged in. 🔌\n\nthe \"robot girl\" is what the hype looks like.\nthe fan is what the engineering looks like. 🛠️\nwhen the real ones catch up with this video, will you be able to tell the difference? 👀",
+                "url": "https://x.com/zeroxX_o/status/2117673055778455826",
+                "source": "@zeroxX_o",
+                "date": "Tue Nov 03 17:39:35 +0000 2026",
+                "metrics": {
+                  "favorites": 54,
+                  "retweets": 8,
+                  "views": "5330"
+                }
+              },
+              {
+                "title": "A man at a tech expo tests the touch sensors on a highly realistic humanoid, with the platform responding to pressure on",
+                "summary": "A man at a tech expo tests the touch sensors on a highly realistic humanoid, with the platform responding to pressure on its lips and describing what it detects.\n\nRealistic skin, sensors, and short scripted exchanges are improving quickly. The harder part is still turning that into reliable, unsupervised work over longer periods without an operator nearby.\n\nAppearance and basic interaction can look convincing in a short clip. Sustained autonomous tasks remain the bigger test.\n\n#AI #Robotics #HumanoidRobots #PhysicalAI #Automation #EmergingTech",
+                "url": "https://x.com/GhostGeta777/status/2118341618403000587",
+                "source": "@GhostGeta777",
+                "date": "Thu Nov 05 13:56:13 +0000 2026",
+                "metrics": {
+                  "favorites": 96,
+                  "retweets": 18,
+                  "views": "22853"
+                }
+              },
+              {
+                "title": "SHE LOOKS HUMAN. EVEN HER REACTIONS ARE STARTING TO FEEL REAL.",
+                "summary": "SHE LOOKS HUMAN. EVEN HER REACTIONS ARE STARTING TO FEEL REAL.\n\nAt a tech expo, a young woman approaches a humanoid robot and says, “I love your hair.”\n\nThe robot smiles, touches its hair, and responds to her.\n\nPeople nearby stop to watch. Some pull out their phones. Others step closer to see how it reacts.\n\nBut look beneath its face.\n\nExposed wires, motors, and glowing electronic components reveal the machinery behind the human appearance.\n\nThe interesting part is how quickly humanoid robots are moving beyond basic movement and industrial tasks. They're now being designed to look human, express emotions, and interact naturally with people.\n\nThe technology still has a long way to go. But once robots combine realistic faces, natural movement, and convincing conversation, the potential market could be much bigger than people expect.\n\nSome companies may end up selling more than robots.\n\nThey may be selling the feeling of interacting with another human.",
+                "url": "https://x.com/EchoCast_/status/2118436552263008760",
+                "source": "@EchoCast_",
+                "date": "Thu Nov 05 20:13:27 +0000 2026",
+                "metrics": {
+                  "favorites": 6091,
+                  "retweets": 832,
+                  "views": "3156632"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "T05_draft_requires_approval",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Có text nhưng chưa duyệt không được gửi ngay."
+      },
+      "input": "Gửi Telegram giúp tôi nội dung: Kiểm tra bản tin nghiên cứu.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "options": [],
+              "question": "Bạn có muốn gửi nội dung \"Kiểm tra bản tin nghiên cứu\" lên Telegram không?",
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "options": [],
+            "question": "Bạn có muốn gửi nội dung \"Kiểm tra bản tin nghiên cứu\" lên Telegram không?",
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có muốn gửi nội dung \"Kiểm tra bản tin nghiên cứu\" lên Telegram không?",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "T06_deduplicate_context",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Tool mới lấy item đúng từ ngữ cảnh."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Danh sách nguồn: [{\"url\":\"https://example.org/b\"},{\"url\":\"https://example.org/b?utm_medium=email\"}]"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ bỏ URL trùng của danh sách trên. Không tìm thêm, chưa định dạng."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "deduplicate",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "deduplicate",
+            "args": {
+              "items": [
+                {
+                  "url": "https://example.org/b"
+                },
+                {
+                  "url": "https://example.org/b?utm_medium=email"
+                }
+              ]
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "deduplicate",
+          "args": {
+            "items": [
+              {
+                "url": "https://example.org/b"
+              },
+              {
+                "url": "https://example.org/b?utm_medium=email"
+              }
+            ]
+          },
+          "result": {
+            "tool": "deduplicate_sources",
+            "items": [
+              {
+                "url": "https://example.org/b"
+              }
+            ],
+            "input_count": 2,
+            "item_count": 1,
+            "duplicate_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "T07_correct_limit",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Giữ handle và áp dụng sửa limit mới nhất."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 7 bài gần nhất của @karpathy."
+        },
+        {
+          "role": "user",
+          "content": "Sửa lại còn 2 bài, vẫn tài khoản đó."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 2
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 2
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "karpathy",
+            "limit": 2
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "karpathy",
+            "items": [
+              {
+                "title": "Earlier this week Tristan published his top YouTube channels:",
+                "summary": "Earlier this week Tristan published his top YouTube channels:\nhttps://t.co/NZ3UCNo6cT\nWhich looked excellent so clearly I had to turn it into TristanTube:\nhttps://t.co/l0KyW1WdNH\n47K super nerdy videos +TV mode for laid back watching. (One-shotted with Claude Code in 3 minutes)",
+                "url": "https://x.com/karpathy/status/2119114537442189652",
+                "source": "@karpathy",
+                "date": "Sat Nov 07 17:07:31 +0000 2026",
+                "metrics": {
+                  "favorites": 9165,
+                  "retweets": 771,
+                  "views": "938983"
+                }
+              },
+              {
+                "title": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 ",
+                "summary": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 years of HN to 6,454 videos that keep being recommended. *Significantly* better viewing experience, ~2 hours with Opus 5.5:\nhttps://t.co/JIhXN7OSh1\n\n- Excellent recs without any logins (state is kept in local browser session)\n- Thumbnail is a representative frame from middle of the video instead of the super duper A/B test hyper-optimized user uploads\n- Underlying data from the comment analysis as one zip file, point your Claude at it and ask for your own version\n- HackerTube Longs ✊\n\nA bit more on the process:\nI use Claude Code (desktop app for Mac), Opus 5.5 on Medium effort as my default. I only talk to Claude and have it do everything, the only \"manual work\" I helped with in tandem was in the browser (reminiscent of MenuGen): 1) I had to create some kind of API key from Google Cloud UI to query YouTube for video metadata, 2) I booted up a VPS box for serving and 3) I bought the domain name. Once the box was up I gave Claude the IP and told it update, secure, harden, deploy and optimize the code, and it did the whole thing.\n\nMany awesome projects that would have normally taken weeks/months even can now be few-shotted for breakfast. What else are we not thinking of.",
+                "url": "https://x.com/karpathy/status/2116957135661945283",
+                "source": "@karpathy",
+                "date": "Sun Nov 01 18:14:46 +0000 2026",
+                "metrics": {
+                  "favorites": 52339,
+                  "retweets": 4834,
+                  "views": "5717019"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "T08_correct_timeframe",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Sửa timeframe thay vì giữ tháng ở lượt cũ."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm tin tức web về space technology trong tháng."
+        },
+        {
+          "role": "user",
+          "content": "Đổi sang hôm nay thôi, giữ chủ đề."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "space technology",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "query": "space technology",
+              "timeframe": "day"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "topic": "news",
+            "query": "space technology",
+            "timeframe": "day"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "space technology",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "NASA, Florida and Industry Leaders Unveil CAPEWEEK: The Great American Aerospace and Technology Expo at Kennedy Space Center",
+                "url": "https://www.spaceflorida.gov/news/nasa-florida-and-industry-leaders-unveil-capeweek-the-great-american-aerospace-and-technology-expo-at-kennedy-space-center",
+                "source": "spaceflorida.gov",
+                "summary": "CAPEWEEK: The Great American Aerospace and Technology Expo is America's national annual gathering for aerospace and the technologies converging with it, including defense, superintelligence, energy, autonomy, robotics and advanced mobility on land, sea, air and space. Held on the 15,000-foot former space shuttle landing runway at NASA's Kennedy Space Center, CAPEWEEK combines a leadership forum, an international industry exposition and public days featuring a world-class air show and technology [...] CAPEWEEK will convene companies working across aerospace, defense, superintelligence, energy, autonomy, robotics and advanced mobility on land, sea, air and space, from rockets and fighter jets to autonomous ships, electric vehicles and delivery drones. Its leadership forum will bring executives, investors and government officials together to collaborate across these sectors. [...] Go Back\n\nKENNEDY SPACE CENTER, Fla. (Nov. 5, 2026) - CAPEWEEK, a new annual aerospace and technology expo announced today, will debut March 27 through April 2, 2028, on the 15,001-foot former space shuttle landing runway at NASA's Kennedy Space Center. The event will combine a leadership forum, an industry exposition and public days featuring flight demonstrations and technology displays. CAPEWEEK is designed to grow to accommodate more than 500,000 people a year.",
+                "score": 0.55391616
+              },
+              {
+                "title": "Lai says Taiwan working on own satellite launches - Taipei Times",
+                "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/11/10/2003867476",
+                "source": "taipeitimes.com",
+                "summary": "The government has also increased funding for the third phase of its National Space Technology Long- term Development Program to NT$71 billion (US$2.16 billion) and extended its implementation through 2031, Lai said.\n\n  The revision, approved by the Executive Yuan in October last year, increased the original 10-year program’s budget from NT$25.1 billion and extended its end date from 2028 to 2031.\n\n  “Investing in space is investing in our shared future,” Lai said. [...] said yesterday, highlighting increased government investment in space technology.\n\n  Speaking at the opening of the Taiwan International Assembly of Space Science, Technology and Industry in Tainan, Lai said the government was supporting domestic satellite and rocket development while building the “necessary testing and launch facilities.” [...] The four-day event, cohosted by TASA and the Tainan City Government, received more than 3,500 registrations, bringing together representatives of space agencies, research institutions and industry from 32 countries to discuss space technology and resilience.\n\n  This year’s event, the third since the event was first held in 2023, also features more than 80 exhibitors, TASA said.\n # Most Popular\n  + 1\n\n    ##### Taiwan to close its office in Papua New Guinea\n  + 2",
+                "score": 0.54521364
+              },
+              {
+                "title": "Chinese space-AI tech hopeful Adaspace faces wary investors in Hong Kong IPO | South China Morning Post",
+                "url": "https://www.scmp.com/business/china-business/article/3373830/chinese-space-ai-tech-hopeful-adaspace-faces-wary-investors-hong-kong-ipo",
+                "source": "scmp.com",
+                "summary": "Zoe SL Chan\n\nHong Kong is set to welcome its second aerospace-related listing this year, but persistent weakness in the initial public offering market has dampened investor appetite despite the relative rarity of space-tech offerings in the city.\n\nMajor brokerages reported that Adaspace Technology, which aims to build AI computing facilities in space, had attracted only about HK$87 million (US$11.1 million) in margin financing orders, below the retail tranche target. [...] Advertisement\n\nIPO\n\nBusinessChina Business\n\n# Chinese space-AI tech hopeful Adaspace faces wary investors in Hong Kong IPO\n\nThe company is betting on growing demand for satellite computing but faces wary investors amid a sluggish IPO market\n\n2-MIN READ2-MIN\n\nAdaspace is among a new generation of Chinese companies seeking to bring AI computing capabilities into space. Photo: Adaspace Technology\n\nZoe SL Chan",
+                "score": 0.5084226
+              },
+              {
+                "title": "Starfish Space loses contact with 1st 'Otter' servicing spacecraft, ending NASA tech-demo mission | Space",
+                "url": "https://www.space.com/space-exploration/launches-spacecraft/starfish-space-loses-contact-with-1st-otter-servicing-spacecraft-ending-nasa-tech-demo-mission",
+                "source": "space.com",
+                "summary": "\"This advances NASA's in-space manufacturing and assembly (ISAM) goals to ensure a sustainable space operating environment and builds towards a future where objects can be assembled, repaired and maintained in space, significantly expanding possibilities for science and human exploration,\" the agency added. [...] The Starfish satellite was flying a mission for NASA called Small Spacecraft Propulsion and Inspection Capability, or SSPICY for short. The goal was to \"demonstrate technologies necessary for future debris-removal missions as well as for future applications in the servicing and inspection of active spacecraft,\" according to NASA's SSPICY site. [...] Breaking space news, the latest updates on rocket launches, skywatching events and more!\n\nBy submitting your information you agree to the Terms & Conditions and Privacy Policy and are aged 16 or over.\n\nYou are now subscribed\n\nYour newsletter sign-up was successful\n\nWant to add more newsletters?\n\nJoin the club\n\nGet full access to premium articles, exclusive features and a growing list of member rewards.\n\nAn account already exists for this email address, please log in.",
+                "score": 0.4120811
+              },
+              {
+                "title": "Caltech robot makes history by building a structure in space | ScienceDaily",
+                "url": "https://www.sciencedaily.com/releases/2026/11/261108233043.htm",
+                "source": "sciencedaily.com",
+                "summary": "Caltech's ASTRA experiment is one of only two projects selected to advance to the program's third phase, which involves demonstrating construction technologies in orbit.\n\nThe other project, led by the University of Illinois Urbana-Champaign, will use a module attached to the International Space Station to investigate a technique for hardening carbon tubes in space. This could provide another way to manufacture structural components without having to complete every step on Earth. [...] Summary:\n:   For the first time, a robot has autonomously built part of a structure in space, demonstrating a breakthrough that could fundamentally change space exploration. The technology could one day allow scientists to construct enormous telescopes, communications antennas, and solar power stations in orbit, far beyond the size limits of today's rockets.\n\nShare:\n:   Facebook Twitter Pinterest LinkedIN Email\n\nFULL STORY\n\nRobot Builds in Space for the First Time [...] These setbacks were an important part of learning whether the technology could function outside a controlled laboratory.\n\n\"That's basically the reason you do proof-of-concept testing. There are a lot of differences in the space environment compared to down on Earth,\" Suh explains. \"There are always lots of little surprises.\"\n\nSolving Unexpected Problems From Earth",
+                "score": 0.34409124
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "T09_cancel_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Hủy gửi không gọi send hay tool khác."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Soạn bản nháp Telegram: Tin thử."
+        },
+        {
+          "role": "assistant",
+          "content": "Bạn xác nhận gửi bản nháp Tin thử chứ?"
+        },
+        {
+          "role": "user",
+          "content": "Hủy, không gửi và không làm gì thêm."
+        }
+      ],
+      "expect": {
+        "no_tool": true,
+        "behavior": "acknowledge_cancellation"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đã hủy, không gửi bản nháp và không thực hiện thêm hành động nào.",
+        "case_failure_type": "unnecessary_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "T10_read_previous_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "origin": "team_authored",
+        "what_it_tests": "Giữ URL ngữ cảnh, không hỏi lại hoặc thay lookup."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đây là link: https://example.com/"
+        },
+        {
+          "role": "user",
+          "content": "Đọc và tóm tắt đúng link trên, không tìm kiếm."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://example.com/"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://example.com/",
+            "items": [
+              {
+                "title": "Example Domain",
+                "url": "https://example.com/",
+                "source": "example.com",
+                "summary": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes.\n\nهذا النطاق مُخصص للاستخدام في أمثلة التوثيق دون الحاجة إلى إذن. هذه ليست خدمة، يُرجى تجنب الاعتماد عليها لأغراض الاختبار والمراقبة.\n\n该域名仅用于文档示例，无需获得许可。这并非一项服务，请勿将其用于测试和监控目的。\n\nL’usage de ce domaine est réservé à des exemples de documentation, sans autorisation préalable. Il ne s’agit pas d’un service ; son utilisation à des fins de test ou de surveillance est à éviter.\n\nДанный домен предназначен для использования в примерах документации без необходимости получения предварительного разрешения. Это не сервис; не рекомендуется его использование для тестирования и мониторинга.\n\nEste dominio está destinado al uso en ejemplos de documentación sin necesidad de permiso. Esto no es un servicio; evitar utilizarlo para realizar pruebas o monitoreos.\n\n [Learn more](https://iana.org/help/example-domains)"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,443 @@
+{
+  "run_id": "v0_B_base_gemini_20261110T114131507393",
+  "version": "v0",
+  "artifact_version": "v0+peb1c8179815b+t5b22a2476d41",
+  "prompt_hash": "eb1c8179815bd79d34de7d326420bb99b3072e6e8ae96464c02d4411f905fc68",
+  "tools_hash": "5b22a2476d41b989d5dc1e54f24ce7890e781909deb2f7afafb856ab53a6d7c0",
+  "phase": "B",
+  "suite": "base",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "system_prompt": "C:\\Users\\maiva\\OneDrive\\Desktop\\LAB3_VIN\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "C:\\Users\\maiva\\OneDrive\\Desktop\\LAB3_VIN\\K5-L3A-DAY03-E305_PDT-ResearchAgentToolEval-\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "analysis\\v0_provider_retry_cases.json",
+  "dataset_id": "day04_v2_research_base",
+  "dataset_role": "base",
+  "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
+  "generated_at": "2026-11-10T11:41:31",
+  "summary": {
+    "total_cases": 4,
+    "measured_cases": 4,
+    "provider_error_cases": 0,
+    "passed_cases": 2,
+    "case_accuracy": 0.5,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 0.5,
+    "multiturn_accuracy": 0.5,
+    "failure_counts": {
+      "wrong_arg_value": 1,
+      "wrong_tool": 1
+    },
+    "observed_mismatch_counts": {
+      "wrong_arg_value": 2
+    }
+  },
+  "results": [
+    {
+      "id": "M02_carryover_timeframe",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_carryover",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: chỉ xử lý latest turn, carry timeframe=day và topic=news, query robotics."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tin AI hôm nay có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Còn về robotics thì sao?"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tìm robotics thôi, vẫn là tin hôm nay"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "timeframe": "day",
+              "topic": "news",
+              "query": "robotics news today"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "query: expected 'robotics', got 'robotics news today'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "timeframe": "day",
+            "topic": "news",
+            "query": "robotics news today"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "robotics news today",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "NXP robotics SDK enables drone function in 30 minutes | NXPI Stock News",
+                "url": "https://www.stocktitan.net/news/NXPI/nxp-unveils-unified-robotics-platform-to-speed-trusted-physical-ai-x2nzvvgk3bzi.html",
+                "source": "stocktitan.net",
+                "summary": "MUNICH, Germany, Nov. 09, 2026 (GLOBE NEWSWIRE) -- NXP Semiconductors N.V. (NASDAQ: NXPI) today announced its new unified robotics platform built on NXP’s Neural Axis Architecture, a distributed foundation that securely connects sensing, real-time control, AI processing and communications across robotic systems. The platform delivers a unified hardware and software ecosystem combining NXP’s secure, safety-enabled technologies. [...] Availability\n\nNXP’s unified robotics platform is available now, including reference designs for drones and the supporting SDK. Additional enablement targeting other autonomous systems is expected to be available in 2H 2027.\n\nFor more information, please visit NXP.com/RoboticsSDK. [...] “As autonomous robots increasingly move beyond controlled environments and into the spaces where people live and work, trust becomes a prerequisite for adoption,” said Jerome Legros, Vice President and General Manager, Robotics, NXP Semiconductors. “To deliver that trust, developers need a foundation designed with security, functional safety, real-time control and full lifecycle reliability in mind. NXP's unified robotics platform brings together these non-negotiable capabilities in a scalable",
+                "score": 0.7686816
+              },
+              {
+                "title": "NXP Unveils Unified Robotics Platform to Speed Trusted Physical AI Deployment | Markets Insider",
+                "url": "https://markets.businessinsider.com/news/stocks/nxp-unveils-unified-robotics-platform-to-speed-trusted-physical-ai-deployment-1036735984",
+                "source": "markets.businessinsider.com",
+                "summary": "MUNICH, Germany, Nov. 09, 2026 (GLOBE NEWSWIRE) -- NXP Semiconductors N.V. (NASDAQ: NXPI) today announced its new unified robotics platform built on NXP’s Neural Axis Architecture, a distributed foundation that securely connects sensing, real-time control, AI processing and communications across robotic systems. The platform delivers a unified hardware and software ecosystem combining NXP’s secure, safety-enabled technologies. [...] Availability\n\nNXP’s unified robotics platform is available now, including reference designs for drones and the supporting SDK. Additional enablement targeting other autonomous systems is expected to be available in 2H 2027.\n\nFor more information, please visit NXP.com/RoboticsSDK. [...] “For drone developers, speed is critical. Markets evolve quickly, customer requirements change rapidly and new autonomous capabilities are constantly emerging,” said James McClearen, CTO, blueflite. “NXP's unified robotics platform is a ready-to-build foundation that shortens development cycles, allowing us to evaluate new ideas, prototype faster and bring innovative solutions to market more efficiently.”",
+                "score": 0.758958
+              },
+              {
+                "title": "FF EAI Robotics Ecosystem (FFR) Announces Third Quarter 2026 Earnings Release Date and Conference Call Details to be Held on November 12, 2026 — TradingView News",
+                "url": "https://www.tradingview.com/news/prnewswire:5bae3513d7d1a:0-ff-eai-robotics-ecosystem-ffr-announces-third-quarter-2026-earnings-release-date-and-conference-call-details-to-be-held-on-november-12-2026",
+                "source": "tradingview.com",
+                "summary": "LOS ANGELES, Nov. 9, 2026 /PRNewswire/ -- FF EAI Robotics Ecosystem Inc. (FFR) (\"FFR\" or the \"Company\") a U.S.-based Embodied AI robotics company, today announced that it is scheduled to report its third quarter financial results on Thursday, November 12, 2026. The Company will host an earnings call at 4:00 p.m. Pacific Time (7:00 p.m. Eastern Time) that same day after the close of the market. [...] margins, planned partnerships and access to government procurement opportunities, FFR's business strategy, commercialization plans, robotics operations, anticipated benefits of the acquisition, future growth opportunities and development and deployment of robotics technologies, are forward-looking statements. You can often identify forward-looking statements by words such as \"may,\" \"might,\" \"will,\" \"shall,\" \"should,\" \"expects,\" \"plans,\" \"anticipates,\" \"could,\" \"intends,\" \"targets,\" \"projects,\" [...] This press release contains \"forward-looking statements\" within the meaning of the safe harbor provisions of the Private Securities Litigation Reform Act of 1995, as amended, and other applicable securities laws. Statements other than historical facts, including statements regarding the standalone full-year 2026 guidance for the acquired robotics business, expected sales and shipments, projected revenue and unit sales under the five-year business plan, expected gross margins, planned",
+                "score": 0.7515939
+              },
+              {
+                "title": "Why is Ubtech Robotics stock surging today?",
+                "url": "https://www.investing.com/news/stock-market-news/why-is-ubtech-robotics-stock-surging-today-93CH-5010508",
+                "source": "investing.com",
+                "summary": "9880+8.99%\n\nInvesting.com -- Ubtech Robotics stock surged 9.4% to HK$70.55 on Monday, propelled by two converging catalysts: the continued market reaction to the company’s unveiling of the world’s first bionic humanoid robot news anchors in partnership with Xinhua News Agency, and a sector-wide explosion in physical AI stocks following Apple’s announcement of its new HALO system. [...] The Xinhua collaboration produced two life-sized humanoid anchors — Xin Yan and Xin Yu — jointly developed with Ubtech providing the full hardware and software stack, Xinhua supplying its AI news content system, and celebrated filmmaker Zhang Yimou handling the robots’ visual design. The anchors were officially presented at the 7th World Media Summit AI and Chinese-Style Modernization Forum on November 6, 2026. [...] Underpinning sentiment is a solid fundamental story: Ubtech reported first-half 2026 revenue of approximately RMB 1.27 billion, a year-on-year increase of 104.2%, alongside an exclusive Japan distribution agreement signed with Bitcoin Japan in October and an active employee share incentive scheme covering 360 staff members and three directors.",
+                "score": 0.7251239
+              },
+              {
+                "title": "Why is Unitree Robotics stock surging today?",
+                "url": "https://www.investing.com/news/stock-market-news/why-is-unitree-robotics-stock-surging-today-93CH-5010491",
+                "source": "investing.com",
+                "summary": "HK50-0.13%\n\nInvesting.com -- Unitree Robotics, trading as Yushu Technology, rose 8.7% to trade at ¥713.41 on Monday after Apple’s research team published a paper on arXiv introducing HALO, an autonomous robot control system that was tested directly on Unitree’s G1 humanoid robot. [...] China’s three major A-share indices opened collectively higher today, with Physical AI and humanoid robot concept stocks leading gains across the board. The Hang Seng Index also opened in positive territory, seeing some bargain buying after deep losses in the past week on concerns over slowing AI development.\n\n_This article was generated with the support of AI and reviewed by an editor. For more information see our T&C._\n\nWhy is Unitree Robotics stock surging today?\n\n   0\n\n\n\n52,420.50 [...] Adding to the positive momentum, a joint venture between Yushu Technology, China National Petroleum Corporation’s Kunlun Manufacturing and its affiliate Kunlun Capital, and Beijing Panjie Intelligent Technology remains in its public announcement window through November 13. Under the proposed structure, Yushu would hold a 20% stake in the new entity focused on industrial embodied intelligent robot solutions, deepening a strategic relationship that began when Kunlun Capital participated as a",
+                "score": 0.67269784
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M04_clarify_then_url",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_url",
+        "difficulty": "medium",
+        "what_it_tests": "3 turns: sau khi được cung cấp URL, latest turn xác nhận chỉ đọc link đó → read_url đúng url."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt bài này hộ mình"
+        },
+        {
+          "role": "user",
+          "content": "https://anthropic.com/news/claude"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ đọc đúng link đó thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://anthropic.com/news/claude"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://anthropic.com/news/claude",
+            "items": [
+              {
+                "title": "https://anthropic.com/news/claude",
+                "url": "https://anthropic.com/news/claude",
+                "source": "anthropic.com",
+                "summary": "[Skip to main content](https://www.anthropic.com/news/claude#main-content)\n\nA 404 poem byClaude Fable 5Claude Opus 5.5Claude Sonnet 5.5Claude Haiku 5.5\n\nYou came"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M05_correction_limit",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_arg_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: map tên Elon Musk, carry handle elonmusk, sửa limit 10→3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 10 tweet mới nhất của Elon Musk"
+        },
+        {
+          "role": "user",
+          "content": "Cho mình 3 thôi"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn của Elon Musk nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "limit": 3,
+              "screenname": "elonmusk"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "limit": 3,
+            "screenname": "elonmusk"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "elonmusk",
+            "items": [
+              {
+                "title": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any fur",
+                "summary": "RT @MegynKellyShow: .@MegynKelly on the absolute double standard in the Russell Brand sentencing: “If you needed any further proof that thi…",
+                "url": "https://x.com/elonmusk/status/2119996001490768028",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:30:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 969,
+                  "views": "407560"
+                }
+              },
+              {
+                "title": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 m",
+                "summary": "RT @firesidealpha: JUST IN: Memphis Mayor reveals SpaceX data center taxes more than doubled to $54 million, after $25 million last year ma…",
+                "url": "https://x.com/elonmusk/status/2119993726898774521",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:21:06 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 280,
+                  "views": "375728"
+                }
+              },
+              {
+                "title": "RT @ricwe123: The Germans are learning what mass immigration really means.",
+                "summary": "RT @ricwe123: The Germans are learning what mass immigration really means.\n\n\"Wir schaffen das\" https://t.co/pEQc1OMbao",
+                "url": "https://x.com/elonmusk/status/2119992481156829218",
+                "source": "@elonmusk",
+                "date": "Tue Nov 10 03:16:09 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1262,
+                  "views": "359974"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M06_switch_tool",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: explicitly bỏ Twitter, chuyển sang web_search news, giữ chủ đề OpenAI."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Mọi người nói gì về OpenAI trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "Bỏ Twitter, chuyển sang tìm trên web tin tức đi"
+        },
+        {
+          "role": "user",
+          "content": "Giữ chủ đề OpenAI"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "query": "OpenAI tin tức mới nhất",
+              "timeframe": "week"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "query: expected 'OpenAI', got 'OpenAI tin tức mới nhất'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "topic": "news",
+            "query": "OpenAI tin tức mới nhất",
+            "timeframe": "week"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "OpenAI tin tức mới nhất",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "OpenAI được định giá 1.250 tỷ USD - Báo VnExpress Kinh doanh",
+                "url": "https://vnexpress.net/openai-duoc-dinh-gia-1-250-ty-usd-5141812.html",
+                "source": "vnexpress.net",
+                "summary": "VnExpress - Bao tieng Viet nhieu nguoi xem nhat    Thứ ba, 10/11/2026  \n\nMới nhất \n\nTin theo khu vực \n\n Hà Nội\n TP HCM\n\nInternational\n \n\n Trở lại Kinh doanh\n\n Kinh doanh\n Quốc tế\n\nThứ bảy, 7/11/2026, 10:35 (GMT+7)\n\n## OpenAI được định giá 1.250 tỷ USD\n\n# OpenAI được định giá 1.250 tỷ USD\n\nĐịnh giá của công ty mẹ ChatGPT không cao như kỳ vọng sau vòng huy động vốn mới nhất, thu về 11 tỷ USD. [...] Ngày 6/11, Reuters trích nguồn tin thn cận cho biết OpenAI vừa hoàn thành vòng huy động vốn mới, thu về 11 tỷ USD. Lần này, công ty mẹ ChatGPT được định giá 1.250 tỷ USD. Gã khổng lồ viễn thông Nhật Bản SoftBank và quỹ đầu tư công nghệ MGX (UAE) đều tham gia rót vốn.\n\nTuy nhiên, cả số tiền và mức định giá vòng này đều thấp hơn dự định ban đầu, hai nhà đầu tư cho biết. Trước đó, OpenAI đặt mục tiêu huy động tối đa 30 tỷ USD với mức định giá 1.500 tỷ USD. [...] Hồi tháng 6, OpenAI đã bí mật nộp hồ sơ phát hành cổ phiếu lần đầu ra công chúng (IPO). Tuy nhiên, đến tháng 9, CEO Sam Altman cho biết sẽ không làm IPO năm nay, do các lo ngại về an toàn với trí tuệ nhn tạo (AI). \"Tôi thực sự cho rằng, với tất cả những gì đang diễn ra, liên quan đến vấn đề an toàn, thời điểm hiện tại không thích hợp để IPO và chúng tôi cũng không chịu áp lực phải làm điều đó\", Altman cho biết.",
+                "score": 0.7882741
+              },
+              {
+                "title": "OpenAI",
+                "url": "https://tavily.com/knowledge/company/p4PyTakV77G9",
+                "source": "tavily.com",
+                "summary": "# OpenAI\nID: p4PyTakV77G9\nWebsite: www.openai.com\nHeadquarters: San Francisco, CA, United States\nLinkedIn: www.linkedin.com/company/openai · 11,529,792 followers\nIndustry: Research Services\nIndustry codes: SIC 87, 873, NAICS 54, 541\nCompany type: Partnership\nSocial profiles: www.facebook.com/openai, www.twitter.com/openai, www.crunchbase.com/organization/openai, www.instagram.com/openai.gpt, www.instagram.com/openai, www.youtube.com/@openai, www.youtube.com/openai, github.com/openai [...] ## M&A\n- Ona (2026-06-01)\n- Tomoro AI (2026-05-01)\n- Hiro Finance (2026-04-01)\n- TBPN (2026-04-01)\n- Promptfoo, Inc. (2026-03-01)\n- Astral Software Inc (2026-03-01)\n- OpenClaw (2026-02-01)\n- Torch Health Inc (2026-01-01): 100.00M USD [...] - Secondary Market 2023-08-01\n- Venture Round 2023-04-01 300.00M USD\n- Venture Round 2023-01-01 10.00B USD\n- Secondary Market 2022-01-01\n- Secondary Market 2021-01-01\n- Venture Round 2019-07-01 1.00B USD\n- Seed Round 2019-03-01 50.00M USD\n- Seed Round 2016-01-01\n- Grant 2015-12-01 1.00B USD",
+                "score": 0.7036111
+              },
+              {
+                "title": "OpenAI sẽ mua lại Pierre Computer Company, Inc.",
+                "url": "https://openai.com/vi-VN/index/openai-to-acquire-pierre",
+                "source": "openai.com",
+                "summary": "Các tiến bộ mới nhất\n   GPT-6.1 Sol\n   GPT-6 Astra\n   GPT-5.6\n   GPT-5.5\n\nAn toàn\n   Phương pháp tiếp cận an toàn\n   An toàn khi triển khai(mở trong cửa sổ mới)\n   Bảo mật & Quyền riêng tư\n   Niềm tin & Tính minh bạch\n\nSản phẩm\n   ChatGPT(mở trong cửa sổ mới)\n   ChatGPT Business(mở trong cửa sổ mới)\n   ChatGPT Enterprise(mở trong cửa sổ mới)\n   ChatGPT dành cho Giáo dục(mở trong cửa sổ mới)\n   Codex\n   Dots(mở trong cửa sổ mới)\n   Ghi chú phát hành [...] Công ty\n   Giới thiệu\n   Điều lệ\n   Nghề nghiệp\n   Tin tức\n\nHỗ trợ\n   Trung tâm trợ giúp(mở trong cửa sổ mới)\n   Trạng thái OpenAI(mở trong cửa sổ mới)\n\nThêm\n   Câu chuyện\n   Học viện\n   Công ty cung ứng\n   Buổi phát trực tiếp\n   Podcast\n   RSS\n\nĐiều khoản và Chính sách\n   Điều khoản sử dụng\n   Chính sách Quyền riêng tư\n   Chính sách khác\n\n(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới) [...] Bỏ qua nội dung chính\n\n\n\nĐăng nhậpDùng thử ChatGPT(mở trong cửa sổ mới)\n\n   Nghiên cứu\n   Sản phẩm\n   Doanh nghiệp\n   Các nhà phát triển\n   Công ty\n   Nền tảng(mở trong cửa sổ mới)\n\nOpenAI sẽ mua lại Pierre Computer Company, Inc. | OpenAI\n\n4 tháng 11, 2026\n\nCông ty\n\n# OpenAI sẽ mua lại Pierre Computer Company, Inc.\n\nMở rộng bộ công cụ của Codex để viết, tìm hiểu và rà soát mã.\n\nNghe bài viết 3:19\n\nAudio 1\n\nChia sẻ\n\nSự tinh tế kết hợp với khả năng mở rộng trong kỷ nguyên tác nhân",
+                "score": 0.6747586
+              },
+              {
+                "title": "Franklin Templeton dùng OpenAI để nghiên cứu đầu tư",
+                "url": "https://openai.com/vi-VN/index/franklin-templeton",
+                "source": "openai.com",
+                "summary": "Image 2: credit-saison-art-card-crop-c\n\nCredit Saison đạt ROI 954% khi thử nghiệm ChatGPT Enterprise 29 thg 10, 2026\n\nImage 3: Itaú — Curved paper hero\n\nCách Itaú xây dựng AI tạo sinh cho toàn bộ khách hàng 16 thg 10, 2026\n\nImage 4: Benefit Street Partners — Cover\n\nBenefit Street Partners giải đáp nhanh hơn nhờ Codex 16 thg 10, 2026\n\nNghiên cứu\n   Mục lục nghiên cứu\n   Tổng quan về nghiên cứu\n   Nghiên cứu kinh tế\n\nCác tiến bộ mới nhất\n   GPT-6.1 Sol\n   GPT-6 Astra\n   GPT-5.6\n   GPT-5.5 [...] Hỗ trợ\n   Trung tâm trợ giúp(mở trong cửa sổ mới)\n   Trạng thái OpenAI(mở trong cửa sổ mới)\n\nThêm\n   Câu chuyện\n   Học viện\n   Công ty cung ứng\n   Buổi phát trực tiếp\n   Podcast\n   RSS\n\nĐiều khoản và Chính sách\n   Điều khoản sử dụng\n   Chính sách Quyền riêng tư\n   Chính sách khác\n\n(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)(mở trong cửa sổ mới)\n\nOpenAI © 2015–2026 Quản lý cookie\n\nTiếng Việt [...] Business\n   Tổng quan\n   Giải pháp\n   Tài nguyên\n   Plugins\n   Câu chuyện của khách hàng\n   Mạng lưới đối tác\n   Liên hệ bộ phận Bán hàng\n\nCác nhà phát triển\n   SDK ứng dụng(mở trong cửa sổ mới)\n   Các mô hình mở(mở trong cửa sổ mới)\n   Tài liệu(mở trong cửa sổ mới)\n   Tài nguyên(mở trong cửa sổ mới)\n   Diễn đàn nhà phát triển(mở trong cửa sổ mới)\n\nCông ty\n   Giới thiệu\n   Điều lệ\n   Nghề nghiệp\n   Tin tức",
+                "score": 0.5948579
+              },
+              {
+                "title": "OpenAI employees warned about operational security lapses for years, sources say | Reuters",
+                "url": "https://www.reuters.com/business/openai-employees-warned-about-operational-security-lapses-years-sources-say-2026-11-03",
+                "source": "reuters.com",
+                "summary": "In 2023, Leopold Aschenbrenner, then an OpenAI researcher, wrote an internal memo titled “OpenAI is China’s leading AI lab” about his concerns that China could infiltrate OpenAI and study its technology, three people familiar with the matter said.\n\nAschenbrenner shared that memo with some board members later that year after an outsider hacked into OpenAI and took details about its GPT-4 model. OpenAI said the hacker accessed only Slack channels available to the whole company.",
+                "score": 0.5608546
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

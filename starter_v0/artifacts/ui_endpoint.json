@@ -1,0 +1,11 @@
+{
+  "local_url": "http://127.0.0.1:8501",
+  "public_url": "https://sunny-would-drivers-intention.trycloudflare.com",
+  "authentication": "UI_ACCESS_CODE in private .env",
+  "checked_at": "2026-11-10T05:08:43.511779+00:00",
+  "note": "Temporary quick tunnel; expires when the process stops.",
+  "local_health": 200,
+  "local_auth_gate": "pass: login form only; chat and eval data hidden",
+  "public_health": 200,
+  "public_auth_gate": "pass: login form only; chat and eval data hidden"
+}

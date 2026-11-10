@@ -1,0 +1,8 @@
+Base eval unchanged: PASS
+User group cases unchanged; 20 total, 10 single + 10 multi; run snapshot matches: PASS
+All run prompt/tools hashes match frozen snapshots: PASS
+Active artifacts match v3: PASS
+Required credentials configured (values omitted): PASS
+Credential scan: PASS (31 evidence files)
+Maintained report/runbook UTF-8 Vietnamese restored: PASS
+Legacy raw v0 UI transcript kept unchanged; new v3 transcripts use UTF-8 scripts.

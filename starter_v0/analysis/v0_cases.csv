@@ -1,0 +1,21 @@
+﻿id,passed,failure_type,observed_mismatch,failures,actual_tool_calls
+R01_user_tweets_routing,True,,,,"[{""name"": ""timeline"", ""args"": {""limit"": 1, ""screenname"": ""sama""}}]"
+R02_search_tweets_routing,True,,,,"[{""name"": ""social_search"", ""args"": {""query"": ""GPT-5""}}]"
+R03_web_news_routing,False,wrong_tool,wrong_arg_value,"query: expected 'AI', got 'AI news today'","[{""name"": ""lookup"", ""args"": {""topic"": ""news"", ""timeframe"": ""day"", ""query"": ""AI news today"", ""max_results"": 5}}]"
+R04_read_url_routing,True,,,,"[{""name"": ""fetch"", ""args"": {""url"": ""https://openai.com/blog/gpt-5""}}]"
+R05_limit_arg,True,,,,"[{""name"": ""timeline"", ""args"": {""limit"": 10, ""screenname"": ""elonmusk""}}]"
+R06_timeframe_arg,True,,,,"[{""name"": ""lookup"", ""args"": {""max_results"": 5, ""topic"": ""news"", ""query"": ""tin công nghệ trong tuần này"", ""timeframe"": ""week""}}]"
+R07_search_type_arg,True,,,,"[{""name"": ""social_search"", ""args"": {""query"": ""OpenAI"", ""search_type"": ""Top""}}]"
+R08_out_of_scope,True,,,,[]
+R09_no_tool_capability,True,,,,[]
+R10_missing_handle,False,missing_info,missing_tool_call,missing tool call clarify; extra tool call timeline,"[{""name"": ""timeline"", ""args"": {""limit"": 5, ""screenname"": ""sama""}}]"
+R11_missing_url,False,missing_info,missing_tool_call,missing tool call clarify; extra tool call lookup,"[{""name"": ""lookup"", ""args"": {""query"": ""tóm tắt tin tức nổi bật hôm nay""}}]"
+R12_confirm_before_send,False,wrong_boundary,missing_tool_call,missing tool call clarify; extra tool call send,"[{""name"": ""send"", ""args"": {""text"": ""Bản tin cập nhật tự động hôm nay."", ""confirmed"": true}}]"
+R13_parallel_web_and_tweets,False,wrong_tool,wrong_arg_value,"query: expected 'AI', got 'AI news today'; missing tool call social_search","[{""name"": ""lookup"", ""args"": {""max_results"": 5, ""timeframe"": ""day"", ""topic"": ""news"", ""query"": ""AI news today""}}]"
+R14_out_of_scope_coding,True,,,,[]
+M01_clarify_then_fill,True,,,,"[{""name"": ""timeline"", ""args"": {""screenname"": ""elonmusk"", ""limit"": 5}}]"
+M02_carryover_timeframe,False,wrong_arg_value,wrong_arg_value,"query: expected 'robotics', got 'robotics news today'","[{""name"": ""lookup"", ""args"": {""timeframe"": ""day"", ""topic"": ""news"", ""query"": ""robotics news today""}}]"
+M03_correction_handle,True,,,,"[{""name"": ""timeline"", ""args"": {""screenname"": ""karpathy"", ""limit"": 3}}]"
+M04_clarify_then_url,True,,,,"[{""name"": ""fetch"", ""args"": {""url"": ""https://anthropic.com/news/claude""}}]"
+M05_correction_limit,True,,,,"[{""name"": ""timeline"", ""args"": {""limit"": 3, ""screenname"": ""elonmusk""}}]"
+M06_switch_tool,False,wrong_tool,wrong_arg_value,"query: expected 'OpenAI', got 'OpenAI tin tức mới nhất'","[{""name"": ""lookup"", ""args"": {""topic"": ""news"", ""query"": ""OpenAI tin tức mới nhất"", ""timeframe"": ""week""}}]"
